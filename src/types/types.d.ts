@@ -1,0 +1,1 @@
+type LayoutProduct = "grid" | "list";
