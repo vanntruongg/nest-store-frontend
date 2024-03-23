@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { Product } from "~/common/model/product.model";
 
 export type WishlistItem = {
   product: Product;
@@ -18,7 +19,13 @@ export const useWishlist = create<WishlistState>()(
       items: [],
       addItem: (product) =>
         set((state) => {
-          return { items: [...state.items, { product }] };
+          const existedProduct = state.items.find(
+            (item) => item.product.id === product.id
+          );
+          if (!existedProduct) {
+            return { items: [...state.items, { product }] };
+          }
+          return { items: state.items };
         }),
       removeItem: (productId) =>
         set((state) => ({
