@@ -5,7 +5,7 @@ import { Product } from "~/common/model/product.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import { useWishlist } from "~/hooks/useWishlist";
 
-const CartItem = ({
+const WishListItem = ({
   product,
   setOpenWishList,
 }: {
@@ -73,4 +73,4 @@ const CartItem = ({
   );
 };
 
-export default CartItem;
+export default WishListItem;
