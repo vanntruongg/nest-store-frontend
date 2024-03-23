@@ -88,46 +88,6 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
           </div>
         </div>
       </div>
-
-      {/* <div
-        className={cn("p-2 w-full transition-all duration-500", {
-          "items-center": layout === "grid",
-          "col-span-2": layout === "list",
-        })}
-      >
-        <Link
-          href={`/${ProductUtil.createSlug(product.name, product.id)}`}
-          className={cn(
-            "text-base text-pretty font-medium text-gray-700 hover:text-gray-800 pb-2",
-            {
-              "self-start": layout !== "grid",
-            }
-          )}
-        >
-          {product.name}
-        </Link>
-      </div>
-      <p
-        className={cn("mt-2 font-semibold", {
-          "text-center": layout === "grid",
-        })}
-      >
-        {ProductUtil.formatPrice(product.price)}
-      </p> */}
-      {/* <div
-          className={cn("hidden", {
-            "block mt-2": layout === "list",
-          })}
-        >
-          <div className="flex gap-2 text-sm text-muted-foreground">
-            <span>Chất liệu:</span>
-            <p>{product.material}</p>
-          </div>
-          <div className="mt-1 flex gap-2 text-sm text-muted-foreground">
-            <span>Phong cách:</span>
-            <p>{product.style}</p>
-          </div>
-        </div> */}
     </div>
   );
 };
