@@ -16,7 +16,7 @@ const QuickViewIcon = ({ product }: { product: Product }) => {
         <TooltipProvider>
           <Tooltip delayDuration={200}>
             <TooltipTrigger asChild>
-              <div className="hidden lg:block p-2.5 border border-muted-foreground backdrop-blur-3xl text-black rounded-sm hover:text-white hover:-translate-y-0.5 hover:bg-primary transition-all duration-200">
+              <div className="hidden lg:block p-2.5 border border-muted-foreground bg-gray-100 bg-opacity-50 text-black rounded-sm hover:text-white hover:bg-primary transition-all duration-300">
                 <Fullscreen strokeWidth={1.5} className="size-4" />
               </div>
             </TooltipTrigger>
