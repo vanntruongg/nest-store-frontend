@@ -51,7 +51,9 @@ const request = async <Response>(
   };
 
   const baseUrl =
-    options?.baseUrl === undefined ? "http://localhost:9000" : options.baseUrl;
+    options?.baseUrl === undefined
+      ? "http://192.168.1.10:9000"
+      : options.baseUrl;
 
   const fullUrl = url.startsWith("/")
     ? `${baseUrl}${url}`
