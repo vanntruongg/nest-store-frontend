@@ -6,11 +6,6 @@ import Category from "~/components/category";
 const BREADRUMBS = [
   {
     id: 1,
-    name: "Trang chủ",
-    href: "/",
-  },
-  {
-    id: 2,
     name: "Sản phẩm",
     href: "/shop",
   },
