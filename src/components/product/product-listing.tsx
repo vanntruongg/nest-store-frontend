@@ -215,7 +215,6 @@ const PaginationSection = ({
             </PaginationLink>
           </PaginationItem>
         ))}
-        z
         {currentPage !== totalPages - 1 && (
           <PaginationItem className="cursor-pointer">
             <PaginationNext
