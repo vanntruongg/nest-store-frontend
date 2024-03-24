@@ -2,9 +2,10 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { Button } from "~/components/ui/button";
-import { cn, formatPrice } from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import { useCheckout } from "~/hooks/useCheckout";
 import { paymentMethods } from "~/static";
+import { ProductUtil } from "~/common/utility/product.util";
 
 const CheckOutPage = () => {
   const { items } = useCheckout();
@@ -59,7 +60,7 @@ const CheckOutPage = () => {
                   <div className="flex flex-1 gap-4">
                     <div className="relative size-24">
                       <Image
-                        src={item.product.image}
+                        src={item.product.imageUrl}
                         fill
                         alt="product image"
                         className="h-full w-full rounded-md object-cover object-center sm:size-48"
@@ -72,10 +73,14 @@ const CheckOutPage = () => {
                     </div>
                   </div>
                   <div className="flex flex-1 items-center justify-between text-sm text-muted-foreground">
-                    <div className="">{formatPrice(item.product.price)}</div>
+                    <div className="">
+                      {ProductUtil.formatPrice(item.product.price)}
+                    </div>
                     <div className="">{item.quantity}</div>
                     <div className="">
-                      {formatPrice(item.product.price * item.quantity)}
+                      {ProductUtil.formatPrice(
+                        item.product.price * item.quantity
+                      )}
                     </div>
                   </div>
                 </div>
@@ -112,7 +117,7 @@ const CheckOutPage = () => {
               Tổng thanh toán {`(${0} Sản phẩm)`}:
             </div>
             <div className="text-base font-medium text-gray-900">
-              {formatPrice(totalPrice)}
+              {ProductUtil.formatPrice(totalPrice)}
             </div>
           </div>
           <div className="">

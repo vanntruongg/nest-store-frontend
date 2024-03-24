@@ -3,7 +3,6 @@ import ProductReel from "~/components/product/product-reel";
 import Slider from "~/components/home/slider";
 import Featured from "~/components/home/featured";
 import FeaturedProduct from "~/components/home/featured-product";
-import envConfig from "~/lib/config";
 
 export default function Home() {
   return (

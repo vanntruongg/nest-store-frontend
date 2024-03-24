@@ -21,7 +21,7 @@ const NotFound = () => {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [countDown]);
+  }, [countDown, router]);
 
   return (
     <div className="h-full flex flex-col justify-center items-center">

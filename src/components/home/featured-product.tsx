@@ -1,14 +1,19 @@
 import CardProduct from "../product/card-product";
 import MaxWidthWrapper from "../max-width-wrapper";
+import { Product } from "~/common/model/product.model";
 
 const products: Product = {
   id: "1",
   name: "Áo sơ mi",
   price: 279000,
-  category: "Áo",
-  description:
+  category: {
+    id: 1,
+    name: "Áo",
+  },
+  material:
     "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-  image:
+  style: "",
+  imageUrl:
     "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
 };
 

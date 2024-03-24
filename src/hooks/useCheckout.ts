@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { CartItem, Product } from "~/common/model/product.model";
 
 type CheckoutState = {
   items: CartItem[];

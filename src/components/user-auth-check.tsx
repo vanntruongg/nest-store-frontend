@@ -6,12 +6,13 @@ import { UserRound, LogOut, ShoppingCart, Sun } from "lucide-react";
 import { useOutsideClick } from "~/hooks/useOutsideClick";
 import { routes } from "~/static";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { IUser } from "~/common/model/user.model";
 
 const menu = [
   {
     icon: <UserRound className="size-5" />,
     label: "Tài khoản",
-    href: routes.ACCOUNT,
+    href: routes.PROFILE,
     status: "available",
   },
   {
@@ -36,7 +37,7 @@ const menu = [
 ];
 
 export function UserAuthCheck() {
-  const [profile, setProfile] = useState<User>();
+  const [profile, setProfile] = useState<IUser>();
   const [open, setOpen] = useState<boolean>(false);
   const pathname = usePathname();
 
@@ -68,7 +69,7 @@ export function UserAuthCheck() {
             `}
             >
               <Link
-                href={routes.ACCOUNT}
+                href={routes.PROFILE}
                 className="p-2 flex items-center gap-4 border-b hover:opacity-80"
               >
                 <Avatar>

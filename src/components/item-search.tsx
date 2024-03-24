@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { Product } from "~/common/model/product.model";
 import { ProductUtil } from "~/common/utility/product.util";
 
 interface ItemProductSearchProps {
@@ -27,7 +28,7 @@ const ItemProductSearch = ({
     >
       <div className="hover:bg-gray-200 rounded-full overflow-hidden transition-all duration-300">
         <Image
-          src={product.image}
+          src={product.imageUrl}
           alt={`image product ${product.id}`}
           width={50}
           height={50}
@@ -38,7 +39,7 @@ const ItemProductSearch = ({
         <div className="text-sm text-gray-700 hover:text-gray-900">
           {product.name}
         </div>
-        <p className="text-xs text-muted-foreground">{product.category}</p>
+        <p className="text-xs text-muted-foreground">{product.category.name}</p>
       </div>
     </div>
   );

@@ -59,7 +59,7 @@ const CartItem = ({ item }: CartItemProps) => {
         <div className="flex flex-1 gap-4">
           <div className="relative size-24">
             <Image
-              src={item.product.image}
+              src={item.product.imageUrl}
               fill
               alt="product image"
               className="h-full w-full rounded-md object-cover object-center sm:size-48"

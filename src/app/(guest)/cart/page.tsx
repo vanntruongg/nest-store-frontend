@@ -16,60 +16,60 @@ import { CartItem as CartItemModel } from "~/common/model/product.model";
 import CartItem from "~/components/cart-item";
 import { ProductUtil } from "~/common/utility/product.util";
 
-const products: CartItemModel[] = [
-  {
-    product: {
-      id: uuid(),
-      name: "Áo sơ mi",
-      price: 279000,
-      category: "Áo",
-      description:
-        "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-      image:
-        "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-    },
-    quantity: 2,
-  },
-  {
-    product: {
-      id: uuid(),
-      name: "Áo sơ mi",
-      price: 279000,
-      category: "Áo",
-      description:
-        "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-      image:
-        "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-    },
-    quantity: 2,
-  },
-  {
-    product: {
-      id: uuid(),
-      name: "Áo sơ mi",
-      price: 279000,
-      category: "Áo",
-      description:
-        "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-      image:
-        "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-    },
-    quantity: 2,
-  },
-  {
-    product: {
-      id: uuid(),
-      name: "Áo sơ mi",
-      price: 279000,
-      category: "Áo",
-      description:
-        "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-      image:
-        "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-    },
-    quantity: 2,
-  },
-];
+// const products: CartItemModel[] = [
+//   {
+//     product: {
+//       id: uuid(),
+//       name: "Áo sơ mi",
+//       price: 279000,
+//       category: "Áo",
+//       description:
+//         "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
+//       image:
+//         "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
+//     },
+//     quantity: 2,
+//   },
+//   {
+//     product: {
+//       id: uuid(),
+//       name: "Áo sơ mi",
+//       price: 279000,
+//       category: "Áo",
+//       description:
+//         "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
+//       image:
+//         "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
+//     },
+//     quantity: 2,
+//   },
+//   {
+//     product: {
+//       id: uuid(),
+//       name: "Áo sơ mi",
+//       price: 279000,
+//       category: "Áo",
+//       description:
+//         "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
+//       image:
+//         "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
+//     },
+//     quantity: 2,
+//   },
+//   {
+//     product: {
+//       id: uuid(),
+//       name: "Áo sơ mi",
+//       price: 279000,
+//       category: "Áo",
+//       description:
+//         "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
+//       image:
+//         "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
+//     },
+//     quantity: 2,
+//   },
+// ];
 // const products: Product[] = [];
 const Page = () => {
   const [cartItems, setCardItems] = useState<CartItemModel[]>([]);
@@ -85,13 +85,13 @@ const Page = () => {
 
   useEffect(() => {
     setIsMounted(true);
-    setCardItems(products);
+    // setCardItems(products);
     clearCheckout();
-  }, []);
+  }, [clearCheckout]);
 
   const toggleSelectAll = (checked: CheckedState) => {
     if (checked) {
-      addItems(products);
+      // addItems(products);
     } else {
       clearCheckout();
     }

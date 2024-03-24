@@ -1,7 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
-import { useWishlist } from "~/hooks/useWishlist";
 import { ShoppingCart } from "lucide-react";
 
 const AddtoCartButton = () =>

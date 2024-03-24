@@ -1,7 +1,6 @@
 import React from "react";
-import Loading from "~/components/Loading";
-import MaxWidthWrapper from "~/components/MaxWidthWrapper";
-import ProductDetail from "~/components/product/ProductDetail";
+import Loading from "~/components/loading";
+
 import { Button } from "~/components/ui/button";
 
 const page = () => {

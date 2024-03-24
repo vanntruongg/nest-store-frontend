@@ -18,59 +18,7 @@ import { v4 as uuid } from "uuid";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ItemProductSearch from "./item-search";
 import { cn } from "~/lib/utils";
-
-const products: Product[] = [
-  {
-    id: uuid(),
-    name: "Áo sơ mi",
-    price: 279000,
-    category: "Áo",
-    description:
-      "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-    image:
-      "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-  },
-  {
-    id: uuid(),
-    name: "Áo sơ mi",
-    price: 279000,
-    category: "Áo",
-    description:
-      "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-    image:
-      "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-  },
-  {
-    id: uuid(),
-    name: "Áo sơ mi",
-    price: 279000,
-    category: "Áo",
-    description:
-      "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-    image:
-      "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-  },
-  {
-    id: uuid(),
-    name: "Áo sơ mi",
-    price: 279000,
-    category: "Áo",
-    description:
-      "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-    image:
-      "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-  },
-  {
-    id: uuid(),
-    name: "Áo sơ mi",
-    price: 279000,
-    category: "Áo",
-    description:
-      "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-    image:
-      "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-  },
-];
+import { Product } from "~/common/model/product.model";
 
 const SearchComp = () => {
   const { replace } = useRouter();
@@ -156,13 +104,13 @@ const SearchComp = () => {
                   }
                 )}
               >
-                {products.map((product) => (
+                {/* {products.map((product) => (
                   <ItemProductSearch
                     key={product.id}
                     product={product}
                     setOpenDialog={setOpen}
                   />
-                ))}
+                ))} */}
               </div>
             </div>
             <Button type="submit">Tìm kiếm</Button>

@@ -8,10 +8,6 @@ const ProductsPlaceHolder = ({
   layout: string;
   category: boolean | undefined;
 }) => {
-  const products = [];
-  for (let i = 1; i <= 20; i++) {
-    products.push(i);
-  }
   return (
     <div
       className={cn("w-full", {
@@ -21,8 +17,8 @@ const ProductsPlaceHolder = ({
         "grid-cols-1": category,
       })}
     >
-      {products.map((product) => (
-        <div className="flex flex-col gap-2">
+      {Array.from({ length: 20 }, (_, i) => (
+        <div key={i} className="flex flex-col gap-2">
           <Skeleton className="w-full h-[200px]" />
           <div className="p-2 gap-2 flex flex-col">
             <Skeleton className="w-full h-[20px] rounded-full" />
