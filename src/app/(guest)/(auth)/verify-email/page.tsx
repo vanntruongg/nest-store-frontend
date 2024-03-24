@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-import SentEmail from "../../../../public/assets/sent-mail.svg";
+import SentEmail from "../../../../../public/assets/sent-mail.svg";
 import VerifyEmail from "~/components/verify-email";
 
 interface PageProps {
