@@ -20,4 +20,9 @@ enum EErrorCode {
   "FORM_ERROR" = 420,
 }
 
-export { EAllAllowHttpMethod, EUserStatus, ERole, EErrorCode };
+enum ELayoutProduct {
+  "GRID" = "Lưới",
+  "LIST" = "Danh sách",
+}
+
+export { EAllAllowHttpMethod, EUserStatus, ERole, EErrorCode, ELayoutProduct };
