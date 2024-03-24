@@ -42,6 +42,7 @@
     "react-hook-form": "^7.49.3",
     "recharts": "^2.10.4",
     "rxjs": "^7.8.1",
+    "sharp": "^0.33.3",
     "slugify": "^1.6.6",
     "swiper": "^11.0.5",
     "tailwind-merge": "^2.2.0",
