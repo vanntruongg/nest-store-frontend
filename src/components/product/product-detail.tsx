@@ -26,26 +26,26 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
 
   return (
     <MaxWidthWrapper>
-      <div className="flex gap-8 p-10">
-        <div className="w-full grid grid-cols-10 gap-4">
+      <div className="bg-white flex gap-8 p-10 rounded-sm">
+        <div className="w-full grid grid-cols-10 gap-2">
           <div className="col-span-8 aspect-square bg-gray-100 relative">
-            {/* <Image /> */}
             <Image
               fill
               src={imageUrl}
               alt="image product"
               className="object-center size-full"
+              sizes="100"
               loading="lazy"
             />
           </div>
         </div>
         <div className="w-full flex flex-col">
-          <div className="flex justify-between">
-            <h2 className="text-3xl">{name}</h2>
+          <div className="flex justify-between gap-6">
+            <h1 className="text-3xl">{name}</h1>
             <AddtoWishlistIcon product={product} />
           </div>
           <section className="mt-6">
-            <p className="text-lg font-bold">
+            <p className="text-lg font-bold bg-gray-50 p-2">
               {ProductUtil.formatPrice(price)}
             </p>
             <div className="mt-4 text-sm text-muted-foreground">
