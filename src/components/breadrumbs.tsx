@@ -1,45 +1,68 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "~/components/ui/breadcrumb";
+import { cn } from "~/lib/utils";
 
 interface BreadrumbsProps {
-  breadrumbs: Breadrumb[];
+  breadrumbs?: Breadrumb[];
   options?: string;
+  optionPage?: boolean;
+  className?: string;
 }
 
-const Breadrumbs = ({ breadrumbs, options }: BreadrumbsProps) => {
+const Breadrumbs = ({
+  breadrumbs,
+  options,
+  optionPage,
+  className,
+}: BreadrumbsProps) => {
+  const pathname = usePathname();
   return (
-    <div className="bg-white h-20 flex justify-center items-center">
-      <ol className="flex items-center space-x-2">
-        {breadrumbs.map(({ id, name, href }, idx) => (
-          <li key={id}>
-            <div className="flex items-center text-sm">
-              <Link href={href}>
-                <div className="font-medium text-sm text-muted-foreground hover:text-gray-900">
-                  {name}
-                </div>
-              </Link>
-              {idx !== breadrumbs.length - 1 || options ? (
-                <svg
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  className="ml-2 size-5 flex-shrink-0 text-gray-300"
-                >
-                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-                </svg>
-              ) : null}
-            </div>
-          </li>
-        ))}
-        {options && (
-          <li>
-            <div className="flex items-center text-sm">
-              <div className="font-medium text-sm text-muted-foreground cursor-default">
-                {options}
-              </div>
-            </div>
-          </li>
-        )}
-      </ol>
+    <div
+      className={cn("bg-white flex justify-center items-center", className, {
+        "h-20": !className,
+      })}
+    >
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbLink asChild>
+            <Link href={"/"}>NEST Store</Link>
+          </BreadcrumbLink>
+          <BreadcrumbSeparator />
+          {breadrumbs &&
+            breadrumbs.map(({ id, name, href }, idx) => (
+              <>
+                <BreadcrumbItem key={id}>
+                  {href === pathname ? (
+                    <BreadcrumbPage>{name}</BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink asChild>
+                      <Link href={href}>{name}</Link>
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+                {idx !== breadrumbs.length - 1 || options ? (
+                  <BreadcrumbSeparator />
+                ) : null}
+              </>
+            ))}
+          {options &&
+            (optionPage ? (
+              <BreadcrumbPage>{options}</BreadcrumbPage>
+            ) : (
+              <BreadcrumbItem>{options}</BreadcrumbItem>
+            ))}
+        </BreadcrumbList>
+      </Breadcrumb>
     </div>
   );
 };
