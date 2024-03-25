@@ -5,20 +5,17 @@ import MaxWidthWrapper from "~/components/max-width-wrapper";
 import Breadrumbs from "~/components/breadrumbs";
 import Image from "next/image";
 import ProductListing from "~/components/product/product-listing";
-import { Product } from "~/common/model/product.model";
+import productApi from "~/apis/produc-api";
 
 const image =
   "https://img.freepik.com/free-photo/young-man-holding-skateboard-grayscale_53876-165437.jpg?size=626&ext=jpg&ga=GA1.1.217585446.1706792937&semt=ais";
 
-const ProductByCateogoryPage = ({
+const ProductByCateogoryPage = async ({
   params,
 }: {
   params: { category: string[] };
 }) => {
   const [category, id] = params.category;
-
-  // const [categories, setCategories] = useState<Category[]>([])
-  // const [products, setProduct] = useState<Product[]>([])
   const BREADRUMBS = [
     {
       id: 1,
@@ -53,7 +50,7 @@ const ProductByCateogoryPage = ({
           </div>
         </div>
       </MaxWidthWrapper>
-      <ProductListing category={true} />
+      <ProductListing categoryId={id} />
     </div>
   );
 };
