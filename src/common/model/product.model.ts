@@ -1,7 +1,11 @@
 interface Category {
   id: number;
   name: string;
-  children?: Category[];
+}
+
+interface ICategory {
+  category: Category;
+  subCategories?: ICategory[];
 }
 
 interface Product {
@@ -19,4 +23,4 @@ interface CartItem {
   quantity: number;
 }
 
-export type { CartItem, Product, Category };
+export type { CartItem, Product, ICategory };
