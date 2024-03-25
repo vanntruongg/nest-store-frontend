@@ -6,7 +6,7 @@ export class ProductUtil {
       lower: true,
       locale: "vi",
     });
-    return `${slug}-${id}.html`;
+    return `/${slug}-${id}.html`;
   }
 
   static createSlugCategory(name: string, catId: number): string {
@@ -14,7 +14,7 @@ export class ProductUtil {
       lower: true,
       locale: "vi",
     });
-    return `${slug}/${catId}`;
+    return `/${slug}/${catId}`;
   }
 
   static extractProductIdFromSlug(slug: string): number {
