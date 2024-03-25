@@ -23,7 +23,7 @@ import { LayoutGrid, LayoutList } from "lucide-react";
 import MaxWidthWrapper from "../max-width-wrapper";
 import CardProduct from "./card-product";
 import ListCategory from "./list-category";
-import { Category, Product } from "~/common/model/product.model";
+import { ICategory, Product } from "~/common/model/product.model";
 import productApi from "~/apis/produc-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import ProductsPlaceHolder from "../skeleton/ProductListSkeleton";
@@ -32,16 +32,16 @@ import TooltipCustom from "../tooltip-custom";
 import { ELayoutProduct } from "~/common/utility/enum.util";
 
 interface ProductListingProps {
-  category?: boolean;
+  categoryId?: string;
 }
 
-const ProductListing = ({ category }: ProductListingProps) => {
+const ProductListing = ({ categoryId }: ProductListingProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
   const [layout, setLayout] = useState<LayoutProduct>("grid");
   const [products, setProduct] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(
     Number(searchParams.get("pageNumber")) || 0
@@ -51,14 +51,27 @@ const ProductListing = ({ category }: ProductListingProps) => {
   useEffect(() => {
     const order = searchParams.get("order") || "";
     const page = Number(searchParams.get("pageNumber"));
+    const category = Number(searchParams.get("category"));
     setSort(order);
     setPageNumber(pageNumber);
-    fetchProduct(order, page);
+    fetchCategory();
+    fetchProduct(category, order, page);
   }, [searchParams, sort, pageNumber]);
 
-  const fetchProduct = async (order: string = "", page: number = 0) => {
+  const fetchCategory = async () => {
+    if (categoryId) {
+      const result = await productApi.getAllSubCategory(categoryId);
+      setCategories(result.payload.data);
+    }
+  };
+
+  const fetchProduct = async (
+    categoryId: number = 0,
+    order: string = "",
+    page: number = 0
+  ) => {
     try {
-      const result = await productApi.getList(order, page);
+      const result = await productApi.getList(categoryId, order, page);
       setProduct(result.payload.data.content);
       setTotalPages(result.payload.data.totalPages);
     } catch (error) {
@@ -130,7 +143,7 @@ const ProductListing = ({ category }: ProductListingProps) => {
             </Select>
           </div>
           <div className={cn("grid grid-cols-5 gap-8")}>
-            {category && (
+            {categoryId && (
               <div
                 className={cn("w-full px-2", {
                   "flex flex-col": layout === "list",
@@ -138,13 +151,17 @@ const ProductListing = ({ category }: ProductListingProps) => {
                 })}
               >
                 <div className="flex flex-col gap-4 mt-6">
-                  <ListCategory categories={categories} fontSize={17} />
+                  <ListCategory
+                    categories={categories}
+                    fontSize={17}
+                    fetchData={fetchProduct}
+                  />
                 </div>
               </div>
             )}
             <div
               className={cn("mt-6 col-span-5 ", {
-                "col-span-4": category,
+                "col-span-4": categoryId,
               })}
             >
               {products.length > 0 ? (
@@ -152,9 +169,9 @@ const ProductListing = ({ category }: ProductListingProps) => {
                   className={cn("", {
                     "grid grid-cols-1 lg:grid-cols-5 gap-4 gap-y-8":
                       layout === "grid",
-                    "grid lg:grid-cols-4": layout === "grid" && category,
+                    "grid lg:grid-cols-4": layout === "grid" && categoryId,
                     "grid grid-cols-2 gap-16": layout === "list",
-                    "grid-cols-1": category,
+                    "grid-cols-1": categoryId,
                   })}
                 >
                   {products.map((product) => (
@@ -166,7 +183,7 @@ const ProductListing = ({ category }: ProductListingProps) => {
                   ))}
                 </div>
               ) : (
-                <ProductsPlaceHolder layout={layout} category={category} />
+                <ProductsPlaceHolder layout={layout} category={categoryId} />
               )}
               <PaginationSection
                 totalPages={totalPages}
@@ -208,8 +225,8 @@ const PaginationSection = ({
         {Array.from({ length: totalPages }, (_, i) => (
           <PaginationItem key={i} className="cursor-pointer">
             <PaginationLink
-              isActive={currentPage === i}
-              onClick={() => onChangePage(i)}
+              isActive={currentPage === i + 1}
+              onClick={() => onChangePage(i + 1)}
             >
               {i + 1}
             </PaginationLink>
