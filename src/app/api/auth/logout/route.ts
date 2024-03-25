@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
   try {
     const result = await authApi.logoutFromNextServer(accessToken.value);
-    console.log(result);
+    // console.log(result);
 
     const headers = new Headers();
     headers.append("Set-Cookie", `accessToken=; HttpOnly; Path=/; Secure`);
