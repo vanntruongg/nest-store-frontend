@@ -62,57 +62,61 @@ const NavUser = () => {
             <AvatarFallback>AV</AvatarFallback>
           </Avatar>
         ) : (
-          <UserRound strokeWidth={1.5} className="size-5 text-slate-700" />
-        )}
-        <div
-          className={cn(
-            "min-w-60 p-2 bg-white border border-gray-300 rounded-2xl shadow-md absolute top-12 right-0 z-50 transition-all duration-300 invisible origin-top-right transform scale-0 opacity-0 group-hover:visible",
-            {
-              "visible scale-100 opacity-100": open,
-            }
-          )}
-        >
-          <Link
-            href={routes.PROFILE}
-            className="p-2 flex items-center gap-4 border-b hover:opacity-80"
-          >
-            <Avatar>
-              <AvatarImage
-                src="https://github.com/shadcn.png"
-                alt="avatar user"
-              />
-              <AvatarFallback>AV</AvatarFallback>
-            </Avatar>
-            {isMounted && (
-              <p className="font-semibold">{`${user.lastName} ${user.firstName}`}</p>
-            )}
+          <Link href={"/login"}>
+            <UserRound strokeWidth={1.5} className="size-5 text-slate-700" />
           </Link>
-          <div className="p-2">
-            {menu.map((item) =>
-              item.status === "available" ? (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md"
-                >
-                  {item.icon}
-                  <p>{item.label}</p>
-                </Link>
-              ) : (
-                <DevelopingTooltip
-                  key={item.href}
-                  className={
-                    "p-2 w-full flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md opacity-50"
-                  }
-                >
-                  {item.icon}
-                  <p>{item.label}</p>
-                </DevelopingTooltip>
-              )
+        )}
+        {tokenStorage.value.rawToken.accessToken && (
+          <div
+            className={cn(
+              "min-w-60 p-2 bg-white border border-gray-300 rounded-2xl shadow-md absolute top-12 right-0 z-50 transition-all duration-300 invisible origin-top-right transform scale-0 opacity-0 group-hover:visible",
+              {
+                "visible scale-100 opacity-100": open,
+              }
             )}
-            <ButtonLogout className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md" />
+          >
+            <Link
+              href={routes.PROFILE}
+              className="p-2 flex items-center gap-4 border-b hover:opacity-80"
+            >
+              <Avatar>
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="avatar user"
+                />
+                <AvatarFallback>AV</AvatarFallback>
+              </Avatar>
+              {isMounted && (
+                <p className="font-semibold">{`${user.lastName} ${user.firstName}`}</p>
+              )}
+            </Link>
+            <div className="p-2">
+              {menu.map((item) =>
+                item.status === "available" ? (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md"
+                  >
+                    {item.icon}
+                    <p>{item.label}</p>
+                  </Link>
+                ) : (
+                  <DevelopingTooltip
+                    key={item.href}
+                    className={
+                      "p-2 w-full flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md opacity-50"
+                    }
+                  >
+                    {item.icon}
+                    <p>{item.label}</p>
+                  </DevelopingTooltip>
+                )
+              )}
+              <ButtonLogout className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md" />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
