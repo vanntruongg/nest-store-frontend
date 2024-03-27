@@ -6,7 +6,7 @@ const ProductsPlaceHolder = ({
   category,
 }: {
   layout: string;
-  category: boolean | undefined;
+  category: string | undefined;
 }) => {
   return (
     <div
