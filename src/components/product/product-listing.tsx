@@ -51,10 +51,18 @@ const ProductListing = ({ categoryId }: ProductListingProps) => {
   useEffect(() => {
     const order = searchParams.get("order") || "";
     const page = Number(searchParams.get("pageNumber"));
-    const category = Number(searchParams.get("category"));
+
     setSort(order);
     setPageNumber(pageNumber);
     fetchCategory();
+
+    let category;
+    if (categoryId && Number(searchParams.get("category")) === 0) {
+      category = Number(categoryId);
+    } else {
+      category = Number(searchParams.get("category"));
+    }
+
     fetchProduct(category, order, page);
   }, [searchParams, sort, pageNumber]);
 
