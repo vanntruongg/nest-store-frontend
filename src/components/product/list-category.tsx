@@ -6,9 +6,7 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import { buttonVariants } from "../ui/button";
-import Link from "next/link";
 import { cn } from "~/lib/utils";
-import { ProductUtil } from "~/common/utility/product.util";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface ListCategoryProps {
@@ -35,28 +33,15 @@ const ListCategory = ({
   };
   return (
     <div className="flex flex-col gap-2 items-start">
-      {categories.map(({ category, subCategories }, idx) =>
+      {categories.map(({ id, name, subCategories }, idx) =>
         subCategories && subCategories.length > 0 ? (
-          <Accordion
-            key={category.id}
-            type="single"
-            collapsible
-            className="w-full"
-          >
+          <Accordion key={id} type="single" collapsible className="w-full">
             <AccordionItem value="item-1" className="border-none">
               <AccordionTrigger
                 style={{ fontSize: fontSize }}
                 className="p-2 font-semibold text-gray-700"
               >
-                <div
-                  // href={`/${ProductUtil.createSlugCategory(
-                  //   category.name,
-                  //   category.id
-                  // )}`}
-                  onClick={() => handleFetchData(category.id)}
-                >
-                  {category.name}
-                </div>
+                <div onClick={() => handleFetchData(id)}>{name}</div>
               </AccordionTrigger>
               <AccordionContent className="px-2">
                 <ListCategory
@@ -69,12 +54,8 @@ const ListCategory = ({
           </Accordion>
         ) : (
           <div
-            key={category.id}
-            // href={`/${ProductUtil.createSlugCategory(
-            //   category.name,
-            //   category.id
-            // )}`}
-            onClick={() => handleFetchData(category.id)}
+            key={id}
+            onClick={() => handleFetchData(id)}
             style={{ fontSize: fontSize }}
             className={cn(
               buttonVariants({
@@ -83,7 +64,7 @@ const ListCategory = ({
               })
             )}
           >
-            {category.name}
+            {name}
           </div>
         )
       )}
