@@ -21,7 +21,12 @@ export class EndpointUtil {
       GET_BY_NAME: "/product/get/name",
       GET_ALL_SUBCATEGORY: "/product/category/subcategory/all-level",
     },
-    CART: {},
+    CART: {
+      GET_ALL: "/cart/items",
+      ADD: "/cart/add",
+      UPDATE: "/cart/update",
+      REMOVE: "/cart/remove",
+    },
     ORDER: {},
   };
 }
