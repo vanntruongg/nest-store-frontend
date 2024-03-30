@@ -1,17 +1,21 @@
 import httpClient from "~/common/http-client";
+import { EndpointUtil } from "~/common/utility/endpoint.util";
 
 const productApi = {
   getList: (category: number, order: string, page: number) =>
     httpClient.get<any>(
-      `/product/products?category=${category}&order=${order}&page=${page}`
+      EndpointUtil.NEST.PRODUCT.GET_LIST +
+        `?category=${category}&order=${order}&page=${page}`
     ),
   getProductById: (productId: number) =>
-    httpClient.get<any>(`/product/get/${productId}`),
-  getProductByName: (name: string) =>
-    httpClient.get<any>(`/product/get/name?name=${name}`),
+    httpClient.get<any>(EndpointUtil.NEST.PRODUCT.GET_BY_ID + `/${productId}`),
+  getProductByName: (name: string, limit: number = 10) =>
+    httpClient.get<any>(
+      EndpointUtil.NEST.PRODUCT.GET_BY_NAME + `?name=${name}&limit=${limit}`
+    ),
   getAllSubCategory: (categoryId: string) =>
     httpClient.get<any>(
-      `/product/category/subcategory/all-level/${categoryId}`
+      EndpointUtil.NEST.PRODUCT.GET_ALL_SUBCATEGORY + `/${categoryId}`
     ),
 };
 

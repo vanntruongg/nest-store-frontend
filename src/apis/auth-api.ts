@@ -14,7 +14,9 @@ const authApi = {
     return httpClient.post<any>(EndpointUtil.NEST.AUTH.REGISTER, signUpPayload);
   },
   auth: (body: IAuthResponse) => {
-    return httpClient.post("/api/auth", body, { baseUrl: "" });
+    return httpClient.post(EndpointUtil.NEST.AUTH.SERVER.AUTH, body, {
+      baseUrl: "",
+    });
   },
   logoutFromNextServer: (accessToken: string) => {
     return httpClient.post<any>(
@@ -29,7 +31,7 @@ const authApi = {
   },
   logoutFromNextClientToNextServer: (force?: boolean | undefined) => {
     return httpClient.post<any>(
-      "/api/auth/logout",
+      EndpointUtil.NEST.AUTH.SERVER.LOGOUT,
       {
         force,
       },
