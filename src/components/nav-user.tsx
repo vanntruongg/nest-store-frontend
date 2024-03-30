@@ -66,7 +66,7 @@ const NavUser = () => {
             <UserRound strokeWidth={1.5} className="size-5 text-slate-700" />
           </Link>
         )}
-        {tokenStorage.value.rawToken.accessToken && (
+        {tokenStorage.value.rawToken.accessToken && isMounted && (
           <div
             className={cn(
               "min-w-60 p-2 bg-white border border-gray-300 rounded-2xl shadow-md absolute top-12 right-0 z-50 transition-all duration-300 invisible origin-top-right transform scale-0 opacity-0 group-hover:visible",
