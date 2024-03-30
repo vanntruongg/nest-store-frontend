@@ -17,7 +17,7 @@ const ItemProductSearch = ({
   const router = useRouter();
 
   const handleSelectProduct = () => {
-    router.push(`/${ProductUtil.createSlug(product.name, product.id)}`);
+    router.push(`${ProductUtil.createSlug(product.name, product.id)}`);
     setOpenDialog(false);
   };
 
@@ -36,7 +36,7 @@ const ItemProductSearch = ({
         />
       </div>
       <div className="flex flex-col gap-2 w-full">
-        <div className="text-sm text-gray-700 hover:text-gray-900">
+        <div className="text-sm text-gray-700 hover:text-gray-900 w-[500px] truncate">
           {product.name}
         </div>
         <p className="text-xs text-muted-foreground">{product.category.name}</p>
