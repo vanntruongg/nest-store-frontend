@@ -39,9 +39,9 @@ const Breadrumbs = ({
           </BreadcrumbLink>
           <BreadcrumbSeparator />
           {breadrumbs &&
-            breadrumbs.map(({ id, name, href }, idx) => (
-              <>
-                <BreadcrumbItem key={id}>
+            breadrumbs.map(({ name, href }, idx) => (
+              <div key={href} className="flex items-center gap-2">
+                <BreadcrumbItem>
                   {href === pathname ? (
                     <BreadcrumbPage>{name}</BreadcrumbPage>
                   ) : (
@@ -53,7 +53,7 @@ const Breadrumbs = ({
                 {idx !== breadrumbs.length - 1 || options ? (
                   <BreadcrumbSeparator />
                 ) : null}
-              </>
+              </div>
             ))}
           {options &&
             (optionPage ? (
