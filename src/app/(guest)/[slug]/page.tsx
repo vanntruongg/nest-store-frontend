@@ -1,5 +1,5 @@
 import productApi from "~/apis/produc-api";
-import { Category, Product } from "~/common/model/product.model";
+import { ICategory, Product } from "~/common/model/product.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import Breadrumbs from "~/components/breadrumbs";
 import DevelopingTooltip from "~/components/developing-tooltip";
@@ -13,29 +13,20 @@ interface PageProps {
   };
 }
 
-// const BREADRUMBS = [
-//   {
-//     id: 1,
-//     name: "Home",
-//     href: "/",
-//   },
-//   {
-//     id: 2,
-//     name: "Products",
-//     href: "/products",
-//   },
-// ];
-
 const ProductDetailPage = async ({ params }: PageProps) => {
   const result: any = await productApi.getProductById(
     ProductUtil.extractProductIdFromSlug(params.slug)
   );
   // console.log(result);
   const product: Product = result.payload.data.product;
-  const categories: Category[] = result.payload.data.categories;
+  const categories: ICategory[] = result.payload.data.categories;
+
+  // console.log("Categories", categories);
 
   const breadcrumbs: Breadrumb[] = [];
   categories.map((category) => {
+    // console.log("category", category);
+
     breadcrumbs.unshift({
       id: category.id,
       name: category.name,
