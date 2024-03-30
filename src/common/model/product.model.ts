@@ -1,26 +1,17 @@
-interface Category {
+interface ICategory {
   id: number;
   name: string;
-}
-
-interface ICategory {
-  category: Category;
   subCategories?: ICategory[];
 }
 
 interface Product {
-  id: string;
+  id: number;
   name: string;
   price: number;
   material: string;
   style: string;
   imageUrl: string;
-  category: Category;
+  category: ICategory;
 }
 
-interface CartItem {
-  product: Product;
-  quantity: number;
-}
-
-export type { CartItem, Product, ICategory };
+export type { Product, ICategory };
