@@ -9,7 +9,7 @@ export type WishlistItem = {
 type WishlistState = {
   items: WishlistItem[];
   addItem: (product: Product) => void;
-  removeItem: (productId: string) => void;
+  removeItem: (productId: number) => void;
   clearWishlist: () => void;
 };
 

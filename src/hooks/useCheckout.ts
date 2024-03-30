@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { CartItem, Product } from "~/common/model/product.model";
+import { IItem } from "~/common/model/cart.model";
 
 type CheckoutState = {
-  items: CartItem[];
-  addItem: (product: Product, quantity: number) => void;
-  removeItem: (productId: string) => void;
-  addItems: (products: CartItem[]) => void;
+  items: IItem[];
+  addItem: (item: IItem) => void;
+  removeItem: (itemId: number) => void;
+  addItems: (items: IItem[]) => void;
   clearCheckout: () => void;
 };
 
@@ -14,17 +14,17 @@ export const useCheckout = create<CheckoutState>()(
   persist(
     (set) => ({
       items: [],
-      addItem: (product, quantity) =>
+      addItem: (item) =>
         set((state) => {
-          return { items: [...state.items, { product, quantity }] };
+          return { items: [...state.items, item] };
         }),
-      removeItem: (productId) =>
+      removeItem: (itemId) =>
         set((state) => ({
-          items: state.items.filter((item) => item.product.id !== productId),
+          items: state.items.filter((item) => item.id !== itemId),
         })),
-      addItems: (products) =>
+      addItems: (items) =>
         set((state) => {
-          return { items: products };
+          return { items: items };
         }),
       clearCheckout: () => set({ items: [] }),
     }),
