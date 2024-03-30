@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Search, X, Trash2 } from "lucide-react";
+import { Search, X, Trash2, Loader2 } from "lucide-react";
 import useDebounce from "~/hooks/useDebounce";
 import { Button } from "./ui/button";
 import {
@@ -19,6 +19,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ItemProductSearch from "./item-search";
 import { cn } from "~/lib/utils";
 import { Product } from "~/common/model/product.model";
+import productApi from "~/apis/produc-api";
+import { BaseUtil } from "~/common/utility/base.util";
 
 const SearchComp = () => {
   const { replace } = useRouter();
@@ -33,18 +35,30 @@ const SearchComp = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const debounce = useDebounce(searchValue, 500);
-  // useEffect(() => {
-  //   if (debounce.trim() === "") {
-  //     return;
-  //   }
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 1000);
-  // }, [debounce]);
+
+  useEffect(() => {
+    if (debounce.trim() === "") {
+      setRecommedProduct([]);
+      return;
+    }
+    fetchProduct();
+  }, [debounce]);
 
   const handleChangeSearchValue = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+  };
+
+  const fetchProduct = async () => {
+    setLoading(true);
+    try {
+      const result = await productApi.getProductByName(debounce, 5);
+      // console.log(result);
+      setRecommedProduct(result.payload.data);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSearch = (e: any, searchValue: string) => {
@@ -54,7 +68,7 @@ const SearchComp = () => {
 
     const params = new URLSearchParams(searchParam);
 
-    params.set("q", searchValue);
+    params.set("keyword", searchValue);
 
     const newParams = params.toString().replace(/\+/g, "%20");
     if (pathname === "/search") {
@@ -63,8 +77,13 @@ const SearchComp = () => {
       router.push(`/search?${newParams}`);
     }
 
-    setSearchValue("");
+    resetInput();
     setOpen(false);
+  };
+
+  const resetInput = () => {
+    setSearchValue("");
+    setRecommedProduct([]);
   };
 
   return (
@@ -74,11 +93,14 @@ const SearchComp = () => {
           <Search
             strokeWidth={1.5}
             className="size-5 cursor-pointer text-slate-700"
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              resetInput();
+              setOpen(true);
+            }}
           />
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-3xl flex flex-col justify-start max-h-80 top-1/4">
+      <DialogContent className="sm:max-w-3xl flex flex-col justify-start max-h-screen top-1/4">
         <DialogHeader>
           <DialogTitle>Tìm kiếm sản phẩm</DialogTitle>
         </DialogHeader>
@@ -96,21 +118,44 @@ const SearchComp = () => {
                 required
                 onChange={handleChangeSearchValue}
               />
-              <div
+              {loading && (
+                <div className="absolute top-1/2 right-2 -translate-y-1/2">
+                  <Loader2 strokeWidth={1.5} className="size-4 animate-spin" />
+                </div>
+              )}
+              {/* {recommendProducts.length > 0 && ( */}
+              {/* <div
                 className={cn(
-                  "w-full p-2 absolute translate-y-2 rounded-sm bg-white shadow hidden",
+                  "h-0 invisible opacity-0 origin-top transition-all duration-1000",
                   {
-                    block: recommendProducts.length > 0,
+                    "h-full visible opacity-100": recommendProducts.length > 0,
                   }
                 )}
               >
-                {/* {products.map((product) => (
+                {recommendProducts.map((product) => (
                   <ItemProductSearch
                     key={product.id}
                     product={product}
                     setOpenDialog={setOpen}
                   />
-                ))} */}
+                ))}
+              </div> */}
+              {/* )} */}
+              <div
+                className={cn(
+                  "w-full p-2 absolute translate-y-2 rounded-sm bg-white shadow-2xl hidden",
+                  {
+                    block: recommendProducts.length > 0,
+                  }
+                )}
+              >
+                {recommendProducts.map((product) => (
+                  <ItemProductSearch
+                    key={product.id}
+                    product={product}
+                    setOpenDialog={setOpen}
+                  />
+                ))}
               </div>
             </div>
             <Button type="submit">Tìm kiếm</Button>
