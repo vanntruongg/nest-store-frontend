@@ -18,7 +18,7 @@ const WishListItem = ({
 
   const handleOpenItem = () => {
     setOpenWishList(false);
-    router.push(`/${ProductUtil.createSlug(product.name, product.id)}`);
+    router.push(`${ProductUtil.createSlug(product.name, product.id)}`);
   };
 
   return (
