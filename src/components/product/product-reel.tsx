@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ProductListing from "./product-by-category";
+// import ProductListing from "./product-by-category";
 import { Product } from "~/common/model/product.model";
 import MaxWidthWrapper from "../max-width-wrapper";
 
@@ -40,13 +40,13 @@ const ProductReel = (props: ProductReelProps) => {
         <div className="relative">
           <div className="mt-6 flex items-center w-full">
             <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
-              {products.map((product, idx) => (
+              {/* {products.map((product, idx) => (
                 <ProductListing
                   key={product.id}
                   product={product}
                   index={idx}
                 />
-              ))}
+              ))} */}
             </div>
           </div>
         </div>

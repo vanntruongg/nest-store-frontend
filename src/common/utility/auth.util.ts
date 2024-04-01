@@ -37,6 +37,17 @@ class AuthToken {
       rawToken: authData,
     };
   }
+
+  public clearToken() {
+    this.tokenStorage = {
+      decodedAccessToken: initialBaseAuthToken,
+      decodedRefreshToken: initialBaseAuthToken,
+      rawToken: {
+        accessToken: "",
+        refreshToken: "",
+      },
+    };
+  }
 }
 
 export const tokenStorage = new AuthToken();

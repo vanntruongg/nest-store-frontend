@@ -4,9 +4,11 @@ import { useEffect } from "react";
 import authApi from "~/apis/auth-api";
 import { tokenStorage } from "~/common/utility/auth.util";
 import { BaseUtil } from "~/common/utility/base.util";
+import { useUser } from "~/hooks/useUser";
 
 const Logout = () => {
   const router = useRouter();
+  const { clearUser } = useUser();
   const searchParams = useSearchParams();
   const accessToken = searchParams.get("accessToken");
 
@@ -18,6 +20,8 @@ const Logout = () => {
     if (accessToken === tokenStorage.value.rawToken.accessToken) {
       try {
         await authApi.logoutFromNextClientToNextServer(true);
+        clearUser();
+        tokenStorage.clearToken();
         router.push("/login");
       } catch (error) {
         BaseUtil.handleErrorApi({ error });

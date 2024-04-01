@@ -1,18 +1,24 @@
 "use client";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { useCheckout } from "~/hooks/useCheckout";
 import { paymentMethods } from "~/static";
 import { ProductUtil } from "~/common/utility/product.util";
+import { Loader2 } from "lucide-react";
 
 const CheckOutPage = () => {
   const { items } = useCheckout();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<number>(1);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, [isMounted]);
+
   const totalPrice = useMemo(
-    () =>
-      items.reduce((acc, curr) => acc + curr.product.price * curr.quantity, 0),
+    () => items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
     [items]
   );
 
@@ -50,43 +56,38 @@ const CheckOutPage = () => {
         </div>
 
         <div className="px-8 divide-y">
-          {items.map((item) => {
-            return (
-              <div
-                key={item.product.id}
-                className="flex items-center py-6 sm:py-10"
-              >
-                <div className="flex w-full">
-                  <div className="flex flex-1 gap-4">
-                    <div className="relative size-24">
-                      <Image
-                        src={item.product.imageUrl}
-                        fill
-                        alt="product image"
-                        className="h-full w-full rounded-md object-cover object-center sm:size-48"
-                      />
+          {isMounted &&
+            items.map((item) => {
+              return (
+                <div key={item.id} className="flex items-center py-6 sm:py-10">
+                  <div className="flex w-full">
+                    <div className="flex flex-1 gap-4">
+                      <div className="relative size-24">
+                        <Image
+                          src={item.imageUrl}
+                          fill
+                          sizes="100"
+                          alt="product image"
+                          className="h-full w-full rounded-md object-cover object-center sm:size-48"
+                        />
+                      </div>
+                      <div className="">
+                        <h3 className="text-base font-medium">{item.name}</h3>
+                      </div>
                     </div>
-                    <div className="">
-                      <h3 className="text-base font-medium">
-                        {item.product.name}
-                      </h3>
-                    </div>
-                  </div>
-                  <div className="flex flex-1 items-center justify-between text-sm text-muted-foreground">
-                    <div className="">
-                      {ProductUtil.formatPrice(item.product.price)}
-                    </div>
-                    <div className="">{item.quantity}</div>
-                    <div className="">
-                      {ProductUtil.formatPrice(
-                        item.product.price * item.quantity
-                      )}
+                    <div className="flex flex-1 items-center justify-between text-sm text-muted-foreground">
+                      <div className="">
+                        {ProductUtil.formatPrice(item.price)}
+                      </div>
+                      <div className="">{item.quantity}</div>
+                      <div className="">
+                        {ProductUtil.formatPrice(item.price * item.quantity)}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
       {/* Order */}
@@ -114,16 +115,21 @@ const CheckOutPage = () => {
         <section className="flex items-center justify-between bg-white py-4 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-6">
           <div className="flex items-center justify-between gap-4 border-gray-200">
             <div className="text-base font-medium text-gray-900">
-              Tổng thanh toán {`(${0} Sản phẩm)`}:
+              Tổng thanh toán {`(${isMounted ? items.length : 0} Sản phẩm)`}:
             </div>
             <div className="text-base font-medium text-gray-900">
-              {ProductUtil.formatPrice(totalPrice)}
+              {isMounted ? (
+                ProductUtil.formatPrice(totalPrice)
+              ) : (
+                <Loader2 className="size-4 animate-spin text-muted-foreground" />
+              )}
             </div>
           </div>
           <div className="">
             <Button
               className={cn("w-full", {
-                "opacity-50 pointer-events-none": items.length === 0,
+                "opacity-50 pointer-events-none":
+                  isMounted && items.length === 0,
               })}
               size={"lg"}
             >

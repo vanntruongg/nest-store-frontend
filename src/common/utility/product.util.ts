@@ -1,7 +1,7 @@
 import slugify from "slugify";
 
 export class ProductUtil {
-  static createSlug(name: string, id: string): string {
+  static createSlug(name: string, id: number): string {
     const slug = slugify(name, {
       lower: true,
       locale: "vi",

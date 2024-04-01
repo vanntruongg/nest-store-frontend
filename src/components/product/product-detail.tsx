@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MaxWidthWrapper from "../max-width-wrapper";
 
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
@@ -9,20 +9,33 @@ import Image from "next/image";
 import AddtoWishlistIcon from "../button/add-to-wishlist-icon";
 import { ProductUtil } from "~/common/utility/product.util";
 import { Product } from "~/common/model/product.model";
+import cartApi from "~/apis/cart-api";
+import { useUser } from "~/hooks/useUser";
+import { BaseUtil } from "~/common/utility/base.util";
+import useDebounce from "~/hooks/useDebounce";
 
 interface ProductDetailProps {
   product: Product;
 }
 
 const ProductDetail = ({ product }: ProductDetailProps) => {
-  const { id, name, category, price, material, style, imageUrl } = product;
+  const { user } = useUser();
   const [quantity, setQuantity] = useState<number>(1);
+
   const inCreaseQuantity = () => {
     setQuantity((quantity) => quantity + 1);
+    // debounce();
   };
   const deCreaseQuantity = () => {
     setQuantity((quantity) => (quantity > 1 ? quantity - 1 : 1));
+    // debounce();
   };
+
+  // const debouncedUpdateQuantity = useDebounce(quantity, 1000);
+
+  // useEffect(() => {
+  //   updateQuantity();
+  // }, [quantity, debouncedUpdateQuantity]);
 
   return (
     <MaxWidthWrapper>
@@ -31,7 +44,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
           <div className="col-span-8 aspect-square bg-gray-100 relative">
             <Image
               fill
-              src={imageUrl}
+              src={product.imageUrl}
               alt="image product"
               className="object-center size-full"
               sizes="100"
@@ -41,16 +54,13 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
         </div>
         <div className="w-full flex flex-col">
           <div className="flex justify-between gap-6">
-            <h1 className="text-3xl">{name}</h1>
+            <h1 className="text-3xl">{product.name}</h1>
             <AddtoWishlistIcon product={product} />
           </div>
           <section className="mt-6">
             <p className="text-lg font-bold bg-gray-50 p-2">
-              {ProductUtil.formatPrice(price)}
+              {ProductUtil.formatPrice(product.price)}
             </p>
-            <div className="mt-4 text-sm text-muted-foreground">
-              {/* {description} */}
-            </div>
             <div className="mt-6 flex items-center">
               <Check
                 aria-hidden="true"
@@ -89,7 +99,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
             </div>
             <div className="flex gap-4">
               <div className="flex-1">
-                <AddtoCartButton />
+                <AddtoCartButton product={product} quantity={quantity} />
               </div>
               <div className="flex-1">
                 <BuyNowButton />

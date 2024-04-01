@@ -1,100 +1,77 @@
 "use client";
-
 import Image from "next/image";
 import { cn } from "~/lib/utils";
 
-import EmptyCart from "../../../../public/assets/empty-cart.svg";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { buttonVariants } from "~/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { v4 as uuid } from "uuid";
 import { Checkbox } from "~/components/ui/checkbox";
-import { CheckedState } from "@radix-ui/react-checkbox";
-import { useCheckout } from "~/hooks/useCheckout";
-import { CartItem as CartItemModel } from "~/common/model/product.model";
-import CartItem from "~/components/cart-item";
 import { ProductUtil } from "~/common/utility/product.util";
+import { useEffect, useMemo, useState } from "react";
+import { useCheckout } from "~/hooks/useCheckout";
+import { useUser } from "~/hooks/useUser";
+import cartApi from "~/apis/cart-api";
+import { CheckedState } from "@radix-ui/react-checkbox";
+import CartItem from "~/components/cart-item";
+import { IItem, IUpdateCartRequest } from "~/common/model/cart.model";
+import { BaseUtil } from "~/common/utility/base.util";
+import { toast } from "~/components/ui/use-toast";
+import { useCart } from "~/hooks/useCart";
 
-// const products: CartItemModel[] = [
-//   {
-//     product: {
-//       id: uuid(),
-//       name: "Áo sơ mi",
-//       price: 279000,
-//       category: "Áo",
-//       description:
-//         "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-//       image:
-//         "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-//     },
-//     quantity: 2,
-//   },
-//   {
-//     product: {
-//       id: uuid(),
-//       name: "Áo sơ mi",
-//       price: 279000,
-//       category: "Áo",
-//       description:
-//         "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-//       image:
-//         "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-//     },
-//     quantity: 2,
-//   },
-//   {
-//     product: {
-//       id: uuid(),
-//       name: "Áo sơ mi",
-//       price: 279000,
-//       category: "Áo",
-//       description:
-//         "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-//       image:
-//         "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-//     },
-//     quantity: 2,
-//   },
-//   {
-//     product: {
-//       id: uuid(),
-//       name: "Áo sơ mi",
-//       price: 279000,
-//       category: "Áo",
-//       description:
-//         "Regular fit, round neckline, long sleeves. 100% cotton, brushed inner side for extra comfort.",
-//       image:
-//         "https://ciseco-nextjs.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F5.addcba21.png&w=828&q=75",
-//     },
-//     quantity: 2,
-//   },
-// ];
-// const products: Product[] = [];
-const Page = () => {
-  const [cartItems, setCardItems] = useState<CartItemModel[]>([]);
+const Cart = () => {
+  const { user } = useUser();
+  const { setItemCart, remove } = useCart();
+  const { items, addItems, clearCheckout } = useCheckout();
+  const [products, setProducts] = useState<IItem[]>([]);
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
-  const { items, addItems, clearCheckout } = useCheckout();
-
-  const cartTotal = items.reduce(
-    (total, item: CartItemModel) =>
-      (total += item.product.price * item.quantity),
-    0
-  );
-
   useEffect(() => {
+    fetchData();
     setIsMounted(true);
-    // setCardItems(products);
-    clearCheckout();
-  }, [clearCheckout]);
+  }, []);
+
+  const fetchData = async () => {
+    const result = await cartApi.getAll(user.email);
+    const data = result.payload.data.items || [];
+    setProducts(data);
+    setItemCart(data);
+  };
 
   const toggleSelectAll = (checked: CheckedState) => {
     if (checked) {
-      // addItems(products);
+      addItems(products);
     } else {
       clearCheckout();
     }
+  };
+
+  const onUpdate = async (quantity: number, item: IItem) => {
+    try {
+      const data: IUpdateCartRequest = {
+        email: user.email,
+        itemId: item.id,
+        quantity,
+      };
+      await cartApi.udpate(data);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    }
+  };
+  const onDelete = async (id: number) => {
+    try {
+      const result = await cartApi.remove(user.email, id);
+      fetchData();
+      remove(id);
+      toast({
+        description: result.payload.message,
+      });
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    }
+  };
+
+  const totalPrice = (): number => {
+    return items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
   };
 
   return (
@@ -103,7 +80,7 @@ const Page = () => {
         Giỏ hàng
       </h1>
       <div className="mt-6">
-        {isMounted && cartItems.length === 0 ? (
+        {isMounted && products.length === 0 ? (
           <div
             className={cn(
               "lg:col-span-7 rounded-lg border-2 border-dashed border-zinc-200 p-12 h-full"
@@ -113,10 +90,11 @@ const Page = () => {
             <div className="h-full flex flex-col items-center justify-center space-y-1">
               <div className="relative mb-4 size-40 text-muted-foreground">
                 <Image
-                  src={EmptyCart}
+                  src={"/assets/empty-cart.svg"}
                   fill
                   loading="eager"
                   alt="empty shopping cart"
+                  priority
                 />
               </div>
               <h3 className="font-semibold text-2xl">Giỏ hàng trống</h3>
@@ -127,38 +105,42 @@ const Page = () => {
           </div>
         ) : (
           <div className="h-full w-full relative">
-            <div className="px-8 py-2 bg-white shadow flex items-center">
+            <div className="flex items-center px-8 py-4 bg-white shadow">
               <div className="mt-1 pr-4">
                 <Checkbox
                   onCheckedChange={toggleSelectAll}
-                  checked={cartItems.length === items.length}
+                  checked={products.length === items.length}
                 />
               </div>
-              <div className="flex w-full">
-                <div className="flex-1 col-span-3">Sản phẩm</div>
-                <div className="flex flex-1 justify-between text-muted-foreground">
-                  <div className="col-span-2">Đơn giá</div>
-                  <div className="col-span-2">Số lượng</div>
-                  <div className="col-span-2">Thành tiền</div>
-                  <div className="col-span-2">Thao tác</div>
+              <div className="grid grid-cols-12 w-full gap-4">
+                <div className="col-span-6 w-full">Sản phẩm</div>
+                <div className="col-span-6 grid grid-cols-4 text-center">
+                  <span>Đơn giá</span>
+                  <span>Số lượng</span>
+                  <span>Thành tiền</span>
+                  <span>Thao tác</span>
                 </div>
               </div>
             </div>
 
             <div className="px-8 my-4 bg-white divide-y">
-              {isMounted &&
-                cartItems.map((item) => {
-                  return <CartItem key={item.product.id} item={item} />;
-                })}
+              {products.map((item) => (
+                <CartItem
+                  key={item.id}
+                  item={item}
+                  onUpdate={onUpdate}
+                  onDelete={onDelete}
+                />
+              ))}
             </div>
             <section className="sticky bottom-0 flex items-center justify-between rounded-lg bg-white shadow py-4 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-6">
               <div className="flex items-center justify-between gap-4 border-gray-200">
                 <div className="text-base font-medium text-gray-900">
-                  Tổng thanh toán {`(${items.length} Sản phẩm)`}:
+                  Tổng thanh toán {isMounted && `(${items.length} Sản phẩm)`}:
                 </div>
                 <div className="text-base font-medium text-gray-900">
                   {isMounted ? (
-                    ProductUtil.formatPrice(cartTotal + 0)
+                    ProductUtil.formatPrice(totalPrice())
                   ) : (
                     <Loader2 className="size-4 animate-spin text-muted-foreground" />
                   )}
@@ -185,4 +167,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Cart;

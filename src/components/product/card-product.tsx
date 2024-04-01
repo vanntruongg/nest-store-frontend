@@ -6,31 +6,34 @@ import AddtoWishlistIcon from "../button/add-to-wishlist-icon";
 import QuickViewIcon from "../button/quick-view-icon";
 import { ProductUtil } from "~/common/utility/product.util";
 import { Product } from "~/common/model/product.model";
+import { ELayoutProduct } from "~/common/utility/enum.util";
 
 interface CardProductProps {
   product: Product;
-  layout?: LayoutProduct;
+  layout?: ELayoutProduct;
 }
 
 const CardProduct = ({ product, layout }: CardProductProps) => {
   return (
     <div
       className={cn("group grid transition-all duration-500 hover:shadow", {
-        "grid grid-cols-3 gap-4 transition-all duration-500": layout === "list",
-        "grid-rows-subgrid row-span-3 gap-0": layout === "grid",
+        "grid grid-cols-3 gap-4 transition-all duration-500":
+          layout === ELayoutProduct.LIST,
+        "grid-rows-subgrid row-span-3 gap-0": layout === ELayoutProduct.GRID,
       })}
     >
       <figure className={cn("aspect-square relative", {})}>
         <Link
-          href={`/${ProductUtil.createSlug(product.name, product.id)}`}
+          href={`${ProductUtil.createSlug(product.name, product.id)}`}
           className="size-full absolute"
         >
-          {layout === "grid" ? (
+          {layout === ELayoutProduct.GRID ? (
             <Image
               fill
               src={product.imageUrl}
               alt="image product"
               sizes="full"
+              priority
               className={cn("object-cover bg-gray-50", {})}
             />
           ) : (
@@ -39,6 +42,7 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
               alt="image product"
               width={400}
               height={400}
+              priority
               className={cn("object-cover bg-gray-50", {})}
             />
           )}
@@ -51,16 +55,16 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
 
       <div
         className={cn("p-2 w-full", {
-          "grid grid-rows-subgrid row-span-2": layout === "grid",
-          "col-span-2": layout === "list",
+          "grid grid-rows-subgrid row-span-2": layout === ELayoutProduct.GRID,
+          "col-span-2": layout === ELayoutProduct.LIST,
         })}
       >
         <Link
-          href={`/${ProductUtil.createSlug(product.name, product.id)}`}
+          href={`${ProductUtil.createSlug(product.name, product.id)}`}
           className={cn(
             "text-base text-pretty font-medium text-gray-700 hover:text-gray-800 pb-2",
             {
-              "self-start": layout !== "grid",
+              "self-start": layout !== ELayoutProduct.GRID,
             }
           )}
         >
@@ -68,14 +72,14 @@ const CardProduct = ({ product, layout }: CardProductProps) => {
         </Link>
         <p
           className={cn("mt-2 font-semibold", {
-            "text-center": layout === "grid",
+            "text-center": layout === ELayoutProduct.GRID,
           })}
         >
           {ProductUtil.formatPrice(product.price)}
         </p>
         <div
           className={cn("hidden", {
-            "block mt-2": layout === "list",
+            "block mt-2": layout === ELayoutProduct.LIST,
           })}
         >
           <div className="flex gap-2 text-sm text-muted-foreground">

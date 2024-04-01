@@ -7,8 +7,9 @@ import Logo from "../../public/assets/nest-logo-tranparent.png";
 import NavUser from "./nav-user";
 import MaxWidthWrapper from "./max-width-wrapper";
 import MobileNav from "./mobile-nav";
-import { ShoppingCart, UserRound } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import Wishlist from "./wishlist";
+import Cart from "./cart";
 
 const Header = () => {
   return (
@@ -53,18 +54,7 @@ const Header = () => {
             <div className="lg:col-span-5 flex justify-end items-center gap-2  flex-1">
               <Search />
               <Wishlist />
-              <Link
-                href={"/cart"}
-                className="hover:bg-gray-100 p-2 rounded-full relative"
-              >
-                <ShoppingCart
-                  strokeWidth={1.5}
-                  className="size-5 text-slate-700"
-                />
-                <span className="absolute top-0 right-0 size-4 flex justify-center items-center text-xs bg-primary text-white rounded-full">
-                  0
-                </span>
-              </Link>
+              <Cart />
               <NavUser />
             </div>
           </div>

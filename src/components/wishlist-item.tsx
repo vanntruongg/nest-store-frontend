@@ -34,6 +34,7 @@ const WishListItem = ({
               src={product.imageUrl}
               alt={product.name}
               fill
+              sizes="full"
               className="absolute object-cover"
             />
           </div>

@@ -28,9 +28,12 @@ const ProductDetailPage = async ({ params }: PageProps) => {
     // console.log("category", category);
 
     breadcrumbs.unshift({
-      id: category.id,
-      name: category.name,
-      href: ProductUtil.createSlugCategory(category.name, category.id),
+      id: category.category.id,
+      name: category.category.name,
+      href: ProductUtil.createSlugCategory(
+        category.category.name,
+        category.category.id
+      ),
     });
   });
 

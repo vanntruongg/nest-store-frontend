@@ -51,7 +51,7 @@ const request = async <Response>(
   };
 
   const baseUrl =
-    options?.baseUrl === undefined ? "http://127.0.0.1:9000" : options.baseUrl;
+    options?.baseUrl === undefined ? "http://localhost:9000" : options.baseUrl;
 
   const fullUrl = url.startsWith("/")
     ? `${baseUrl}${url}`
@@ -77,15 +77,13 @@ const request = async <Response>(
             "Content-Type": "application/json",
           },
         });
-        tokenStorage.value.rawToken.accessToken = "";
-        tokenStorage.value.rawToken.refreshToken = "";
+        tokenStorage.clearToken();
 
         location.href = "/login";
       } else {
         const accessToken = (options?.headers as any).Authorization.split(
           " "
         )[1];
-
         redirect(`/logout?accesstoken=${accessToken}`);
       }
     }
@@ -96,9 +94,7 @@ const request = async <Response>(
     status: res.status,
     payload,
   };
-  console.log(res);
-  console.log("Payload", payload);
-
+  // console.log(res);
   if (!res.ok) {
     if (res.status === EErrorCode.FORM_ERROR) {
       throw new EntityError(
@@ -111,6 +107,7 @@ const request = async <Response>(
       throw new HttpError(data);
     }
   }
+  // console.log("Payload", payload);
 
   if (typeof window !== "undefined") {
     if (

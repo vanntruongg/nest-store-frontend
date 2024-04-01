@@ -1,7 +1,11 @@
 interface ICategory {
+  category: Category;
+  subCategories?: ICategory[];
+}
+
+interface Category {
   id: number;
   name: string;
-  subCategories?: ICategory[];
 }
 
 interface Product {
@@ -11,7 +15,15 @@ interface Product {
   material: string;
   style: string;
   imageUrl: string;
-  category: ICategory;
+  category: Category;
 }
 
-export type { Product, ICategory };
+interface ProductResponse {
+  products: Product[];
+  first: boolean;
+  last: boolean;
+  pageNumber: number;
+  totalPages: number;
+}
+
+export type { Product, ICategory, Category, ProductResponse };
