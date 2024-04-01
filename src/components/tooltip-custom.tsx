@@ -1,3 +1,4 @@
+import { ELayoutProduct } from "~/common/utility/enum.util";
 import {
   Tooltip,
   TooltipTrigger,
@@ -24,7 +25,11 @@ const TooltipCustom = ({
   const handleClick = () => {
     if (customClick) {
       if (options.layout) {
-        customClick(options.layout === "grid" ? "list" : "grid");
+        customClick(
+          options.layout === ELayoutProduct.GRID
+            ? ELayoutProduct.LIST
+            : ELayoutProduct.GRID
+        );
       }
     }
   };
