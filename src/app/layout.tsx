@@ -5,11 +5,13 @@ import "./globals.css";
 import ScrollToTop from "~/components/scroll-to-top";
 import { cn } from "../lib/utils";
 import { Toaster } from "~/components/ui/toaster";
-import AppTokenProvider from "./AppTokenProvider";
+import AppTokenProvider from "./app-token-provider";
+import CheckoutProvider from "./checkout-provider";
 
 export const metadata: Metadata = {
   title: "NEST Store - Cửa hàng thời trang",
-  description: "NEST Store build by Van Truong Tran",
+  description:
+    "Mua sắm trực tuyến hàng triệu sản phẩm thời trang theo xu hướng mới nhất. Giá tốt &amp; Miễn phí vận chuyển. Mua và bán online trong 30 giây. Mã giảm giá | NEST Đảm Bảo",
   icons: {
     icon: ["/favicon.ico"],
     apple: ["/apple-touch-icon.png?v=4"],
@@ -29,7 +31,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       >
         <ScrollToTop>
           <AppTokenProvider initialToken={{ accessToken, refreshToken }}>
-            {children}
+            <CheckoutProvider>{children}</CheckoutProvider>
           </AppTokenProvider>
         </ScrollToTop>
         <Toaster />

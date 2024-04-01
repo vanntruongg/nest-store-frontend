@@ -3,7 +3,8 @@ import { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Tất cả sản phẩm",
-  description: "Sản phẩm của NEST store",
+  description:
+    "Khám phá danh mục sản phẩm đa dạng từ NEST Store - nơi cung cấp các sản phẩm thời trang chất lượng cao. Hãy khám phá ngay!",
 };
 
 export default function ProductLayout({ children }: { children: ReactNode }) {
