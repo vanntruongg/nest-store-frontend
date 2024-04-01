@@ -7,7 +7,6 @@ type CartState = {
   setItemCart: (items: IItem[]) => void;
   add: (item: IItem) => void;
   remove: (id: number) => void;
-  updateQuantity: (itemId: number, quantity: number) => void;
 };
 
 export const useCart = create<CartState>()(
@@ -28,12 +27,6 @@ export const useCart = create<CartState>()(
       remove: (productId: number) =>
         set((state) => ({
           itemsCart: state.itemsCart.filter((item) => item.id !== productId),
-        })),
-      updateQuantity: (itemId: number, newQuantity: number) =>
-        set((state) => ({
-          itemsCart: state.itemsCart.map((item) =>
-            item.id === itemId ? { ...item, quantity: newQuantity } : item
-          ),
         })),
     }),
     {
