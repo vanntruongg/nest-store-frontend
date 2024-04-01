@@ -19,6 +19,7 @@ export class EndpointUtil {
       GET_LIST: "/product/products",
       GET_BY_ID: "/product/get",
       GET_BY_NAME: "/product/get/name",
+      GET_ALL_CATEGORY: "/product/category",
       GET_ALL_SUBCATEGORY: "/product/category/subcategory/all-level",
     },
     CART: {
