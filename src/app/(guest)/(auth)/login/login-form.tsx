@@ -62,7 +62,7 @@ const LoginForm = () => {
 
         fetchProfile();
 
-        router.push("/");
+        router.back();
       }
     } catch (error: any) {
       BaseUtil.handleErrorApi({ error, setError: form.setError });
