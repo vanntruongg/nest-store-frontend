@@ -19,7 +19,7 @@ export class BaseUtil {
       });
     } else {
       toast({
-        description: error,
+        description: error.payload?.message,
         variant: "destructive",
         duration: duration ?? 3000,
       });
