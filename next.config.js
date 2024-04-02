@@ -27,6 +27,6 @@ module.exports = {
   ...nextConfig,
   env: {
     NEXT_PUBLIC_API_ENDPOINT: "http://localhost:9000",
-    PRODUCTION_URL: "https://neststore.vercel.app",
+    NEXT_PUBLIC_ENDPOINT: "http://localhost:3000",
   },
 };

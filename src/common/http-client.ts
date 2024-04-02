@@ -1,4 +1,3 @@
-import { IAuthResponse } from "~/common/model/auth.model";
 import { tokenStorage } from "~/common/utility/auth.util";
 import { normalizaPath } from "~/lib/utils";
 import { EErrorCode } from "./utility/enum.util";
@@ -50,12 +49,10 @@ const request = async <Response>(
       : "",
   };
 
-  const apiUrl =
-    process.env.NODE_ENV === "development"
+  const baseUrl =
+    options?.baseUrl === undefined
       ? process.env.NEXT_PUBLIC_API_ENDPOINT
-      : process.env.PRODUCTION_URL;
-
-  const baseUrl = options?.baseUrl === undefined ? apiUrl : options.baseUrl;
+      : options.baseUrl;
 
   const fullUrl = url.startsWith("/")
     ? `${baseUrl}${url}`
