@@ -15,6 +15,7 @@ interface Product {
   material: string;
   style: string;
   imageUrl: string;
+  stock: number;
   category: Category;
 }
 
