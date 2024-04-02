@@ -50,10 +50,12 @@ const request = async <Response>(
       : "",
   };
 
-  const baseUrl =
-    options?.baseUrl === undefined
+  const apiUrl =
+    process.env.NODE_ENV === "development"
       ? process.env.NEXT_PUBLIC_API_ENDPOINT
-      : options.baseUrl;
+      : process.env.PRODUCTION_URL;
+
+  const baseUrl = options?.baseUrl === undefined ? apiUrl : options.baseUrl;
 
   const fullUrl = url.startsWith("/")
     ? `${baseUrl}${url}`
