@@ -12,15 +12,13 @@ import { useCheckout } from "~/hooks/useCheckout";
 import { useUser } from "~/hooks/useUser";
 import cartApi from "~/apis/cart-api";
 import { CheckedState } from "@radix-ui/react-checkbox";
-import CartItem from "~/components/cart-item";
-import { IItem, IUpdateCartRequest } from "~/common/model/cart.model";
-import { BaseUtil } from "~/common/utility/base.util";
-import { toast } from "~/components/ui/use-toast";
+import CartItem from "~/app/(guest)/cart/cart-item";
+import { IItem } from "~/common/model/cart.model";
 import { useCart } from "~/hooks/useCart";
 
 const Cart = () => {
   const { user } = useUser();
-  const { setItemCart, remove } = useCart();
+  const { setItemCart } = useCart();
   const { items, addItems, clearCheckout } = useCheckout();
   const [products, setProducts] = useState<IItem[]>([]);
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -45,34 +43,9 @@ const Cart = () => {
     }
   };
 
-  const onUpdate = async (quantity: number, item: IItem) => {
-    try {
-      const data: IUpdateCartRequest = {
-        email: user.email,
-        itemId: item.id,
-        quantity,
-      };
-      await cartApi.udpate(data);
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    }
-  };
-  const onDelete = async (id: number) => {
-    try {
-      const result = await cartApi.remove(user.email, id);
-      fetchData();
-      remove(id);
-      toast({
-        description: result.payload.message,
-      });
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    }
-  };
-
-  const totalPrice = (): number => {
+  const totalPrice = useMemo(() => {
     return items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
-  };
+  }, [fetchData]);
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -125,12 +98,7 @@ const Cart = () => {
 
             <div className="px-8 my-4 bg-white divide-y">
               {products.map((item) => (
-                <CartItem
-                  key={item.id}
-                  item={item}
-                  onUpdate={onUpdate}
-                  onDelete={onDelete}
-                />
+                <CartItem key={item.id} item={item} fetchData={fetchData} />
               ))}
             </div>
             <section className="sticky bottom-0 flex items-center justify-between rounded-lg bg-white shadow py-4 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-6">
@@ -140,7 +108,7 @@ const Cart = () => {
                 </div>
                 <div className="text-base font-medium text-gray-900">
                   {isMounted ? (
-                    ProductUtil.formatPrice(totalPrice())
+                    ProductUtil.formatPrice(totalPrice)
                   ) : (
                     <Loader2 className="size-4 animate-spin text-muted-foreground" />
                   )}
