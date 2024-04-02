@@ -17,7 +17,8 @@ export const useCheckout = create<CheckoutState>()(
       items: [],
       addItem: (item, quantity) =>
         set((state) => {
-          return { items: [...state.items] };
+          item.quantity = quantity;
+          return { items: [...state.items, item] };
         }),
       removeItem: (itemId) =>
         set((state) => ({
