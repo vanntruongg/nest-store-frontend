@@ -19,7 +19,7 @@ const BREADRUMBS = [
   },
 ];
 
-const ShopPage = async () => {
+const getDataAndSort = async () => {
   const result = await productApi.getCategory();
   const data: CategoryModel[] = result.payload.data;
   const categories: ICategory[] = [];
@@ -27,10 +27,13 @@ const ShopPage = async () => {
     categories.unshift({ category: category, subCategories: [] })
   );
 
-  categories.sort(
+  return categories.sort(
     (category1, category2) => category1.category.id - category2.category.id
   );
+};
 
+const ShopPage = async () => {
+  const categories = await getDataAndSort();
   return (
     <div className="flex flex-col gap-6 mb-6">
       <Breadrumbs breadrumbs={BREADRUMBS} />

@@ -1,5 +1,5 @@
 import productApi from "~/apis/produc-api";
-import { ICategory, Product } from "~/common/model/product.model";
+import { Category, Product } from "~/common/model/product.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import Breadrumbs from "~/components/breadrumbs";
 import DevelopingTooltip from "~/components/developing-tooltip";
@@ -13,27 +13,23 @@ interface PageProps {
   };
 }
 
-const ProductDetailPage = async ({ params }: PageProps) => {
-  const result: any = await productApi.getProductById(
-    ProductUtil.extractProductIdFromSlug(params.slug)
+const getData = async (slug: string) => {
+  return await productApi.getProductById(
+    ProductUtil.extractProductIdFromSlug(slug)
   );
-  // console.log(result);
-  const product: Product = result.payload.data.product;
-  const categories: ICategory[] = result.payload.data.categories;
+};
 
-  // console.log("Categories", categories);
+const ProductDetailPage = async ({ params }: PageProps) => {
+  const result: any = await getData(params.slug);
+  const product: Product = result.payload.data.product;
+  const categories: Category[] = result.payload.data.categories;
 
   const breadcrumbs: Breadrumb[] = [];
   categories.map((category) => {
-    // console.log("category", category);
-
     breadcrumbs.unshift({
-      id: category.category.id,
-      name: category.category.name,
-      href: ProductUtil.createSlugCategory(
-        category.category.name,
-        category.category.id
-      ),
+      id: category.id,
+      name: category.name,
+      href: ProductUtil.createSlugCategory(category.name, category.id),
     });
   });
 
