@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import NavBar from "./navbar";
-import Search from "./search";
+import Search from "../app/(guest)/search/search";
 import Logo from "../../public/assets/nest-logo-tranparent.png";
 import NavUser from "./nav-user";
 import MaxWidthWrapper from "./max-width-wrapper";
