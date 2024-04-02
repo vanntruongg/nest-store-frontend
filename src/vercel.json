@@ -1,0 +1,6 @@
+{
+  "target": "serverless",
+  "env": {
+    "API_BASE_URL": "http://localhost:9000"
+  }
+}
