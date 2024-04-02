@@ -25,4 +25,7 @@ const nextConfig = {
 
 module.exports = {
   ...nextConfig,
+  env: {
+    NEXT_PUBLIC_API_ENDPOINT: "http://localhost:9000",
+  },
 };
