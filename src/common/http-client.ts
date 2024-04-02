@@ -51,7 +51,9 @@ const request = async <Response>(
   };
 
   const baseUrl =
-    options?.baseUrl === undefined ? "http://localhost:9000" : options.baseUrl;
+    options?.baseUrl === undefined
+      ? process.env.NEXT_PUBLIC_API_ENDPOINT
+      : options.baseUrl;
 
   const fullUrl = url.startsWith("/")
     ? `${baseUrl}${url}`
