@@ -7,6 +7,7 @@ import { cn } from "../lib/utils";
 import { Toaster } from "~/components/ui/toaster";
 import AppTokenProvider from "./app-token-provider";
 import CheckoutProvider from "./checkout-provider";
+import { ImageResponse } from "next/og";
 
 import { baseOpenGraph } from "~/app/shared-metadata";
 
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
     apple: ["/apple-touch-icon.png?v=4"],
     shortcut: ["/apple-touch-icon.png"],
   },
+  metadataBase: new URL("http://localhost:3000"),
   openGraph: {
     title: "NEST Store - Cửa hàng thời trang",
     description:
@@ -34,9 +36,9 @@ export const metadata: Metadata = {
     authors: ["VTD", "Van Truong Tran"],
     ...baseOpenGraph,
   },
-  // alternates: {
-  //   canonical: "https://neststore.vercel.app",
-  // },
+  alternates: {
+    canonical: "https://neststore.vercel.app",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
