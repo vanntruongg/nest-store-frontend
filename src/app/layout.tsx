@@ -8,6 +8,8 @@ import { Toaster } from "~/components/ui/toaster";
 import AppTokenProvider from "./app-token-provider";
 import CheckoutProvider from "./checkout-provider";
 
+import { baseOpenGraph } from "~/app/shared-metadata";
+
 export const metadata: Metadata = {
   title: "NEST Store - Cửa hàng thời trang",
   description:
@@ -21,24 +23,20 @@ export const metadata: Metadata = {
     title: "NEST Store - Cửa hàng thời trang",
     description:
       "Mua sắm trực tuyến hàng triệu sản phẩm thời trang theo xu hướng mới nhất và like new. Giá tốt &amp; Miễn phí vận chuyển. Mua và bán online trong 30 giây. Mã giảm giá | NEST Store Đảm Bảo",
-    url: "https://neststore.vercel.app/",
+    url: "https://neststore.vercel.app",
     siteName: "NEST Store",
     images: [
       {
         url: "/assets/og-image.png", // Must be an absolute URL
-        width: 800,
-        height: 600,
-      },
-      {
-        url: "/assets/og-image.png", // Must be an absolute URL
-        width: 1800,
-        height: 1600,
-        alt: "Nest store image",
       },
     ],
-    locale: "vi_VN",
-    type: "website",
+    publishedTime: "2024-04-03T11:34:00.000Z",
+    authors: ["VTD", "Van Truong Tran"],
+    ...baseOpenGraph,
   },
+  // alternates: {
+  //   canonical: "https://neststore.vercel.app",
+  // },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

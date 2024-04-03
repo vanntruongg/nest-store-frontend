@@ -6,12 +6,8 @@ import Footer from "~/components/footer";
 
 export const metadata: Metadata = {
   title: "NEST Store - Cửa hàng thời trang",
-  description: "NEST Store build by Van Truong Tran",
-  icons: {
-    icon: ["/favicon.ico"],
-    apple: ["/apple-touch-icon.png?v=4"],
-    shortcut: ["/apple-touch-icon.png"],
-  },
+  description:
+    "Mua sắm trực tuyến hàng triệu sản phẩm thời trang theo xu hướng mới nhất và like new. Giá tốt &amp; Miễn phí vận chuyển. Mua và bán online trong 30 giây. Mã giảm giá | NEST Store Đảm Bảo",
 };
 
 export default function GuestLayout({ children }: { children: ReactNode }) {
