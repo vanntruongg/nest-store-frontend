@@ -5,7 +5,7 @@ interface IItem {
   name: string;
   category: string;
   imageUrl: string;
-  stock: number;
+  stock?: number;
 }
 interface ICartItem {
   email: string;
