@@ -11,11 +11,33 @@ import CheckoutProvider from "./checkout-provider";
 export const metadata: Metadata = {
   title: "NEST Store - Cửa hàng thời trang",
   description:
-    "Mua sắm trực tuyến hàng triệu sản phẩm thời trang theo xu hướng mới nhất. Giá tốt &amp; Miễn phí vận chuyển. Mua và bán online trong 30 giây. Mã giảm giá | NEST Đảm Bảo",
+    "Mua sắm trực tuyến hàng triệu sản phẩm thời trang theo xu hướng mới nhất và like new. Giá tốt &amp; Miễn phí vận chuyển. Mua và bán online trong 30 giây. Mã giảm giá | NEST Store Đảm Bảo",
   icons: {
     icon: ["/favicon.ico"],
     apple: ["/apple-touch-icon.png?v=4"],
     shortcut: ["/apple-touch-icon.png"],
+  },
+  openGraph: {
+    title: "NEST Store - Cửa hàng thời trang",
+    description:
+      "Mua sắm trực tuyến hàng triệu sản phẩm thời trang theo xu hướng mới nhất và like new. Giá tốt &amp; Miễn phí vận chuyển. Mua và bán online trong 30 giây. Mã giảm giá | NEST Store Đảm Bảo",
+    url: "https://nextjs.org",
+    siteName: "Next.js",
+    images: [
+      {
+        url: "https://nextjs.org/og.png", // Must be an absolute URL
+        width: 800,
+        height: 600,
+      },
+      {
+        url: "https://nextjs.org/og-alt.png", // Must be an absolute URL
+        width: 1800,
+        height: 1600,
+        alt: "My custom alt",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
   },
 };
 
