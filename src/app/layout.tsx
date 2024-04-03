@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     apple: ["/apple-touch-icon.png?v=4"],
     shortcut: ["/apple-touch-icon.png"],
   },
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL("https://neststore.vercel.app"),
   openGraph: {
     title: "NEST Store - Cửa hàng thời trang",
     description:
