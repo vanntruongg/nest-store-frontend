@@ -25,12 +25,12 @@ export const metadata: Metadata = {
     siteName: "NEST Store",
     images: [
       {
-        url: "/assets/homepage.png", // Must be an absolute URL
+        url: "/assets/og-image.png", // Must be an absolute URL
         width: 800,
         height: 600,
       },
       {
-        url: "/assets/homepage.png", // Must be an absolute URL
+        url: "/assets/og-image.png", // Must be an absolute URL
         width: 1800,
         height: 1600,
         alt: "Nest store image",
