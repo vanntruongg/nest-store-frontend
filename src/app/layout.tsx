@@ -21,22 +21,22 @@ export const metadata: Metadata = {
     title: "NEST Store - Cửa hàng thời trang",
     description:
       "Mua sắm trực tuyến hàng triệu sản phẩm thời trang theo xu hướng mới nhất và like new. Giá tốt &amp; Miễn phí vận chuyển. Mua và bán online trong 30 giây. Mã giảm giá | NEST Store Đảm Bảo",
-    url: "https://nextjs.org",
-    siteName: "Next.js",
+    url: "https://neststore.vercel.app/",
+    siteName: "NEST Store",
     images: [
       {
-        url: "https://nextjs.org/og.png", // Must be an absolute URL
+        url: "/assets/homepage.png", // Must be an absolute URL
         width: 800,
         height: 600,
       },
       {
-        url: "https://nextjs.org/og-alt.png", // Must be an absolute URL
+        url: "/assets/homepage.png", // Must be an absolute URL
         width: 1800,
         height: 1600,
-        alt: "My custom alt",
+        alt: "Nest store image",
       },
     ],
-    locale: "en_US",
+    locale: "vi_VN",
     type: "website",
   },
 };
