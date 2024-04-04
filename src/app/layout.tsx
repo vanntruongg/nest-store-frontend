@@ -7,7 +7,6 @@ import { cn } from "../lib/utils";
 import { Toaster } from "~/components/ui/toaster";
 import AppTokenProvider from "./app-token-provider";
 import CheckoutProvider from "./checkout-provider";
-import { ImageResponse } from "next/og";
 
 import { baseOpenGraph } from "~/app/shared-metadata";
 
