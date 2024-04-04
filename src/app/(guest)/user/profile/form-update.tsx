@@ -1,62 +1,79 @@
 "use client";
+import { Button } from "~/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { Button } from "~/components/ui/button";
-import { useState } from "react";
-import { cn } from "~/lib/utils";
-import { X } from "lucide-react";
 import { useUser } from "~/hooks/useUser";
 
 export function FormUpdateUser() {
   const { user } = useUser();
-  const [showUpdate, setShowUpdate] = useState<boolean>(false);
   return (
-    <>
-      <Button variant={"outline"} onClick={() => setShowUpdate(true)}>
-        Cập nhật
-      </Button>
-      <div
-        className={cn(
-          "bg-white p-5 absolute inset-0 -translate-y-96 transition-all duration-700",
-          {
-            "translate-y-0": showUpdate,
-          }
-        )}
-      >
-        <div
-          className="absolute top-1 right-1 p-1 rounded-full hover:bg-gray-100 hover:rotate-90 transition-all duration-500 cursor-pointer"
-          onClick={() => setShowUpdate(false)}
-        >
-          <X strokeWidth={1.5} className="size-5" />
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Chỉnh sửa hồ sơ</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[525px]">
+        <DialogHeader>
+          <DialogTitle>Chỉnh sửa hồ sơ</DialogTitle>
+          <DialogDescription>
+            Thực hiện thay đổi cho hồ sơ của bạn ở đây. Nhấp vào lưu khi bạn
+            hoàn tất.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="lastName" className="text-right">
+              Họ
+            </Label>
+            <Input
+              id="lastName"
+              defaultValue={user.lastName}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="firstName" className="text-right">
+              Tên
+            </Label>
+            <Input
+              id="firstName"
+              defaultValue={user.firstName}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="phone" className="text-right">
+              Số điện thoại
+            </Label>
+            <Input
+              id="phone"
+              defaultValue={user.phone}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="address" className="text-right">
+              Địa chỉ
+            </Label>
+            <Input
+              id="address"
+              defaultValue={user.address}
+              className="col-span-3"
+            />
+          </div>
         </div>
-        <div className="max-w-2xl min-w-[600px]">
-          <form action="" className="flex flex-col gap-4">
-            <div className="flex items-center gap-4">
-              <Label className="w-40">Họ:</Label>
-              <Input />
-            </div>
-            <div className="flex items-center gap-4">
-              <Label className="w-40">Tên:</Label>
-              <Input />
-            </div>
-            <div className="flex items-center gap-4">
-              <Label className="w-40">Số điện thoại:</Label>
-              <Input
-                type="number"
-                onKeyDown={(e) =>
-                  ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()
-                }
-              />
-            </div>
-            <div className="flex items-center gap-4">
-              <Label className="w-40">Địa chỉ:</Label>
-              <Input />
-            </div>
-
-            <Button className="self-end">Lưu</Button>
-          </form>
-        </div>
-      </div>
-    </>
+        <DialogFooter>
+          <Button type="submit">Lưu thay đổi</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
