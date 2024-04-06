@@ -21,7 +21,9 @@ const BREADRUMBS = [
 
 const getDataAndSort = async () => {
   const result = await productApi.getCategory();
+
   const data: CategoryModel[] = result.payload.data;
+
   const categories: ICategory[] = [];
   data.map((category) =>
     categories.unshift({ category: category, subCategories: [] })
