@@ -1,5 +1,5 @@
 "use client";
-import { Category, ICategory } from "~/common/model/product.model";
+import { ICategory } from "~/common/model/product.model";
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +9,6 @@ import {
 import { buttonVariants } from "../../../components/ui/button";
 import { cn } from "~/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
 interface ListCategoryProps {
   categories: ICategory[];
@@ -27,6 +26,7 @@ const ListCategory = ({ categories, fontSize }: ListCategoryProps) => {
     params.set("category", categoryId.toString());
     router.push(pathname + "?" + params.toString());
   };
+  console.log(categories);
 
   return (
     <div className="flex flex-col gap-2 items-start">
