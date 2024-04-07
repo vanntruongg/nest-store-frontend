@@ -15,6 +15,7 @@ import { toast } from "~/components/ui/use-toast";
 import { useCart } from "~/hooks/useCart";
 import useDebounce from "~/hooks/useDebounce";
 import { cn } from "~/lib/utils";
+import productApi from "~/apis/produc-api";
 
 interface CartItemProps {
   item: IItem;
@@ -27,7 +28,16 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
   const { items, addItem, removeItem, updateQuantityItemCheckOut } =
     useCheckout();
   const [quantity, setQuantity] = useState<number>(item.quantity);
+  const [stock, setStock] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await productApi.getStockById(item.id);
+      setStock(result.payload.data);
+    };
+    fetchData();
+  }, []);
 
   // delay call api when increase or decrease quantity continuously
   const debounce = useDebounce(quantity, 500);
@@ -52,8 +62,10 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
   };
 
   const setIncreaseQuantity = () => {
-    const newQuantity = quantity + 1;
-    setQuantity(newQuantity);
+    if (quantity < stock) {
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+    }
   };
 
   const setDecreaseQuantity = () => {
@@ -83,6 +95,7 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
       await cartApi.udpate(data);
       fetchData();
     } catch (error) {
+      setQuantity(item.quantity);
       BaseUtil.handleErrorApi({ error });
     } finally {
       setLoading(false);
@@ -134,9 +147,9 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
                 {item.name}
               </Link>
             </h3>
-            <div className="flex">
+            <div className="flex gap-1">
               <span>Còn lại:</span>
-              <p>{item.stock} 1</p>
+              <p className="text-red-400">{stock}</p>
             </div>
           </div>
         </div>
@@ -162,7 +175,12 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
               <div className="flex flex-col divide-y divide-gray-300">
                 <button
                   onClick={setIncreaseQuantity}
-                  className="p-1 text-gray-500 hover:bg-black hover:text-white transition-all duration-300"
+                  className={cn(
+                    "p-1 text-gray-500 hover:bg-black hover:text-white transition-all duration-300",
+                    {
+                      "opacity-20 pointer-events-none": quantity === stock,
+                    }
+                  )}
                 >
                   <ChevronUp strokeWidth={1.5} className="size-5" />
                 </button>
