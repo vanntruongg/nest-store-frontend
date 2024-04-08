@@ -16,6 +16,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         ref={ref}
         {...props}
+        onKeyDown={(e) => {
+          if (type === "number") {
+            ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
+          }
+        }}
       />
     );
   }

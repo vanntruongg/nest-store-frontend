@@ -18,6 +18,7 @@ export class EndpointUtil {
     PRODUCT: {
       GET_LIST: "/product/products",
       GET_BY_ID: "/product/get",
+      GET_STOCK_BY_ID: "/product/get/stock",
       GET_BY_NAME: "/product/get/name",
       GET_ALL_CATEGORY: "/product/category",
       GET_ALL_SUBCATEGORY: "/product/category/subcategory/all-level",
@@ -28,6 +29,9 @@ export class EndpointUtil {
       UPDATE: "/cart/update",
       REMOVE: "/cart/remove",
     },
-    ORDER: {},
+    ORDER: {
+      GET_URL_PAYMENT_VNPAY: "/order/get-link-payment",
+      GET_ALL_PAYMENT_METHOD: "/order/methods",
+    },
   };
 }

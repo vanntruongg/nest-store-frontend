@@ -12,7 +12,7 @@ export default function CheckoutProvider({
   const { clearCheckout } = useCheckout();
 
   useEffect(() => {
-    if (pathname !== "/checkout") {
+    if (pathname !== "/checkout" && pathname !== "/cart") {
       clearCheckout();
     }
   }, [pathname]);

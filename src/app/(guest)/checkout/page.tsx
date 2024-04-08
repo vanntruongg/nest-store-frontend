@@ -4,14 +4,29 @@ import { useEffect, useMemo, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { useCheckout } from "~/hooks/useCheckout";
-import { paymentMethods } from "~/static";
 import { ProductUtil } from "~/common/utility/product.util";
 import { Loader2 } from "lucide-react";
+import { BaseUtil } from "~/common/utility/base.util";
+import orderApi from "~/apis/order-api";
+import {
+  IOrderRequest,
+  IOrderShippingDetail,
+} from "~/common/model/order.model";
+import { ShippingDetail } from "./shipping-detail";
+import { toast } from "~/components/ui/use-toast";
+import { PaymentMethod } from "./payment-method";
+import { useUser } from "~/hooks/useUser";
+import { UpDateShippingDetail } from "./update-shipping-detail";
 
 const CheckOutPage = () => {
   const { items } = useCheckout();
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<number>(1);
+  const { user } = useUser();
+  const [paymentMethod, setPaymentMethod] = useState<number>(1);
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [shippingDetail, setShippingDetail] = useState<IOrderShippingDetail>({
+    phone: "",
+    address: "",
+  });
 
   useEffect(() => {
     setIsMounted(true);
@@ -22,6 +37,53 @@ const CheckOutPage = () => {
     [items]
   );
 
+  const handleCheckOut = () => {
+    if (paymentMethod === 1) {
+      processPaymentWithCOD();
+    } else {
+      processPaymentWithVNPAY();
+    }
+  };
+
+  const processPaymentWithCOD = async () => {
+    try {
+      if (!BaseUtil.isShippingDetailEmpty(shippingDetail)) {
+        const orderRequest: IOrderRequest = {
+          email: user.email,
+          phone: shippingDetail.phone,
+          address: shippingDetail.address,
+          totalPrice: totalPrice,
+          paymentMethodId: "",
+          listProduct: [],
+        };
+        console.log(orderRequest);
+      } else {
+        toast({
+          description: "Thiếu thông tin giao hàng",
+          variant: "destructive",
+          action: (
+            <UpDateShippingDetail
+              shippingDetail={shippingDetail}
+              setShippingDetail={setShippingDetail}
+            />
+          ),
+        });
+      }
+
+      // const result = await orderApi.createOrder();
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    }
+  };
+  const processPaymentWithVNPAY = async () => {
+    try {
+      const result = await orderApi.getUrlPaymentVNPay(totalPrice);
+      console.log(result);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6 mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">
       <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-3xl">
@@ -29,18 +91,10 @@ const CheckOutPage = () => {
       </h1>
 
       {/* Address */}
-      <div className="bg-white p-4 px-8">
-        <p className="text-lg text-primary">Địa chỉ nhận hàng</p>
-        <div className="flex justify-between items-center py-2">
-          <div className="">Văn Trường (+84) 357749210</div>
-          <div className="">
-            Nguyễn Văn Linh, Phường An Khánh, Quận Ninh Kiều, Cần Thơ
-          </div>
-          <Button variant={"link"} className="">
-            Thay đổi
-          </Button>
-        </div>
-      </div>
+      <ShippingDetail
+        shippingDetail={shippingDetail}
+        setShippingDetail={setShippingDetail}
+      />
 
       {/* List items */}
       <div className="h-full w-full bg-white py-6 divide-y relative">
@@ -92,25 +146,10 @@ const CheckOutPage = () => {
       </div>
       {/* Order */}
       <div className="rounded-sm divide-y">
-        <div className="flex items-center gap-4 bg-white p-4">
-          <p>Phương thức thanh toán</p>
-          <div className="flex gap-2">
-            {paymentMethods.map(({ id, method }) => (
-              <div
-                key={id}
-                className={cn(
-                  "border p-2 cursor-pointer hover:border-primary hover:text-primary transition-all duration-300",
-                  {
-                    "border-primary text-primary": selectedPaymentMethod === id,
-                  }
-                )}
-                onClick={() => setSelectedPaymentMethod(id)}
-              >
-                {method}
-              </div>
-            ))}
-          </div>
-        </div>
+        <PaymentMethod
+          paymentMethod={paymentMethod}
+          setPaymentMethod={setPaymentMethod}
+        />
 
         <section className="flex items-center justify-between bg-white py-4 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-6">
           <div className="flex items-center justify-between gap-4 border-gray-200">
@@ -121,7 +160,10 @@ const CheckOutPage = () => {
               {isMounted ? (
                 ProductUtil.formatPrice(totalPrice)
               ) : (
-                <Loader2 className="size-4 animate-spin text-muted-foreground" />
+                <div className="flex items-center gap-1 text-muted-foreground text-sm">
+                  <Loader2 className="size-4 animate-spin" />
+                  <p>Loading...</p>
+                </div>
               )}
             </div>
           </div>
@@ -132,8 +174,9 @@ const CheckOutPage = () => {
                   isMounted && items.length === 0,
               })}
               size={"lg"}
+              onClick={handleCheckOut}
             >
-              Thanh toán
+              Đặt hàng
             </Button>
           </div>
         </section>

@@ -1,6 +1,7 @@
 import { UseFormSetError } from "react-hook-form";
 import { toast } from "~/components/ui/use-toast";
 import { EntityError } from "../http-client";
+import { IOrderShippingDetail } from "../model/order.model";
 
 export class BaseUtil {
   static handleErrorApi({
@@ -25,4 +26,8 @@ export class BaseUtil {
       });
     }
   }
+
+  static isShippingDetailEmpty = (shippingDetail: IOrderShippingDetail) => {
+    return !shippingDetail.phone || !shippingDetail.address;
+  };
 }

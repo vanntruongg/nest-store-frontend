@@ -15,6 +15,8 @@ import { CheckedState } from "@radix-ui/react-checkbox";
 import CartItem from "~/app/(guest)/cart/cart-item";
 import { IItem } from "~/common/model/cart.model";
 import { useCart } from "~/hooks/useCart";
+import { BaseUtil } from "~/common/utility/base.util";
+import Loading from "~/components/loading";
 
 const Cart = () => {
   const { user } = useUser();
@@ -22,6 +24,7 @@ const Cart = () => {
   const { items, addItems, clearCheckout } = useCheckout();
   const [products, setProducts] = useState<IItem[]>([]);
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     fetchData();
@@ -29,10 +32,18 @@ const Cart = () => {
   }, []);
 
   const fetchData = async () => {
-    const result = await cartApi.getAll(user.email);
-    const data = result.payload.data.items || [];
-    setProducts(data);
-    setItemCart(data);
+    setLoading(true);
+    try {
+      const result = await cartApi.getAll(user.email);
+
+      const data = result.payload.data.items || [];
+      setProducts(data);
+      setItemCart(data);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const toggleSelectAll = (checked: CheckedState) => {
@@ -49,6 +60,7 @@ const Cart = () => {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">
+      {loading && <Loading />}
       <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-3xl">
         Giỏ hàng
       </h1>

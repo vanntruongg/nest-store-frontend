@@ -12,7 +12,7 @@ export interface ITooltipCustomProps {
   trigger: any;
   customClick?: (params: any) => void;
   options?: any;
-  className: string;
+  className?: string;
 }
 
 const TooltipCustom = ({

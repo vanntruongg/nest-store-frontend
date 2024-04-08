@@ -9,6 +9,10 @@ const productApi = {
     ),
   getProductById: (productId: number) =>
     httpClient.get<any>(EndpointUtil.NEST.PRODUCT.GET_BY_ID + `/${productId}`),
+  getStockById: (productId: number) =>
+    httpClient.get<any>(
+      EndpointUtil.NEST.PRODUCT.GET_STOCK_BY_ID + `/${productId}`
+    ),
   getProductByName: (name: string, limit: number = 10) =>
     httpClient.get<any>(
       EndpointUtil.NEST.PRODUCT.GET_BY_NAME + `?name=${name}&limit=${limit}`

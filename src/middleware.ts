@@ -3,9 +3,9 @@ import type { NextRequest } from "next/server";
 
 const authPaths = ["/login", "/register"];
 const privatePaths = [
-  "/user/profile",
-  "/user/password",
-  "/user/purchase",
+  // "/user/profile",
+  // "/user/password",
+  // "/user/purchase",
   "/cart",
   "/checkout",
 ];
