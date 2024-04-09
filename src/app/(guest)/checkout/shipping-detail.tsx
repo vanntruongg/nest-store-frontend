@@ -1,44 +1,116 @@
 "use client";
+import { useCheckout } from "~/hooks/useCheckout";
+import { Button } from "~/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import { useEffect, useState } from "react";
-import { IOrderShippingDetail } from "~/common/model/order.model";
 import { useUser } from "~/hooks/useUser";
-import { UpDateShippingDetail } from "./update-shipping-detail";
+import { BaseUtil } from "~/common/utility/base.util";
+import IconTextLoading from "~/components/icon-text-loading";
 
-interface IShippingDetailProps {
-  shippingDetail: IOrderShippingDetail;
-  setShippingDetail: (shippingDetail: IOrderShippingDetail) => void;
-}
-
-export function ShippingDetail({
-  shippingDetail,
-  setShippingDetail,
-}: IShippingDetailProps) {
+export function ShippingDetail() {
   const { user } = useUser();
-  const [phone, setPhone] = useState<number>();
-  const [address, setAddress] = useState<string>();
+  const { shippingDetail, setShippingDetail } = useCheckout();
+  const [phone, setPhone] = useState<string>(shippingDetail.phone);
+  const [address, setAddress] = useState<string>(shippingDetail.address);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
-    setShippingDetail({
-      phone: user.phone || "",
-      address: user.address || "",
-    });
-  }, []);
+    setIsMounted(true);
+    if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
+      setShippingDetail(user.phone || "", user.address || "");
+    }
+  }, [isMounted]);
+
+  const handleSaveChanges = () => {
+    setShippingDetail(phone, address);
+  };
+
   return (
     <div className="bg-white p-4 px-8">
       <p className="text-lg text-primary">Địa chỉ nhận hàng</p>
       <div className="w-full flex justify-between gap-8 items-center py-2">
         <div className="w-full flex items-center gap-2 text-nowrap">
           <p className="text-muted-foreground">Số điện thoại:</p>
-          <p className="font-medium">{shippingDetail.phone || `...`}</p>
+          {isMounted ? (
+            <p className="font-medium">
+              {shippingDetail.phone ? shippingDetail.phone : `...`}
+            </p>
+          ) : (
+            <IconTextLoading />
+          )}
         </div>
         <div className="w-full flex items-center gap-2 text-nowrap">
           <p className="text-muted-foreground">Địa chỉ:</p>
-          <p className="font-medium">{shippingDetail.address || `...`}</p>
+          {isMounted ? (
+            <p className="font-medium">
+              {shippingDetail.address ? shippingDetail.address : `...`}
+            </p>
+          ) : (
+            <IconTextLoading />
+          )}
         </div>
-        <UpDateShippingDetail
-          shippingDetail={shippingDetail}
-          setShippingDetail={setShippingDetail}
-        />
+
+        {/* update */}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">Cập nhật thông tin giao hàng</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[625px]">
+            <DialogHeader>
+              <DialogTitle>Cập nhật thông tin giao hàng</DialogTitle>
+              <DialogDescription>
+                Thêm mới hoặc cập nhật địa chỉ giao hàng
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="flex gap-2 items-center">
+                <Label htmlFor="phone" className="min-w-24">
+                  Số điện thoại
+                </Label>
+                <Input
+                  type="number"
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className=""
+                />
+              </div>
+              <div className="flex gap-2 items-center">
+                <Label htmlFor="address" className="min-w-24">
+                  Địa chỉ
+                </Label>
+                <Input
+                  id="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className=""
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleSaveChanges}
+                >
+                  Lưu thay đổi
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
