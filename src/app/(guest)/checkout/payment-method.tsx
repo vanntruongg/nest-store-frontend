@@ -1,27 +1,19 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import orderApi from "~/apis/order-api";
 import { IPaymentMethod } from "~/common/model/order.model";
 import TooltipCustom from "~/components/tooltip-custom";
+import { useCheckout } from "~/hooks/useCheckout";
 import { cn } from "~/lib/utils";
 
-export interface IPaymentMethodProps {
-  paymentMethod: number;
-  setPaymentMethod: Dispatch<SetStateAction<number>>;
-}
-
-export function PaymentMethod({
-  paymentMethod,
-  setPaymentMethod,
-}: IPaymentMethodProps) {
+export function PaymentMethod() {
+  const { paymentMethod, setPaymentMethod } = useCheckout();
   const [methods, setMethods] = useState<IPaymentMethod[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await orderApi.getAllPaymentMethod();
-      console.log(result);
-
       setMethods(result.payload.data);
     };
     fetchData();
