@@ -5,29 +5,21 @@ import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { useCheckout } from "~/hooks/useCheckout";
 import { ProductUtil } from "~/common/utility/product.util";
-import { Loader2 } from "lucide-react";
 import { BaseUtil } from "~/common/utility/base.util";
 import orderApi from "~/apis/order-api";
-import {
-  IOrderRequest,
-  IOrderShippingDetail,
-} from "~/common/model/order.model";
+import { IOrderDetailRequest, IOrderRequest } from "~/common/model/order.model";
 import { ShippingDetail } from "./shipping-detail";
 import { toast } from "~/components/ui/use-toast";
 import { PaymentMethod } from "./payment-method";
 import { useUser } from "~/hooks/useUser";
-import { UpDateShippingDetail } from "./update-shipping-detail";
+import IconTextLoading from "~/components/icon-text-loading";
+import Loading from "~/components/loading";
 
 const CheckOutPage = () => {
-  const { items } = useCheckout();
+  const { items, shippingDetail, paymentMethod } = useCheckout();
   const { user } = useUser();
-  const [paymentMethod, setPaymentMethod] = useState<number>(1);
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const [shippingDetail, setShippingDetail] = useState<IOrderShippingDetail>({
-    phone: "",
-    address: "",
-  });
-
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     setIsMounted(true);
   }, [isMounted]);
@@ -38,6 +30,21 @@ const CheckOutPage = () => {
   );
 
   const handleCheckOut = () => {
+    if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
+      toast({
+        description: "Thiếu thông tin giao hàng",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (paymentMethod === 0) {
+      toast({
+        description: "Vui lòng chọn phương thức thanh toán",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (paymentMethod === 1) {
       processPaymentWithCOD();
     } else {
@@ -46,65 +53,62 @@ const CheckOutPage = () => {
   };
 
   const processPaymentWithCOD = async () => {
+    setLoading(true);
     try {
-      if (!BaseUtil.isShippingDetailEmpty(shippingDetail)) {
-        const orderRequest: IOrderRequest = {
-          email: user.email,
-          phone: shippingDetail.phone,
-          address: shippingDetail.address,
-          totalPrice: totalPrice,
-          paymentMethodId: "",
-          listProduct: [],
-        };
-        console.log(orderRequest);
-      } else {
-        toast({
-          description: "Thiếu thông tin giao hàng",
-          variant: "destructive",
-          action: (
-            <UpDateShippingDetail
-              shippingDetail={shippingDetail}
-              setShippingDetail={setShippingDetail}
-            />
-          ),
-        });
-      }
-
-      // const result = await orderApi.createOrder();
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    }
-  };
-  const processPaymentWithVNPAY = async () => {
-    try {
-      const result = await orderApi.getUrlPaymentVNPay(totalPrice);
+      const orderDetailRequest: IOrderDetailRequest[] = items.map((item) => ({
+        productId: item.id,
+        productName: item.name,
+        productPrice: item.price,
+        quantity: item.quantity,
+      }));
+      const orderRequest: IOrderRequest = {
+        email: user.email,
+        phone: shippingDetail.phone,
+        address: shippingDetail.address,
+        totalPrice: totalPrice,
+        paymentMethodId: paymentMethod,
+        listProduct: orderDetailRequest,
+      };
+      const result = await orderApi.createOrder(orderRequest);
       console.log(result);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
+    }
+  };
+  const processPaymentWithVNPAY = async () => {
+    setLoading(true);
+    try {
+      const result = await orderApi.getUrlPaymentVNPay(totalPrice);
+      window.location.href = result.payload.data;
+      // console.log(result.payload.data);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex flex-col gap-6 mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">
+      {loading && <Loading />}
       <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-3xl">
         Thanh toán
       </h1>
 
       {/* Address */}
-      <ShippingDetail
-        shippingDetail={shippingDetail}
-        setShippingDetail={setShippingDetail}
-      />
+      <ShippingDetail />
 
       {/* List items */}
       <div className="h-full w-full bg-white py-6 divide-y relative">
         <div className="px-8 py-2 flex items-center">
-          <div className="flex w-full">
+          <div className="w-full grid grid-cols-6 gap-4">
             <div className="flex-1 col-span-3">Sản phẩm</div>
-            <div className="flex flex-1 justify-between text-muted-foreground">
-              <span className="col-span-2">Đơn giá</span>
-              <span className="col-span-2">Số lượng</span>
-              <span className="col-span-2">Thành tiền</span>
+            <div className="col-span-3 flex justify-between text-muted-foreground">
+              <span className="w-full text-center">Đơn giá</span>
+              <span className="w-full text-center">Số lượng</span>
+              <span className="w-full text-center">Thành tiền</span>
             </div>
           </div>
         </div>
@@ -114,9 +118,9 @@ const CheckOutPage = () => {
             items.map((item) => {
               return (
                 <div key={item.id} className="flex items-center py-6 sm:py-10">
-                  <div className="flex w-full">
-                    <div className="flex flex-1 gap-4">
-                      <div className="relative size-24">
+                  <div className="w-full grid grid-cols-6 gap-4">
+                    <div className="flex flex-1 gap-4 col-span-3">
+                      <div className="relative size-24 aspect-square">
                         <Image
                           src={item.imageUrl}
                           fill
@@ -129,12 +133,12 @@ const CheckOutPage = () => {
                         <h3 className="text-base font-medium">{item.name}</h3>
                       </div>
                     </div>
-                    <div className="flex flex-1 items-center justify-between text-sm text-muted-foreground">
-                      <div className="">
+                    <div className="col-span-3 flex flex-1 items-center justify-between text-sm text-muted-foreground">
+                      <div className="w-full text-center">
                         {ProductUtil.formatPrice(item.price)}
                       </div>
-                      <div className="">{item.quantity}</div>
-                      <div className="">
+                      <div className="w-full text-center">{item.quantity}</div>
+                      <div className="w-full text-center">
                         {ProductUtil.formatPrice(item.price * item.quantity)}
                       </div>
                     </div>
@@ -146,10 +150,7 @@ const CheckOutPage = () => {
       </div>
       {/* Order */}
       <div className="rounded-sm divide-y">
-        <PaymentMethod
-          paymentMethod={paymentMethod}
-          setPaymentMethod={setPaymentMethod}
-        />
+        <PaymentMethod />
 
         <section className="flex items-center justify-between bg-white py-4 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-6">
           <div className="flex items-center justify-between gap-4 border-gray-200">
@@ -160,10 +161,7 @@ const CheckOutPage = () => {
               {isMounted ? (
                 ProductUtil.formatPrice(totalPrice)
               ) : (
-                <div className="flex items-center gap-1 text-muted-foreground text-sm">
-                  <Loader2 className="size-4 animate-spin" />
-                  <p>Loading...</p>
-                </div>
+                <IconTextLoading />
               )}
             </div>
           </div>

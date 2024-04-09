@@ -1,3 +1,4 @@
+"use client";
 import { Mail, MapPin } from "lucide-react";
 import MaxWidthWrapper from "~/components/max-width-wrapper";
 import { Button } from "~/components/ui/button";
