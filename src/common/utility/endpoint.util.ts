@@ -30,8 +30,12 @@ export class EndpointUtil {
       REMOVE: "/cart/remove",
     },
     ORDER: {
+      CREATE_ORDER: "/order/create",
       GET_URL_PAYMENT_VNPAY: "/order/get-link-payment",
       GET_ALL_PAYMENT_METHOD: "/order/methods",
+      GET_BY_EMAIL: "/order/get/email",
+      GET_BY_STATUS: "/order/get/status",
+      GET_BY_EMAIL_AND_STATUS: "/order/get/email/status",
     },
   };
 }
