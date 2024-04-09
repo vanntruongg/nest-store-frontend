@@ -1,3 +1,14 @@
+interface IOrder {
+  orderId: number;
+  phone: string;
+  address: string;
+  totalPrice: number;
+  notes: string;
+  orderStatus: string;
+  paymentMethod: string;
+  orderDetail: IOrderDetail[];
+}
+
 interface IOrderShippingDetail {
   phone: string;
   address: string;
@@ -7,15 +18,19 @@ interface IOrderRequest {
   phone: string;
   address: string;
   totalPrice: number;
-  paymentMethodId: string;
+  paymentMethodId: number;
   listProduct: IOrderDetailRequest[];
 }
-interface IOrderDetailRequest {
+interface IOrderDetail {
+  orderDetailId: number;
   productId: number;
   productName: string;
   quantity: number;
   productPrice: number;
+  productImage: string;
 }
+
+type IOrderDetailRequest = Omit<IOrderDetail, "orderDetailId">;
 
 interface IPaymentMethod {
   paymentMethodId: number;
@@ -28,4 +43,6 @@ export type {
   IOrderRequest,
   IOrderDetailRequest,
   IPaymentMethod,
+  IOrder,
+  IOrderDetail,
 };
