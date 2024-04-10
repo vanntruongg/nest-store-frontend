@@ -6,12 +6,14 @@ import { IOrderShippingDetail } from "~/common/model/order.model";
 type CheckoutState = {
   items: IItem[];
   shippingDetail: IOrderShippingDetail;
+  notes: string;
   paymentMethod: number;
   addItem: (item: IItem, quantity: number) => void;
   removeItem: (itemId: number) => void;
   addItems: (items: IItem[]) => void;
   setShippingDetail: (phone: string, address: string) => void;
   setPaymentMethod: (methodId: number) => void;
+  setNotes: (notes: string) => void;
   clearCheckout: () => void;
   updateQuantityItemCheckOut: (itemId: number, quantity: number) => void;
 };
@@ -22,6 +24,7 @@ export const useCheckout = create<CheckoutState>()(
       items: [],
       shippingDetail: { phone: "", address: "" },
       paymentMethod: 0,
+      notes: "",
       addItem: (item, quantity) =>
         set((state) => {
           item.quantity = quantity;
@@ -48,6 +51,10 @@ export const useCheckout = create<CheckoutState>()(
       setPaymentMethod: (methodId) =>
         set((state) => {
           return { paymentMethod: methodId };
+        }),
+      setNotes: (notes) =>
+        set((state) => {
+          return { notes: notes };
         }),
       clearCheckout: () =>
         set({
