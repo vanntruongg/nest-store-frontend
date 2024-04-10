@@ -14,9 +14,12 @@ import { PaymentMethod } from "./payment-method";
 import { useUser } from "~/hooks/useUser";
 import IconTextLoading from "~/components/icon-text-loading";
 import Loading from "~/components/loading";
+import { Label } from "~/components/ui/label";
+import { Textarea } from "~/components/ui/textarea";
 
 const CheckOutPage = () => {
-  const { items, shippingDetail, paymentMethod } = useCheckout();
+  const { items, notes, shippingDetail, setNotes, paymentMethod } =
+    useCheckout();
   const { user } = useUser();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,6 +40,7 @@ const CheckOutPage = () => {
       });
       return;
     }
+    // paymentMethod === 0 : payment method has not been selected
     if (paymentMethod === 0) {
       toast({
         description: "Vui lòng chọn phương thức thanh toán",
@@ -59,6 +63,7 @@ const CheckOutPage = () => {
         productId: item.id,
         productName: item.name,
         productPrice: item.price,
+        productImage: item.imageUrl,
         quantity: item.quantity,
       }));
       const orderRequest: IOrderRequest = {
@@ -66,6 +71,7 @@ const CheckOutPage = () => {
         phone: shippingDetail.phone,
         address: shippingDetail.address,
         totalPrice: totalPrice,
+        notes: notes,
         paymentMethodId: paymentMethod,
         listProduct: orderDetailRequest,
       };
@@ -150,6 +156,16 @@ const CheckOutPage = () => {
       </div>
       {/* Order */}
       <div className="rounded-sm divide-y">
+        {/* notes */}
+        <section className="">
+          <Label>Ghi chú:</Label>
+          <Textarea
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Lưu ý cho cửa hàng"
+          />
+        </section>
+
         <PaymentMethod />
 
         <section className="flex items-center justify-between bg-white py-4 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-6">
