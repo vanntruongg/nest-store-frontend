@@ -11,6 +11,7 @@ export class EndpointUtil {
       REFRESH_TOKEN: "/auth/refresh-token",
     },
     USER: {
+      GET_ALL: "/auth/user",
       GET_PROFILE: "/auth/profile",
       UPDATE_USER: "/auth/user/update",
       CHANGE_PASSWORD: "/auth/change-password",
