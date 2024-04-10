@@ -18,6 +18,7 @@ interface IOrderRequest {
   phone: string;
   address: string;
   totalPrice: number;
+  notes: string;
   paymentMethodId: number;
   listProduct: IOrderDetailRequest[];
 }
