@@ -71,3 +71,15 @@ export const ChangePasswordShema = z
     }
   });
 export type TChangePasswordShema = z.infer<typeof ChangePasswordShema>;
+
+// update user
+export const UpdateUserShema = z.object({
+  firstName: z.string().min(1, { message: "Vui lòng nhập tên" }).max(20),
+  lastName: z.string().min(1, { message: "Vui lòng nhập họ" }).max(20),
+  phone: z.string().max(50),
+  address: z.string(),
+  imageUrl: z.string(),
+  roles: z.array(z.string()).min(1, "Chọn ít nhất 1 vai trò"),
+});
+
+export type UpdateUserShemaType = z.TypeOf<typeof UpdateUserShema>;
