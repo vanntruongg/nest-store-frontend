@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="bg-gray-100 grid grid-cols-10">
+    <main className="max-w-[1280px] mx-auto bg-gray-100 grid grid-cols-9">
       <NavAdmin />
-      <div className="p-4 col-span-8">{children}</div>
+      <div className="p-4 col-span-7">{children}</div>
     </main>
   );
 }
