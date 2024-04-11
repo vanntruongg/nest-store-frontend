@@ -1,5 +1,11 @@
-const UserManagementPage = () => {
-  return <div className="bg-red-500">User ssssmanagement</div>;
+import { DataTable } from "./data-table";
+
+interface IUserManagementProps {}
+
+const UserManagement: React.FunctionComponent<IUserManagementProps> = (
+  props
+) => {
+  return <DataTable />;
 };
 
-export default UserManagementPage;
+export default UserManagement;
