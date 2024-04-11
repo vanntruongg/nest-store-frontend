@@ -2,6 +2,7 @@ import { UseFormSetError } from "react-hook-form";
 import { toast } from "~/components/ui/use-toast";
 import { EntityError } from "../http-client";
 import { IOrderShippingDetail } from "../model/order.model";
+import { ERole } from "./enum.util";
 
 export class BaseUtil {
   static handleErrorApi({

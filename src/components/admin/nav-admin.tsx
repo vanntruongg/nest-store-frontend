@@ -49,7 +49,7 @@ export function NavAdmin() {
               key={id}
               className="text-muted-foreground font-medium rounded-sm hover:bg-gray-100"
             >
-              <Link href={link} className="flex items-center gap-2  px-2 py-4">
+              <Link href={link} className="flex items-center gap-2 px-2 py-4">
                 {icon}
                 {label}
               </Link>
