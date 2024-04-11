@@ -38,6 +38,9 @@ import userApi from "~/apis/user-api";
 import { useEffect, useState } from "react";
 import { ERole, EUserStatus } from "~/common/utility/enum.util";
 import { cn } from "~/lib/utils";
+import { ViewUserDetail } from "./user-detail";
+import { FormUpdateUser } from "./form-update";
+import { ConfirmDelete } from "./dialog-confirm-delete";
 
 export const columns: ColumnDef<IUser>[] = [
   // {
@@ -123,7 +126,7 @@ export const columns: ColumnDef<IUser>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0"
+          className="p-0 w-full"
         >
           Trạng thái
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -134,8 +137,8 @@ export const columns: ColumnDef<IUser>[] = [
       const status: string = row.getValue("status");
       return (
         <div
-          className={cn("capitalize", {
-            "text-green-500":
+          className={cn("text-center capitalize", {
+            "bg-green-300 p-1 rounded-sm":
               (EUserStatus as { [key: string]: string })[status] ===
               EUserStatus.ACTIVE,
           })}
@@ -168,8 +171,6 @@ export const columns: ColumnDef<IUser>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const { email } = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -180,17 +181,15 @@ export const columns: ColumnDef<IUser>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
-            <DropdownMenuItem>
-              <div className=" cursor-pointer">Xem chi tiết</div>
+            <DropdownMenuItem asChild>
+              <ViewUserDetail user={row.original} />
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <div className="w-full cursor-pointer">Sửa</div>
+            <DropdownMenuItem asChild>
+              <FormUpdateUser user={row.original} />
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="w-full hover:text-red-500 cursor-pointer">
-                Xóa
-              </div>
+            <DropdownMenuItem asChild>
+              <ConfirmDelete email={row.original.email} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
