@@ -1,5 +1,8 @@
+import { jwtDecode } from "jwt-decode";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { IJWTDecoded } from "./common/model/auth.model";
+import { ERole, UserRole } from "./common/utility/enum.util";
 
 const authPaths = ["/login", "/register"];
 const privatePaths = [
@@ -10,6 +13,12 @@ const privatePaths = [
   "/checkout",
 ];
 
+const adminPaths = [
+  "/dashboard/users",
+  "/dashboard/statistic",
+  "/dashboard/orders",
+];
+
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
@@ -18,6 +27,17 @@ export function middleware(request: NextRequest) {
 
   // check private path
   if (privatePaths.some((path) => pathname.startsWith(path) && !accessToken)) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  // check admin path
+  if (adminPaths.some((path) => pathname.startsWith(path))) {
+    if (accessToken) {
+      const tokenDecoded: IJWTDecoded = jwtDecode(accessToken);
+      if (tokenDecoded.roles.includes(UserRole.ADMIN)) {
+        return NextResponse.next();
+      }
+    }
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
@@ -38,5 +58,8 @@ export const config = {
     "/user/purchase",
     "/cart",
     "/checkout",
+    "/dashboard/users",
+    "/dashboard/statistic",
+    "/dashboard/orders",
   ],
 };
