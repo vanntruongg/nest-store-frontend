@@ -30,6 +30,9 @@ import { cn } from "~/lib/utils";
 import { useToast } from "~/components/ui/use-toast";
 import { BaseUtil } from "~/common/utility/base.util";
 import { tokenStorage } from "~/common/utility/auth.util";
+import { jwtDecode } from "jwt-decode";
+import { IJWTDecoded } from "~/common/model/auth.model";
+import { ERole, UserRole } from "~/common/utility/enum.util";
 // import { clientAuthToken } from "~/lib/http";
 
 const LoginForm = () => {
@@ -62,6 +65,13 @@ const LoginForm = () => {
 
         fetchProfile();
 
+        const tokenDecoded: IJWTDecoded = jwtDecode(
+          tokenStorage.value.rawToken.accessToken
+        );
+        console.log(tokenDecoded);
+        if (tokenDecoded.roles.includes(UserRole.ADMIN)) {
+          router.push("/dashboard/statistic");
+        }
         router.back();
       }
     } catch (error: any) {
