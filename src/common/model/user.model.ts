@@ -8,7 +8,7 @@ export class IUser {
   isVerify: boolean;
   status: string;
   imageUrl?: string;
-  role: string[];
+  roles: string[];
 
   constructor() {
     this.email = "";
@@ -19,6 +19,20 @@ export class IUser {
     this.isVerify = false;
     this.status = "";
     this.imageUrl = "";
-    this.role = [];
+    this.roles = [];
   }
+}
+
+export const RoleUser = {
+  ROLE_ADMIN: "Quản trị viên",
+  ROLE_USER: "Người dùng",
+};
+
+export interface IUpdateUser {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  address: string;
+  imageUrl: string;
+  roles: string[];
 }
