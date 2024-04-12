@@ -209,7 +209,7 @@ export function DataTable() {
   useEffect(() => {
     const fetchData = async () => {
       const result = await userApi.getAllUser();
-      console.log(result.payload.data);
+      // console.log(result.payload.data);
 
       setData(result.payload.data);
     };

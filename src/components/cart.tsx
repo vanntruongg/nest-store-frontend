@@ -2,6 +2,7 @@
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { tokenStorage } from "~/common/utility/auth.util";
 import { useCart } from "~/hooks/useCart";
 
 const Cart = () => {
@@ -10,6 +11,10 @@ const Cart = () => {
 
   useEffect(() => {
     setIsMounted(true);
+
+    // if (tokenStorage.value.rawToken.accessToken) {
+    //   itemsCart.length = 0;
+    // }
   }, [isMounted]);
 
   return (

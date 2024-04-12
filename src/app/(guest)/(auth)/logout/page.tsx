@@ -4,11 +4,13 @@ import { useEffect } from "react";
 import authApi from "~/apis/auth-api";
 import { tokenStorage } from "~/common/utility/auth.util";
 import { BaseUtil } from "~/common/utility/base.util";
+import { useCheckout } from "~/hooks/useCheckout";
 import { useUser } from "~/hooks/useUser";
 
 const Logout = () => {
   const router = useRouter();
   const { clearUser } = useUser();
+  const { clearCheckout } = useCheckout();
   const searchParams = useSearchParams();
   const accessToken = searchParams.get("accessToken");
 

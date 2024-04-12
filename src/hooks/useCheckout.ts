@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { IItem } from "~/common/model/cart.model";
