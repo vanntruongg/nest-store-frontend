@@ -14,10 +14,26 @@ interface IBaseAuthToken {
   exp: number | 0;
 }
 
+interface IJWTDecoded {
+  sub: string;
+  email: string;
+  roles: TROLE[];
+  iat: number;
+  exp: number;
+}
+
 interface ITokenStorage {
   decodedAccessToken: IBaseAuthToken;
   decodedRefreshToken: IBaseAuthToken;
   rawToken: IAuthResponse;
 }
 
-export type { IUserAuth, IAuthResponse, IBaseAuthToken, ITokenStorage };
+export type TROLE = "ROLE_ADMIN" | "ROLE_USER";
+
+export type {
+  IJWTDecoded,
+  IUserAuth,
+  IAuthResponse,
+  IBaseAuthToken,
+  ITokenStorage,
+};
