@@ -63,16 +63,15 @@ const LoginForm = () => {
 
         await authApi.auth(result.payload.data);
 
-        fetchProfile();
-
         const tokenDecoded: IJWTDecoded = jwtDecode(
           tokenStorage.value.rawToken.accessToken
         );
-        console.log(tokenDecoded);
         if (tokenDecoded.roles.includes(UserRole.ADMIN)) {
           router.push("/dashboard/statistic");
+        } else {
+          router.back();
         }
-        router.back();
+        fetchProfile();
       }
     } catch (error: any) {
       BaseUtil.handleErrorApi({ error, setError: form.setError });
