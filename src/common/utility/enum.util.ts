@@ -7,12 +7,18 @@ enum EAllAllowHttpMethod {
 }
 
 enum EUserStatus {
-  "Active" = "ACTIVE",
+  "ACTIVE" = "Hoạt động",
+  "PENDING_VERIFICATION" = "Chờ xác thực",
 }
 
 enum ERole {
   "ROLE_ADMIN" = "Quản trị viên",
   "ROLE_USER" = "Người dùng",
+}
+
+enum UserRole {
+  ADMIN = "ROLE_ADMIN",
+  USER = "ROLE_USER",
 }
 
 enum EErrorCode {
@@ -36,4 +42,5 @@ export {
   EErrorCode,
   ELayoutProduct,
   EPayment,
+  UserRole,
 };

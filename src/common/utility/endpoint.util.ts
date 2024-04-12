@@ -15,6 +15,7 @@ export class EndpointUtil {
       GET_PROFILE: "/auth/profile",
       UPDATE_USER: "/auth/user/update",
       CHANGE_PASSWORD: "/auth/change-password",
+      DELETE_USER: "/auth/user/delete",
     },
     PRODUCT: {
       GET_LIST: "/product/products",
