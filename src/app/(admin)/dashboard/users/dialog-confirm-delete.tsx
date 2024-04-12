@@ -1,6 +1,7 @@
 "use client";
 import { ShieldAlert } from "lucide-react";
 import authApi from "~/apis/auth-api";
+import userApi from "~/apis/user-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { Button } from "~/components/ui/button";
 import {
@@ -12,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import { toast } from "~/components/ui/use-toast";
 
 interface IConfirmDeleteProps {
   email: string;
@@ -20,12 +22,12 @@ interface IConfirmDeleteProps {
 export function ConfirmDelete({ email }: IConfirmDeleteProps) {
   const handleDeleteUser = async () => {
     try {
-      // const result = await authApi.deleteUser(email);
+      const result = await userApi.deleteUser(email);
+      toast({ description: result.payload.message });
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }
   };
-  console.log("Delete user by email: ", email);
   return (
     <Dialog>
       <DialogTrigger asChild className="p-1.5 rounded-sm hover:bg-gray-100">
