@@ -13,7 +13,7 @@ const userApi = {
   updateUser: (data: IUpdateUser) =>
     httpClient.post<any>(EndpointUtil.NEST.USER.UPDATE_USER, data),
   deleteUser: (email: string) =>
-    httpClient.post<any>(EndpointUtil.NEST.USER.DELETE_USER + `/${email}`),
+    httpClient.delete<any>(EndpointUtil.NEST.USER.DELETE_USER + `/${email}`),
 };
 
 export default userApi;
