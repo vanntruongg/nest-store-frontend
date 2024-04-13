@@ -11,6 +11,7 @@ const orderApi = {
     ),
   getAllPaymentMethod: () =>
     httpClient.get<any>(EndpointUtil.NEST.ORDER.GET_ALL_PAYMENT_METHOD),
+  getAll: () => httpClient.get<any>(EndpointUtil.NEST.ORDER.GET_ALL),
   getAllByEmail: (email: string) =>
     httpClient.get<any>(
       EndpointUtil.NEST.ORDER.GET_BY_EMAIL + `?email=${email}`
@@ -23,6 +24,10 @@ const orderApi = {
     httpClient.get<any>(
       EndpointUtil.NEST.ORDER.GET_BY_EMAIL_AND_STATUS +
         `?email=${email}&status=${status}`
+    ),
+  updateStatus: (id: number, status: string) =>
+    httpClient.post<any>(
+      EndpointUtil.NEST.ORDER.UPDATE_STATUS + `?id=${id}&status=${status}`
     ),
 };
 
