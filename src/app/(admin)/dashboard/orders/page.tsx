@@ -1,5 +1,7 @@
+import { OrdersTable } from "./orders-table";
+
 const OrderManagement = () => {
-  return <div className="">Order Management</div>;
+  return <OrdersTable />;
 };
 
 export default OrderManagement;
