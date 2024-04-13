@@ -1,11 +1,7 @@
-import { DataTable } from "./data-table";
+import { UsersTable } from "./users-table";
 
-interface IUserManagementProps {}
-
-const UserManagement: React.FunctionComponent<IUserManagementProps> = (
-  props
-) => {
-  return <DataTable />;
+const UserManagement = () => {
+  return <UsersTable />;
 };
 
 export default UserManagement;

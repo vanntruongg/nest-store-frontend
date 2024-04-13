@@ -1,63 +1,76 @@
 "use client";
 import { ShieldAlert } from "lucide-react";
-import authApi from "~/apis/auth-api";
+import { useState } from "react";
 import userApi from "~/apis/user-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { Button } from "~/components/ui/button";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
 import { toast } from "~/components/ui/use-toast";
 
 interface IConfirmDeleteProps {
   email: string;
+  fetchData: () => void;
 }
 
-export function ConfirmDelete({ email }: IConfirmDeleteProps) {
+export function ConfirmDelete({ email, fetchData }: IConfirmDeleteProps) {
+  const [open, setOpen] = useState<boolean>(false);
   const handleDeleteUser = async () => {
     try {
       const result = await userApi.deleteUser(email);
       toast({ description: result.payload.message });
+      setOpen(false);
+      fetchData();
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }
   };
   return (
-    <Dialog>
-      <DialogTrigger asChild className="p-1.5 rounded-sm hover:bg-gray-100">
-        <div className="w-full text-sm cursor-pointer hover:text-red-500">
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger
+        asChild
+        className="p-1.5 rounded-sm hover:bg-gray-100"
+      >
+        <div
+          className="w-full text-sm cursor-pointer hover:text-red-500"
+          onClick={() => setOpen(true)}
+        >
           Xóa
         </div>
-      </DialogTrigger>
-      <DialogContent
+      </AlertDialogTrigger>
+      <AlertDialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
         className="sm:max-w-[525px]"
       >
-        <DialogHeader className="">
-          <DialogTitle className="flex">
+        <AlertDialogHeader className="">
+          <AlertDialogTitle className="flex">
             Xóa tài khoản người dùng
             <ShieldAlert className="size-5 text-yellow-500" />
-          </DialogTitle>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose asChild>
+          </AlertDialogTitle>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>
             <Button variant={"default"}>Hủy</Button>
-          </DialogClose>
-          <Button
-            variant={"secondary"}
-            type="submit"
-            onClick={handleDeleteUser}
-          >
-            Xác nhận xóa
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogCancel>
+          <AlertDialogAction>
+            <Button
+              variant={"secondary"}
+              type="submit"
+              onClick={handleDeleteUser}
+            >
+              Xác nhận xóa
+            </Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

@@ -41,9 +41,10 @@ import IconTextLoading from "~/components/icon-text-loading";
 
 interface IFormUpdateUserProps {
   user: IUser;
+  fetchData: () => void;
 }
 
-export function FormUpdateUser({ user }: IFormUpdateUserProps) {
+export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [avatarPreview, setAvatarPreview] = useState(user.imageUrl || "");
@@ -110,6 +111,7 @@ export function FormUpdateUser({ user }: IFormUpdateUserProps) {
         imageUrl,
         roles,
       });
+      fetchData();
       toast({ description: result.payload.message });
       setOpen(false);
     } catch (error) {
