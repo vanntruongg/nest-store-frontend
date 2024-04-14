@@ -55,7 +55,7 @@ const Slider = () => {
               </div>
               <Link
                 href={routes.SHOP}
-                className="border border-black px-6 py-3 text-18 text-black rounded-full font-bold font-nunito hover:shadow-md hover:bg-primary hover:text-white hover:border-primary"
+                className="border border-black px-6 py-3 text-18 text-black font-bold font-nunito hover:shadow-md hover:bg-black hover:text-white transition-all duration-200"
               >
                 Shop Now
               </Link>
@@ -77,7 +77,7 @@ const Slider = () => {
               </div>
               <Link
                 href={routes.SHOP}
-                className="border border-black px-6 py-3 text-18 text-black rounded-full font-bold font-nunito hover:shadow-md hover:bg-primary hover:text-white hover:border-primary"
+                className="border border-black px-6 py-3 text-18 text-black font-bold font-nunito hover:shadow-md hover:bg-black hover:text-white transition-all duration-200"
               >
                 Shop Now
               </Link>
@@ -99,7 +99,7 @@ const Slider = () => {
               </div>
               <Link
                 href={routes.SHOP}
-                className="border border-black px-6 py-3 text-18 text-black rounded-full font-bold font-nunito hover:shadow-md hover:bg-primary hover:text-white hover:border-primary"
+                className="border border-black px-6 py-3 text-18 text-black font-bold font-nunito hover:shadow-md hover:bg-black hover:text-white transition-all duration-200"
               >
                 Shop Now
               </Link>
