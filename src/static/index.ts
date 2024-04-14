@@ -43,3 +43,30 @@ export const navLinks: ItemNav[] = [
     ],
   },
 ];
+
+export const orderStatus = [
+  {
+    type: "ALL",
+    typeName: "Tất cả",
+  },
+  {
+    type: "PENDING_CONFIRM",
+    typeName: "Chờ xác nhận",
+  },
+  {
+    type: "PROCESSING",
+    typeName: "Đang xử lý",
+  },
+  {
+    type: "SHIPPING",
+    typeName: "Vận chuyển",
+  },
+  {
+    type: "COMPLETED",
+    typeName: "Hoàn thành",
+  },
+  {
+    type: "CANCELED",
+    typeName: "Đã hủy",
+  },
+];
