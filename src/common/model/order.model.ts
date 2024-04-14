@@ -1,5 +1,7 @@
 interface IOrder {
   orderId: number;
+  name: string;
+  email: string;
   phone: string;
   address: string;
   totalPrice: number;
@@ -10,11 +12,13 @@ interface IOrder {
 }
 
 interface IOrderShippingDetail {
+  name: string;
   phone: string;
   address: string;
 }
 interface IOrderRequest {
   email: string;
+  name: string;
   phone: string;
   address: string;
   totalPrice: number;

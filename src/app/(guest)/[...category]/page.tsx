@@ -19,6 +19,7 @@ const ProductByCateogoryPage = async ({
       href: `/${category}/${id}`,
     },
   ];
+
   return (
     <div className="flex flex-col gap-6">
       <Breadrumbs breadrumbs={BREADRUMBS} />

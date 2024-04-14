@@ -2,6 +2,7 @@ import httpClient from "~/common/http-client";
 import { EndpointUtil } from "~/common/utility/endpoint.util";
 
 const productApi = {
+  getAll: () => httpClient.get<any>(EndpointUtil.NEST.PRODUCT.GET_ALL),
   getList: (category: number, order: string, page: number) =>
     httpClient.get<any>(
       EndpointUtil.NEST.PRODUCT.GET_LIST +

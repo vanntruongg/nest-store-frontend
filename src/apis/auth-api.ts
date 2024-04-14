@@ -18,6 +18,7 @@ const authApi = {
       baseUrl: "",
     });
   },
+
   logoutFromNextServer: (accessToken: string) => {
     return httpClient.post<any>(
       EndpointUtil.NEST.AUTH.LOGOUT,

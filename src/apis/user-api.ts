@@ -1,5 +1,5 @@
 import httpClient from "~/common/http-client";
-import { IUpdateUser } from "~/common/model/user.model";
+import { IChangePasswordRequest, IUpdateUser } from "~/common/model/user.model";
 import { EndpointUtil } from "~/common/utility/endpoint.util";
 
 const userApi = {
@@ -10,6 +10,11 @@ const userApi = {
       },
     }),
   getAllUser: () => httpClient.get<any>(EndpointUtil.NEST.USER.GET_ALL),
+  changePassword: (oldPassword: string, newPassword: string) =>
+    httpClient.post<any>(EndpointUtil.NEST.USER.CHANGE_PASSWORD, {
+      oldPassword,
+      newPassword,
+    }),
   updateUser: (data: IUpdateUser) =>
     httpClient.post<any>(EndpointUtil.NEST.USER.UPDATE_USER, data),
   deleteUser: (email: string) =>

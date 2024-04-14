@@ -6,10 +6,8 @@ import ScrollToTop from "~/components/scroll-to-top";
 import { cn } from "../lib/utils";
 import { Toaster } from "~/components/ui/toaster";
 import AppTokenProvider from "./app-token-provider";
-import CheckoutProvider from "./checkout-provider";
 
 import { baseOpenGraph } from "~/app/shared-metadata";
-import CartProvider from "./cart-provider";
 
 export const metadata: Metadata = {
   title: "NEST Store - Cửa hàng thời trang",
@@ -53,9 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       >
         <ScrollToTop>
           <AppTokenProvider initialToken={{ accessToken, refreshToken }}>
-            <CartProvider>
-              <CheckoutProvider>{children}</CheckoutProvider>
-            </CartProvider>
+            {children}
           </AppTokenProvider>
         </ScrollToTop>
         <Toaster />

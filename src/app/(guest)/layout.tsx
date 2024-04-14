@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 
 import Header from "~/components/header";
 import Footer from "~/components/footer";
+import CartProvider from "../cart-provider";
+import CheckoutProvider from "../checkout-provider";
 
 export const metadata: Metadata = {
   title: "NEST Store - Cửa hàng thời trang",
@@ -14,7 +16,11 @@ export default function GuestLayout({ children }: { children: ReactNode }) {
   return (
     <main className="relative flex flex-col min-h-screen">
       <Header />
-      <div className="flex-grow flex-1 mt-[76px]">{children}</div>
+      <CartProvider>
+        <CheckoutProvider>
+          <div className="flex-grow flex-1 mt-[76px]">{children}</div>
+        </CheckoutProvider>
+      </CartProvider>
       <Footer />
     </main>
   );

@@ -28,7 +28,7 @@ export const RoleUser = {
   ROLE_USER: "Người dùng",
 };
 
-export interface IUpdateUser {
+interface IUpdateUser {
   email: string;
   firstName: string;
   lastName: string;
@@ -37,3 +37,11 @@ export interface IUpdateUser {
   imageUrl: string;
   roles: string[];
 }
+
+interface IChangePasswordRequest {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export type { IUpdateUser, IChangePasswordRequest };

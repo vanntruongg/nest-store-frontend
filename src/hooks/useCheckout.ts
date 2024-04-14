@@ -12,7 +12,7 @@ type CheckoutState = {
   addItem: (item: IItem, quantity: number) => void;
   removeItem: (itemId: number) => void;
   addItems: (items: IItem[]) => void;
-  setShippingDetail: (phone: string, address: string) => void;
+  setShippingDetail: (name: string, phone: string, address: string) => void;
   setPaymentMethod: (methodId: number) => void;
   setNotes: (notes: string) => void;
   clearCheckout: () => void;
@@ -23,7 +23,7 @@ export const useCheckout = create<CheckoutState>()(
   persist(
     (set) => ({
       items: [],
-      shippingDetail: { phone: "", address: "" },
+      shippingDetail: { name: "", phone: "", address: "" },
       paymentMethod: 0,
       notes: "",
       addItem: (item, quantity) =>
@@ -45,9 +45,9 @@ export const useCheckout = create<CheckoutState>()(
             item.id === itemId ? { ...item, quantity: newQuantity } : item
           ),
         })),
-      setShippingDetail: (phone, address) =>
+      setShippingDetail: (name, phone, address) =>
         set((state) => {
-          return { shippingDetail: { phone: phone, address: address } };
+          return { shippingDetail: { name, phone, address } };
         }),
       setPaymentMethod: (methodId) =>
         set((state) => {
@@ -60,7 +60,7 @@ export const useCheckout = create<CheckoutState>()(
       clearCheckout: () =>
         set({
           items: [],
-          shippingDetail: { phone: "", address: "" },
+          shippingDetail: { name: "", phone: "", address: "" },
           paymentMethod: 0,
         }),
     }),

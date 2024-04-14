@@ -20,6 +20,7 @@ import authApi from "~/apis/auth-api";
 import { useRouter } from "next/navigation";
 import Loading from "~/components/loading";
 import { Toast } from "~/components/ui/toast";
+import { BaseUtil } from "~/common/utility/base.util";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -53,11 +54,10 @@ const RegisterForm = () => {
 
       if (result.payload.success) {
         router.push("/login");
-      } else {
       }
     } catch (error) {
       console.log(error);
-
+      // BaseUtil.handleErrorApi({ error });
       // toast.error(error as string);
     } finally {
       setLoading(false);
