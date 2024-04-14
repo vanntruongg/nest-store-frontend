@@ -16,13 +16,16 @@ import IconTextLoading from "~/components/icon-text-loading";
 import Loading from "~/components/loading";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
+import { useRouter } from "next/navigation";
 
 const CheckOutPage = () => {
   const { items, notes, shippingDetail, setNotes, paymentMethod } =
     useCheckout();
   const { user } = useUser();
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     setIsMounted(true);
   }, [isMounted]);
@@ -68,6 +71,7 @@ const CheckOutPage = () => {
       }));
       const orderRequest: IOrderRequest = {
         email: user.email,
+        name: shippingDetail.name,
         phone: shippingDetail.phone,
         address: shippingDetail.address,
         totalPrice: totalPrice,
@@ -77,6 +81,8 @@ const CheckOutPage = () => {
       };
       const result = await orderApi.createOrder(orderRequest);
       console.log(result);
+      toast({ description: result.payload.message });
+      router.push("/thank-you");
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {
@@ -157,7 +163,7 @@ const CheckOutPage = () => {
       {/* Order */}
       <div className="rounded-sm divide-y">
         {/* notes */}
-        <section className="">
+        <section className="py-6">
           <Label>Ghi chú:</Label>
           <Textarea
             value={notes}
