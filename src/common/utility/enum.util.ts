@@ -7,8 +7,10 @@ enum EAllAllowHttpMethod {
 }
 
 enum EUserStatus {
-  "ACTIVE" = "Hoạt động",
-  "PENDING_VERIFICATION" = "Chờ xác thực",
+  ACTIVE = "Hoạt động",
+  PENDING_VERIFICATION = "Chờ xác thực",
+  LOCKED = "Bị khóa",
+  DELETED = "Đã xóa",
 }
 
 enum ERole {
