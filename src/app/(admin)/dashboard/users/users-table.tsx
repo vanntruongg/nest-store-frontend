@@ -40,6 +40,7 @@ import { cn } from "~/lib/utils";
 import { ViewUserDetail } from "./user-detail";
 import { FormUpdateUser } from "./form-update";
 import { ConfirmDelete } from "./dialog-confirm-delete";
+import Image from "next/image";
 
 export const getDataAndColumns = () => {
   const [data, setData] = useState<IUser[]>([]);
@@ -47,34 +48,45 @@ export const getDataAndColumns = () => {
   const fetchData = async () => {
     const result = await userApi.getAllUser();
     setData(result.payload.data);
-    console.log(result.payload.data);
   };
   useEffect(() => {
     fetchData();
   }, []);
   const columns: ColumnDef<IUser>[] = [
-    // {
-    //   id: "select",
-    //   header: ({ table }) => (
-    //     <Checkbox
-    //       checked={
-    //         table.getIsAllPageRowsSelected() ||
-    //         (table.getIsSomePageRowsSelected() && "indeterminate")
-    //       }
-    //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-    //       aria-label="Select all"
-    //     />
-    //   ),
-    //   cell: ({ row }) => (
-    //     <Checkbox
-    //       checked={row.getIsSelected()}
-    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-    //       aria-label="Select row"
-    //     />
-    //   ),
-    //   enableSorting: false,
-    //   enableHiding: false,
-    // },
+    {
+      accessorKey: "lastName",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="p-0"
+          >
+            Họ Tên
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const { lastName, firstName, imageUrl } = row.original;
+        return (
+          <div className="flex items-center space-x-2 capitalize">
+            <div className="relative aspect-square h-8 min-w-fit overflow-hidden rounded-full cursor-pointer">
+              <Image
+                src={imageUrl || "/assets/avatar-default.png"}
+                alt={`Avatar ${firstName}`}
+                fill
+                sizes="full"
+                className="absolute object-cover"
+              />
+            </div>
+            <div>
+              {lastName} {firstName}
+            </div>
+          </div>
+        );
+      },
+    },
 
     {
       accessorKey: "email",
@@ -92,44 +104,6 @@ export const getDataAndColumns = () => {
       cell: ({ row }) => (
         <div className="lowercase">{row.getValue("email")}</div>
       ),
-    },
-    {
-      accessorKey: "lastName",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="p-0"
-          >
-            Họ
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => {
-        const { lastName } = row.original;
-        return <div className="capitalize">{lastName}</div>;
-      },
-    },
-    {
-      accessorKey: "firstName",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="p-0"
-          >
-            Tên
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => {
-        const { firstName } = row.original;
-        return <div className="capitalize">{firstName}</div>;
-      },
     },
     {
       accessorKey: "status",
