@@ -111,10 +111,12 @@ input {
 .swiper-button-prev {
   opacity: 0;
   transition: opacity 0.3s ease;
+  color: #8104fd !important;
 }
 .swiper-button-next {
   opacity: 0;
   transition: opacity 0.3s ease;
+  color: #8104fd !important;
 }
 
 .swiper:hover .swiper-button-prev {
