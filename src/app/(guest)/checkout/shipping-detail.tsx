@@ -21,6 +21,7 @@ import IconTextLoading from "~/components/icon-text-loading";
 export function ShippingDetail() {
   const { user } = useUser();
   const { shippingDetail, setShippingDetail } = useCheckout();
+  const [name, setName] = useState<string>(shippingDetail.name);
   const [phone, setPhone] = useState<string>(shippingDetail.phone);
   const [address, setAddress] = useState<string>(shippingDetail.address);
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -28,18 +29,32 @@ export function ShippingDetail() {
   useEffect(() => {
     setIsMounted(true);
     if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
-      setShippingDetail(user.phone || "", user.address || "");
+      setShippingDetail(
+        user.firstName || "",
+        user.phone || "",
+        user.address || ""
+      );
     }
   }, [isMounted]);
 
   const handleSaveChanges = () => {
-    setShippingDetail(phone, address);
+    setShippingDetail(name, phone, address);
   };
 
   return (
     <div className="bg-white p-4 px-8">
       <p className="text-lg text-primary">Địa chỉ nhận hàng</p>
       <div className="w-full flex justify-between gap-8 items-center py-2">
+        <div className="w-full flex items-center gap-2 text-nowrap">
+          <p className="text-muted-foreground">Họ tên:</p>
+          {isMounted ? (
+            <p className="font-medium">
+              {shippingDetail.name ? shippingDetail.name : `...`}
+            </p>
+          ) : (
+            <IconTextLoading />
+          )}
+        </div>
         <div className="w-full flex items-center gap-2 text-nowrap">
           <p className="text-muted-foreground">Số điện thoại:</p>
           {isMounted ? (
@@ -74,6 +89,17 @@ export function ShippingDetail() {
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
+              <div className="flex gap-2 items-center">
+                <Label htmlFor="name" className="min-w-24">
+                  Họ Tên
+                </Label>
+                <Input
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className=""
+                />
+              </div>
               <div className="flex gap-2 items-center">
                 <Label htmlFor="phone" className="min-w-24">
                   Số điện thoại
