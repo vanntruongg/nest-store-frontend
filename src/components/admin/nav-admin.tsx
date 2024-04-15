@@ -36,7 +36,7 @@ const navLinks = [
 export function NavAdmin() {
   const pathname = usePathname();
   return (
-    <nav className="bg-primary text-white col-span-2 h-screen p-4 shadow">
+    <nav className="bg-primary text-white col-span-2 h-full min-h-screen p-4 shadow">
       <div className="flex justify-center">
         <Image
           src={Logo}
