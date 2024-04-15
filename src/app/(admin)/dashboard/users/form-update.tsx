@@ -157,6 +157,7 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
                   }
                   alt="Avatar"
                   fill
+                  sizes="100"
                   className="rounded-md object-cover"
                 />
               </div>
