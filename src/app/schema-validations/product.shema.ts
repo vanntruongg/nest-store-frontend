@@ -1,17 +1,27 @@
-import { z } from "zod";
+import { nan, z } from "zod";
 
-export const UpdateProductShema = z.object({
+const CategorySchema = z.object({
+  id: z.number().min(1, { message: "Chọn danh mục sản phẩm" }),
+  name: z.string().min(1, { message: "Chọn danh mục sản phẩm" }),
+});
+
+export const ProductShema = z.object({
   name: z.string().min(1, { message: "Vui lòng nhập tên sản phẩm" }).max(100),
   price: z.coerce
     .number()
-    .min(10000, { message: "Giá sản phẩm phải lớn hơn 10.000đ" }),
+    .min(10000, { message: "Giá sản phẩm phải lớn hơn 10.000đ" })
+    .refine((price) => !isNaN(price), {
+      message: "Giá sản phẩm phải lớn hơn 10.000đ",
+    })
+    .default(null),
   material: z.string().max(50),
   style: z.string().max(50),
   imageUrl: z.string().min(1, { message: "Thêm ảnh sản phẩm" }),
   stock: z.coerce
     .number()
-    .min(1, { message: "Số lượng sản phẩm phải lớn hơn 0." }),
-  category: z.coerce.number(z.string()).min(1, "Chọn danh mục cho sản phẩm"),
+    .min(1, { message: "Số lượng sản phẩm phải lớn hơn 0." })
+    .default(null),
+  category: CategorySchema,
 });
 
-export type UpdateProductShemaType = z.TypeOf<typeof UpdateProductShema>;
+export type ProductShemaType = z.TypeOf<typeof ProductShema>;
