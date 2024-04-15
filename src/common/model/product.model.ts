@@ -6,17 +6,26 @@ interface ICategory {
 interface Category {
   id: number;
   name: string;
+  image: string;
 }
 
 interface Product {
   id: number;
   name: string;
   price: number;
-  material: string;
-  style: string;
+  material?: string;
+  style?: string;
   imageUrl: string;
   stock: number;
   category: Category;
+}
+
+interface ProductUpdate extends Omit<Product, "category"> {
+  categoryId: number;
+}
+
+interface ProductCreate extends Omit<Product, "id" | "category"> {
+  categoryId: number;
 }
 
 interface ProductResponse {
@@ -27,4 +36,11 @@ interface ProductResponse {
   totalPages: number;
 }
 
-export type { Product, ICategory, Category, ProductResponse };
+export type {
+  Product,
+  ICategory,
+  Category,
+  ProductResponse,
+  ProductUpdate,
+  ProductCreate,
+};
