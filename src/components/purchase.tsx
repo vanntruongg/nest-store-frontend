@@ -1,7 +1,7 @@
 import Image from "next/image";
 import NoData from "../../public/assets/no-data.png";
 import { IOrder } from "~/common/model/order.model";
-import ItemOrder from "~/app/(guest)/user/purchase/item-order";
+import ItemOrder from "~/components/item-order";
 import { ProductUtil } from "~/common/utility/product.util";
 import { Button } from "~/components/ui/button";
 import {
