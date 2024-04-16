@@ -57,11 +57,11 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
             <h1 className="text-3xl">{product.name}</h1>
             <AddtoWishlistIcon product={product} />
           </div>
-          <section className="mt-6">
+          <section className="mt-6 space-y-6">
             <p className="text-lg font-bold bg-gray-50 p-2">
               {ProductUtil.formatPrice(product.price)}
             </p>
-            <div className="mt-6 flex items-center">
+            <div className="flex items-center">
               <Check
                 aria-hidden="true"
                 className="size-5 flex-shrink-0 text-green-500"
@@ -70,7 +70,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
                 Miễn phí vận chuyển
               </p>
             </div>
-            <div className="flex items-center gap-8 my-6 py-2">
+            <div className="flex items-center gap-8 py-2">
               <span>Quantity</span>
               <div className="flex border border-gray-300">
                 <div className="p-2 max-w-20 border-r flex justify-center">
@@ -97,6 +97,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
                 </div>
               </div>
             </div>
+            <div className="text-sm">Còn lại: {product.stock} sản phẩm</div>
             <div className="flex gap-4">
               <div className="flex-1">
                 <AddtoCartButton product={product} quantity={quantity} />
