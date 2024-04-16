@@ -19,6 +19,7 @@ const userApi = {
     httpClient.post<any>(EndpointUtil.NEST.USER.UPDATE_USER, data),
   deleteUser: (email: string) =>
     httpClient.delete<any>(EndpointUtil.NEST.USER.DELETE_USER + `/${email}`),
+  getUserCount: () => httpClient.get<any>(EndpointUtil.NEST.USER.COUNT_USER),
 };
 
 export default userApi;

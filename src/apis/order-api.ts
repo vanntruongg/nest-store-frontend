@@ -29,6 +29,12 @@ const orderApi = {
     httpClient.post<any>(
       EndpointUtil.NEST.ORDER.UPDATE_STATUS + `?id=${id}&status=${status}`
     ),
+  getOrderCount: () =>
+    httpClient.get<any>(
+      EndpointUtil.NEST.ORDER.GET_TOTAL_ORDER_COUNT_BY_STATUS
+    ),
+  getCountOrderByMonth: () =>
+    httpClient.get<any>(EndpointUtil.NEST.ORDER.ORDER_COUNT_BY_MONTH),
 };
 
 export default orderApi;
