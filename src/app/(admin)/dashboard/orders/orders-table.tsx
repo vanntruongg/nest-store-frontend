@@ -47,7 +47,7 @@ export const getDataAndColumns = () => {
   const [status, setStatus] = useState<string>(orderStatus[0].type);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchData = async (status: string) => {
+  const fetchData = async () => {
     setLoading(true);
     try {
       const result =
@@ -64,7 +64,7 @@ export const getDataAndColumns = () => {
     }
   };
   useEffect(() => {
-    fetchData(status);
+    fetchData();
   }, [status]);
 
   const customFilterFn = (
@@ -186,6 +186,7 @@ export const getDataAndColumns = () => {
             status={status}
             orderStatus={row.original.orderStatus}
             orderId={row.original.orderId}
+            fetchData={fetchData}
           />
         );
       },
@@ -316,7 +317,7 @@ export function OrdersTable() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Không có kết quả.
                 </TableCell>
               </TableRow>
             )}

@@ -17,17 +17,20 @@ export interface IUpdateStatusProps {
   status: string;
   orderStatus: string;
   orderId: number;
+  fetchData: () => void;
 }
 
 export function UpdateStatus({
   status,
   orderStatus,
   orderId,
+  fetchData,
 }: IUpdateStatusProps) {
   const handleUpdateStatus = async (id: number, status: string) => {
     try {
       const result = await orderApi.updateStatus(id, status);
       toast({ description: result.payload.message });
+      fetchData();
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     }
