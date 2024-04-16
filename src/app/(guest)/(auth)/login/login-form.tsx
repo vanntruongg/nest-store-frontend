@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -32,11 +32,12 @@ import { BaseUtil } from "~/common/utility/base.util";
 import { tokenStorage } from "~/common/utility/auth.util";
 import { jwtDecode } from "jwt-decode";
 import { IJWTDecoded } from "~/common/model/auth.model";
-import { ERole, UserRole } from "~/common/utility/enum.util";
+import { UserRole } from "~/common/utility/enum.util";
 // import { clientAuthToken } from "~/lib/http";
 
 const LoginForm = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const { setUser } = useUser();
   const { toast } = useToast();
   const [loading, setLoading] = useState<boolean>(false);
@@ -69,15 +70,30 @@ const LoginForm = () => {
         if (tokenDecoded.roles.includes(UserRole.ADMIN)) {
           router.push("/dashboard/statistic");
         } else {
-          router.back();
+          if (isAllowedRoutesForBack()) {
+            console.log("vào đây");
+
+            router.push("/");
+          } else {
+            router.back();
+          }
         }
         fetchProfile();
       }
     } catch (error: any) {
+      if (error.status === 403) {
+        router.push("/verify-email");
+      }
+
       BaseUtil.handleErrorApi({ error, setError: form.setError });
     } finally {
       setLoading(false);
     }
+  };
+
+  const isAllowedRoutesForBack = () => {
+    const allowedRoutesForBack = ["/", "/shop"]; // Replace with your allowed routes
+    return !allowedRoutesForBack.includes(pathname);
   };
 
   // call api get user profile and save to zustand

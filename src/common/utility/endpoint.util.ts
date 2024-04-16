@@ -9,6 +9,8 @@ export class EndpointUtil {
       REGISTER: "/auth/register",
       LOGOUT: "/auth/logout",
       REFRESH_TOKEN: "/auth/refresh-token",
+      VERIFY_EMAIL: "/auth/verify-email",
+      REQUEST_VERIFY_ACCOUNT: "/auth/request/verify",
     },
     USER: {
       GET_ALL: "/auth/user",
@@ -16,6 +18,7 @@ export class EndpointUtil {
       UPDATE_USER: "/auth/user/update",
       CHANGE_PASSWORD: "/auth/user/change-password",
       DELETE_USER: "/auth/user/delete",
+      COUNT_USER: "/auth/user/count",
     },
     PRODUCT: {
       GET_ALL: "/product/get-all",
@@ -27,6 +30,7 @@ export class EndpointUtil {
       GET_ALL_SUBCATEGORY: "/product/category/subcategory/all-level",
       CREATE_PRODUCT: "/product/create",
       UPDATE_PRODUCT: "/product/update",
+      COUNT_PRODUCT: "/product/count",
     },
     CART: {
       GET_ALL: "/cart/items",
@@ -43,6 +47,8 @@ export class EndpointUtil {
       GET_BY_STATUS: "/order/get/status",
       GET_BY_EMAIL_AND_STATUS: "/order/get/email/status",
       UPDATE_STATUS: "/order/update/status",
+      GET_TOTAL_ORDER_COUNT_BY_STATUS: "/order/total-order",
+      ORDER_COUNT_BY_MONTH: "/order/count/month",
     },
   };
 }
