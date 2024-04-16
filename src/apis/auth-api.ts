@@ -41,9 +41,19 @@ const authApi = {
   },
 
   refreshToken(refreshToken: string) {
-    return httpClient.post(EndpointUtil.NEST.AUTH.REFRESH_TOKEN, {
+    return httpClient.post<any>(EndpointUtil.NEST.AUTH.REFRESH_TOKEN, {
       refreshToken,
     });
+  },
+  requestVerifyEmail(email: string) {
+    return httpClient.post<any>(
+      EndpointUtil.NEST.AUTH.REQUEST_VERIFY_ACCOUNT + `?email=${email}`
+    );
+  },
+  verifyEmail(token: string) {
+    return httpClient.post<any>(
+      EndpointUtil.NEST.AUTH.VERIFY_EMAIL + `?token=${token}`
+    );
   },
 };
 
