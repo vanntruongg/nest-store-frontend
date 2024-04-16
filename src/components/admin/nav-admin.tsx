@@ -5,6 +5,7 @@ import Image from "next/image";
 import Logo from "../../../public/assets/nest-logo-tranparent.png";
 import { AreaChart, BaggageClaim, Shirt, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
+import ButtonLogout from "../button/btn-logout";
 
 const navLinks = [
   {
@@ -69,6 +70,9 @@ export function NavAdmin() {
           )
         )}
       </ul>
+      <div className="p-3">
+        <ButtonLogout className="p-3 font-medium rounded-sm hover:bg-white hover:text-primary transition-colors duration-300" />
+      </div>
     </nav>
   );
 }
