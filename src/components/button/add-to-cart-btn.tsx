@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "~/hooks/useCart";
 import { ToastAction } from "../ui/toast";
 import Link from "next/link";
+import { isBuffer } from "lodash";
 
 interface AddtoCartButtonProps {
   product: Product;
@@ -33,6 +34,14 @@ const AddtoCartButton = ({ product, quantity }: AddtoCartButtonProps) => {
 
     setLoading(true);
     try {
+      if (quantity > product.stock) {
+        toast({
+          description: "Số lượng trong kho không đủ",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const item: IItem = {
         id: product.id,
         quantity,
