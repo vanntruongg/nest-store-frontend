@@ -57,17 +57,9 @@ export function ConfirmDelete({ email, fetchData }: IConfirmDeleteProps) {
           </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>
-            <Button variant={"default"}>Hủy</Button>
-          </AlertDialogCancel>
-          <AlertDialogAction>
-            <Button
-              variant={"secondary"}
-              type="submit"
-              onClick={handleDeleteUser}
-            >
-              Xác nhận xóa
-            </Button>
+          <AlertDialogCancel>Hủy</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeleteUser}>
+            Xác nhận xóa
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
