@@ -33,6 +33,7 @@ import { tokenStorage } from "~/common/utility/auth.util";
 import { jwtDecode } from "jwt-decode";
 import { IJWTDecoded } from "~/common/model/auth.model";
 import { UserRole } from "~/common/utility/enum.util";
+import { useAuth } from "~/hooks/useAuth";
 // import { clientAuthToken } from "~/lib/http";
 
 const LoginForm = () => {
@@ -53,47 +54,45 @@ const LoginForm = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const result = await authApi.login(loginShema);
+      const {
+        payload: { message, data, success },
+      } = await authApi.login(loginShema);
 
-      if (result.payload.success) {
+      if (success) {
+        toast({ description: message });
+
         // call api to next server to set token to cookie
-        toast({
-          description: result.payload.message,
-          variant: "default",
-        });
+        await authApi.auth(data);
 
-        await authApi.auth(result.payload.data);
+        const { isAdmin } = useAuth();
 
-        const tokenDecoded: IJWTDecoded = jwtDecode(
-          tokenStorage.value.rawToken.accessToken
-        );
-        if (tokenDecoded.roles.includes(UserRole.ADMIN)) {
+        if (isAdmin()) {
           router.push("/dashboard/statistic");
         } else {
-          if (isAllowedRoutesForBack()) {
-            console.log("vào đây");
-
-            router.push("/");
-          } else {
-            router.back();
-          }
+          router.back();
         }
         fetchProfile();
       }
     } catch (error: any) {
-      if (error.status === 403) {
-        router.push("/verify-email");
-      }
+      const {
+        status,
+        payload: { message, errorDetails },
+      } = error || {};
 
-      BaseUtil.handleErrorApi({ error, setError: form.setError });
+      if (status === 403) {
+        toast({
+          description: message,
+          action:
+            errorDetails === "unVerify" ? (
+              <Button variant={"outline"}>
+                <Link href={"/verify-email"}>Xác minh tài khoản</Link>
+              </Button>
+            ) : undefined,
+        });
+      }
     } finally {
       setLoading(false);
     }
-  };
-
-  const isAllowedRoutesForBack = () => {
-    const allowedRoutesForBack = ["/", "/shop"]; // Replace with your allowed routes
-    return !allowedRoutesForBack.includes(pathname);
   };
 
   // call api get user profile and save to zustand
