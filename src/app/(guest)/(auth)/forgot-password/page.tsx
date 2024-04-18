@@ -13,6 +13,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { MoveLeft } from "lucide-react";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
+import authApi from "~/apis/auth-api";
+import { BaseUtil } from "~/common/utility/base.util";
+import { toast } from "~/components/ui/use-toast";
 
 const ForgotPassword = () => {
   const {
@@ -24,13 +27,12 @@ const ForgotPassword = () => {
   });
 
   const onSubmit = async ({ email }: TForgotPasswordShema) => {
-    // const result = await signIn("credentials", {
-    //   redirect: false,
-    //   email,
-    //   password,
-    // });
-    console.log(email);
-    // console.log(result);
+    try {
+      const result = await authApi.forgotPassword(email);
+      toast({ description: result.payload.message });
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    }
   };
 
   return (
@@ -54,7 +56,6 @@ const ForgotPassword = () => {
               <Label htmlFor="email-login">Email</Label>
               <Input
                 id="email-login"
-                type="email"
                 placeholder="vantruong@gmail.com"
                 {...register("email")}
                 className={cn({
