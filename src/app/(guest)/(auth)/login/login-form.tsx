@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,22 +26,18 @@ import { Input } from "~/components/ui/input";
 import Loading from "~/components/loading";
 import authApi from "~/apis/auth-api";
 import userApi from "~/apis/user-api";
-import { cn } from "~/lib/utils";
 import { useToast } from "~/components/ui/use-toast";
 import { BaseUtil } from "~/common/utility/base.util";
 import { tokenStorage } from "~/common/utility/auth.util";
-import { jwtDecode } from "jwt-decode";
-import { IJWTDecoded } from "~/common/model/auth.model";
-import { UserRole } from "~/common/utility/enum.util";
 import { useAuth } from "~/hooks/useAuth";
 // import { clientAuthToken } from "~/lib/http";
 
 const LoginForm = () => {
   const router = useRouter();
-  const pathname = usePathname();
   const { setUser } = useUser();
   const { toast } = useToast();
   const [loading, setLoading] = useState<boolean>(false);
+
   const form = useForm<LoginShemaType>({
     resolver: zodResolver(LoginShema),
     defaultValues: {
@@ -89,6 +85,8 @@ const LoginForm = () => {
               </Button>
             ) : undefined,
         });
+      } else {
+        BaseUtil.handleErrorApi({ error, setError: form.setError });
       }
     } finally {
       setLoading(false);
