@@ -11,7 +11,6 @@ import authApi from "~/apis/auth-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import { buttonVariants } from "~/components/ui/button";
 import { toast } from "~/components/ui/use-toast";
-import { useRouter } from "next/navigation";
 interface PageProps {
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -21,7 +20,7 @@ const VerifyEmail = ({ searchParams }: PageProps) => {
   const token = searchParams.token;
   const [isError, setIsError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router = useRouter();
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     if (token && typeof token === "string") {
@@ -33,9 +32,8 @@ const VerifyEmail = ({ searchParams }: PageProps) => {
     setIsLoading(true);
     try {
       const result = await authApi.verifyEmail(token);
-      console.log(result);
       toast({ description: result.payload.message });
-      router.push("/login");
+      setIsSuccess(true);
     } catch (error) {
       setIsError(true);
       BaseUtil.handleErrorApi({ error });
@@ -55,21 +53,22 @@ const VerifyEmail = ({ searchParams }: PageProps) => {
       </div>
     );
   }
-  if (!isLoading) {
+  if (isSuccess) {
     return (
-      <div className="h-full flex flex-col items-center justify-center">
+      <div className="min-h-[725px] flex flex-col items-center justify-center">
         <div className="relative mb-4 h-52 w-52 text-muted-foreground">
           <Image src={SentEmail} alt="the email was sent image" fill />
         </div>
-        <h3 className="font-semibold text-2xl">You&apos;re all set!</h3>
+        <h3 className="font-semibold text-2xl">Bạn đã hoàn tất.</h3>
         <p className="text-muted-foreground text-center mt-1">
-          Thank you for verifying your email
+          Cảm ơn bạn đã xác thực email. Bây giờ bạn đã có thể đăng nhập vào tài
+          khoản của mình
         </p>
         <Link
           href={routes.LOGIN}
           className={buttonVariants({ className: "mt-4" })}
         >
-          Sign in
+          Đăng nhập
         </Link>
       </div>
     );
