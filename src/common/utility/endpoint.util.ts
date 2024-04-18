@@ -11,6 +11,8 @@ export class EndpointUtil {
       REFRESH_TOKEN: "/auth/refresh-token",
       VERIFY_EMAIL: "/auth/verify-email",
       REQUEST_VERIFY_ACCOUNT: "/auth/request/verify",
+      FORGOT_PASSWORD: "/auth/forgot-password",
+      RESET_PASSWORD: "/auth/reset-password",
     },
     USER: {
       GET_ALL: "/auth/user",
