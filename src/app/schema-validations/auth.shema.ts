@@ -43,9 +43,34 @@ export type LoginShemaType = z.infer<typeof LoginShema>;
 
 // forgot password
 export const ForgotPasswordShema = z.object({
-  email: z.string().min(1, { message: "Email là bắt buộc" }).email(),
+  email: z
+    .string()
+    .min(1, { message: "Vui lòng nhập email." })
+    .email({ message: "Email không hợp lệ" }),
 });
 export type TForgotPasswordShema = z.infer<typeof ForgotPasswordShema>;
+
+// reset password
+export const ResetPasswordShema = z
+  .object({
+    password: z
+      .string()
+      .min(6, { message: "Mật khẩu phải có ít nhất 6 ký tự" }),
+    confirmPassword: z
+      .string()
+      .min(1, { message: "Vui lòng xác nhận mật khẩu" }),
+  })
+  .strict()
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Mật khẩu không khớp",
+        path: ["confirmPassword"],
+      });
+    }
+  });
+export type TResetPasswordShema = z.infer<typeof ResetPasswordShema>;
 
 // verify email
 export const VerifyEmail = z.object({
