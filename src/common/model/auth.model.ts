@@ -28,6 +28,11 @@ interface ITokenStorage {
   rawToken: IAuthResponse;
 }
 
+interface ResetPassword {
+  token: string;
+  newPassword: string;
+}
+
 export type TROLE = "ROLE_ADMIN" | "ROLE_USER";
 
 export type {
@@ -36,4 +41,5 @@ export type {
   IAuthResponse,
   IBaseAuthToken,
   ITokenStorage,
+  ResetPassword,
 };
