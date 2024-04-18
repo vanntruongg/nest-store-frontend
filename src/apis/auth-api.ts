@@ -3,7 +3,7 @@ import {
   RegisterShemaType,
 } from "~/app/schema-validations/auth.shema";
 import httpClient from "~/common/http-client";
-import { IAuthResponse } from "~/common/model/auth.model";
+import { IAuthResponse, ResetPassword } from "~/common/model/auth.model";
 import { EndpointUtil } from "~/common/utility/endpoint.util";
 
 const authApi = {
@@ -53,6 +53,17 @@ const authApi = {
   verifyEmail(token: string) {
     return httpClient.post<any>(
       EndpointUtil.NEST.AUTH.VERIFY_EMAIL + `?token=${token}`
+    );
+  },
+  forgotPassword(email: string) {
+    return httpClient.post<any>(
+      EndpointUtil.NEST.AUTH.FORGOT_PASSWORD + `?email=${email}`
+    );
+  },
+  resetPassword(resetPassword: ResetPassword) {
+    return httpClient.post<any>(
+      EndpointUtil.NEST.AUTH.RESET_PASSWORD,
+      resetPassword
     );
   },
 };

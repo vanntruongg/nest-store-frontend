@@ -2,9 +2,17 @@ import { jwtDecode } from "jwt-decode";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { IJWTDecoded } from "./common/model/auth.model";
-import { ERole, UserRole } from "./common/utility/enum.util";
+import { UserRole } from "./common/utility/enum.util";
 
-const authPaths = ["/login", "/register"];
+const authPaths = [
+  "/login",
+  "/register",
+  "/verify-email",
+  "/process-verify-email",
+  "/forgot-password",
+  "/reset-password",
+];
+
 const privatePaths = [
   // "/user/profile",
   // "/user/password",
@@ -22,7 +30,6 @@ const adminPaths = [
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
-
   const { pathname } = request.nextUrl;
 
   // check private path
@@ -34,6 +41,7 @@ export function middleware(request: NextRequest) {
   if (adminPaths.some((path) => pathname.startsWith(path))) {
     if (accessToken) {
       const tokenDecoded: IJWTDecoded = jwtDecode(accessToken);
+
       if (tokenDecoded.roles.includes(UserRole.ADMIN)) {
         return NextResponse.next();
       }
@@ -43,6 +51,8 @@ export function middleware(request: NextRequest) {
 
   // if logged in, the login and registration page will not be allowed
   if (authPaths.some((path) => pathname.startsWith(path) && accessToken)) {
+    if (pathname === "/process-verify-email")
+      return NextResponse.redirect(new URL("/", request.url));
     return NextResponse.redirect(new URL("/", request.url));
   }
   return NextResponse.next();
@@ -51,13 +61,20 @@ export function middleware(request: NextRequest) {
 // See "Matching Paths" below to learn more
 export const config = {
   matcher: [
+    // auth
     "/login",
     "/register",
+    "/verify-email",
+    "/process-verify-email",
+    "/forgot-password",
+    "/reset-password",
+    // private
     "/user/profile",
     "/user/password",
     "/user/purchase",
     "/cart",
     "/checkout",
+    // admin
     "/dashboard/users",
     "/dashboard/statistic",
     "/dashboard/orders",

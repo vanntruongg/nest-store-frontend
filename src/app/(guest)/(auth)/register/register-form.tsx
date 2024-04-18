@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import Loading from "~/components/loading";
 import { Toast } from "~/components/ui/toast";
 import { BaseUtil } from "~/common/utility/base.util";
+import { toast } from "~/components/ui/use-toast";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -52,13 +53,13 @@ const RegisterForm = () => {
         password,
       });
 
+      toast({ description: result.payload.message });
+
       if (result.payload.success) {
-        router.push("/login");
+        router.push("/");
       }
     } catch (error) {
-      console.log(error);
-      // BaseUtil.handleErrorApi({ error });
-      // toast.error(error as string);
+      BaseUtil.handleErrorApi({ error, setError: form.setError });
     } finally {
       setLoading(false);
     }
