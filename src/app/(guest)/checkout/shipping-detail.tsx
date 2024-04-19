@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "~/hooks/useUser";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
+import { toast } from "~/components/ui/use-toast";
 
 export function ShippingDetail() {
   const { user } = useUser();
@@ -25,6 +26,7 @@ export function ShippingDetail() {
   const [phone, setPhone] = useState<string>(shippingDetail.phone);
   const [address, setAddress] = useState<string>(shippingDetail.address);
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -38,7 +40,15 @@ export function ShippingDetail() {
   }, [isMounted]);
 
   const handleSaveChanges = () => {
+    if (phone && !BaseUtil.validateVietnamesePhoneNumber(phone)) {
+      toast({
+        description: "Số điện thoại không hợp lệ",
+        variant: "destructive",
+      });
+      return;
+    }
     setShippingDetail(name, phone, address);
+    setOpen(false);
   };
 
   return (
@@ -77,9 +87,11 @@ export function ShippingDetail() {
         </div>
 
         {/* update */}
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline">Cập nhật thông tin giao hàng</Button>
+            <Button variant="outline" onClick={() => setOpen(true)}>
+              Cập nhật thông tin giao hàng
+            </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[625px]">
             <DialogHeader>
@@ -125,15 +137,13 @@ export function ShippingDetail() {
               </div>
             </div>
             <DialogFooter>
-              <DialogClose asChild>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={handleSaveChanges}
-                >
-                  Lưu thay đổi
-                </Button>
-              </DialogClose>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleSaveChanges}
+              >
+                Lưu thay đổi
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

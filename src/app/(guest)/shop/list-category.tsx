@@ -26,7 +26,6 @@ const ListCategory = ({ categories, fontSize }: ListCategoryProps) => {
     params.set("category", categoryId.toString());
     router.push(pathname + "?" + params.toString());
   };
-  console.log(categories);
 
   return (
     <div className="flex flex-col gap-2 items-start">
