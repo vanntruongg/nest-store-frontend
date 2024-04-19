@@ -14,9 +14,9 @@ const authPaths = [
 ];
 
 const privatePaths = [
-  // "/user/profile",
-  // "/user/password",
-  // "/user/purchase",
+  "/user/profile",
+  "/user/password",
+  "/user/purchase",
   "/cart",
   "/checkout",
 ];
