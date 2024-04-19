@@ -137,7 +137,7 @@ const Cart = () => {
                     }
                   )}
                 >
-                  Thanh toán
+                  Đặt hàng
                 </Link>
               </div>
             </section>
