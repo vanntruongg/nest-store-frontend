@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import orderApi from "~/apis/order-api";
 import BarChart from "~/components/charts/bar-chart";
 
-export function OrderStatisticByMonth() {
+export function TotalRevenue() {
   const [dataAxis, setDataAxis] = useState<string[]>([]);
   const [data, setData] = useState<number[]>([]);
 
@@ -17,29 +17,10 @@ export function OrderStatisticByMonth() {
     fetchData();
   }, []);
 
-  const optionsCustom = {
-    toolbox: {
-      feature: {
-        magicType: {
-          type: ["line", "bar"],
-        },
-      },
-      borderColor: "#fff",
-      backgroundColor: "transparent",
-    },
-    tooltip: {
-      valueFormatter: (value: number) => `${value} đơn`,
-    },
-  };
-
   return (
     <div className="p-4 bg-white rounded-md shadow-lg">
-      <BarChart
-        title="Tổng đơn hàng mỗi tháng"
-        dataAxis={dataAxis}
-        data={data}
-        optionCustom={optionsCustom}
-      />
+      <span className="font-medium text-xl">Tổng đơn hàng theo tháng</span>
+      <BarChart dataAxis={dataAxis} data={data} />
     </div>
   );
 }
