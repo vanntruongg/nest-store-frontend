@@ -3,18 +3,30 @@
 import * as echarts from "echarts";
 import ReactECcharts from "echarts-for-react";
 import { useEffect, useState } from "react";
-const dataAxis = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const data = [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149];
-const LineChart = () => {
+
+interface LineChartProps {
+  title: string;
+  dataAxis: number[] | string[];
+  data: number[];
+  optionCustom?: any;
+}
+const LineChart = ({ title, dataAxis, data, optionCustom }: LineChartProps) => {
   const [option, setOption] = useState({});
 
   useEffect(() => {
-    const barChartOptions = {
+    const lineChartOptions = {
+      title: {
+        text: title,
+        textStyle: {
+          fontStyle: "normal",
+        },
+      },
       xAxis: {
         data: dataAxis,
         axisLabel: {
-          inside: true,
-          color: "#fff",
+          inside: false,
+          color: "#000",
+          boundaryGap: false,
         },
         axisTick: {
           show: false,
@@ -49,10 +61,11 @@ const LineChart = () => {
           data: data,
         },
       ],
+      ...optionCustom,
     };
 
-    setOption(barChartOptions);
-  }, []);
+    setOption(lineChartOptions);
+  }, [dataAxis, data]);
 
   return <ReactECcharts option={option}></ReactECcharts>;
 };
