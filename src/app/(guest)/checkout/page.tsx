@@ -35,22 +35,26 @@ const CheckOutPage = () => {
     [items]
   );
 
-  const handleCheckOut = () => {
+  const validateOrder = () => {
     if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
       toast({
         description: "Thiếu thông tin giao hàng",
         variant: "destructive",
       });
-      return;
+      return false;
     }
-    // paymentMethod === 0 : payment method has not been selected
     if (paymentMethod === 0) {
       toast({
         description: "Vui lòng chọn phương thức thanh toán",
         variant: "destructive",
       });
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const handleCheckOut = () => {
+    if (!validateOrder()) return;
 
     if (paymentMethod === 1) {
       processPaymentWithCOD();
@@ -62,27 +66,25 @@ const CheckOutPage = () => {
   const processPaymentWithCOD = async () => {
     setLoading(true);
     try {
-      const orderDetailRequest: IOrderDetailRequest[] = items.map((item) => ({
-        productId: item.id,
-        productName: item.name,
-        productPrice: item.price,
-        productImage: item.imageUrl,
-        quantity: item.quantity,
-      }));
       const orderRequest: IOrderRequest = {
         email: user.email,
         name: shippingDetail.name,
         phone: shippingDetail.phone,
         address: shippingDetail.address,
-        totalPrice: totalPrice,
-        notes: notes,
+        totalPrice,
+        notes,
         paymentMethodId: paymentMethod,
-        listProduct: orderDetailRequest,
+        listProduct: items.map((item) => ({
+          productId: item.id,
+          productName: item.name,
+          productPrice: item.price,
+          productImage: item.imageUrl,
+          quantity: item.quantity,
+        })),
       };
       const result = await orderApi.createOrder(orderRequest);
-      console.log(result);
-      toast({ description: result.payload.message });
       router.push("/thank-you");
+      toast({ description: result.payload.message });
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {
@@ -90,16 +92,16 @@ const CheckOutPage = () => {
     }
   };
   const processPaymentWithVNPAY = async () => {
-    setLoading(true);
-    try {
-      const result = await orderApi.getUrlPaymentVNPay(totalPrice);
-      window.location.href = result.payload.data;
-      // console.log(result.payload.data);
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
-    }
+    // setLoading(true);
+    // try {
+    //   const result = await orderApi.getUrlPaymentVNPay(totalPrice);
+    //   window.location.href = result.payload.data;
+    //   // console.log(result.payload.data);
+    // } catch (error) {
+    //   BaseUtil.handleErrorApi({ error });
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
