@@ -53,7 +53,7 @@ export function SummaryStatistic() {
     0
   );
   return (
-    <div className="flex justify-between space-x-8">
+    <div className="flex justify-between gap-4">
       <div className="w-full p-4 flex items-center justify-between bg-white shadow-sm rounded-sm">
         <p className="text-sm">Tổng số người dùng</p>
         <span className="text-3xl font-semibold">
