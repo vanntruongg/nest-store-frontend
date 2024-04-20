@@ -40,7 +40,7 @@ import { ProductUtil } from "~/common/utility/product.util";
 import { FormUpdate } from "./form-update";
 import { FormCreate } from "./form-create";
 
-export const getDataAndColumns = () => {
+export const GetDataAndColumns = () => {
   const [data, setData] = useState<Product[]>([]);
 
   const fetchData = async () => {
@@ -165,7 +165,7 @@ export function ProductsTable() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const { data, columns, fetchData } = getDataAndColumns();
+  const { data, columns, fetchData } = GetDataAndColumns();
 
   const table = useReactTable({
     data,

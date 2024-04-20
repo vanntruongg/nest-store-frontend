@@ -42,7 +42,7 @@ import { FormUpdateUser } from "./form-update";
 import { ConfirmDelete } from "./dialog-confirm-delete";
 import Image from "next/image";
 
-export const getDataAndColumns = () => {
+export const GetDataAndColumns = () => {
   const [data, setData] = useState<IUser[]>([]);
 
   const fetchData = async () => {
@@ -199,7 +199,7 @@ export function UsersTable() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const { data, columns } = getDataAndColumns();
+  const { data, columns } = GetDataAndColumns();
 
   const table = useReactTable({
     data,

@@ -42,7 +42,7 @@ import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
 import { UpdateStatus } from "./update-status";
 
-export const getDataAndColumns = () => {
+export const GetDataAndColumns = () => {
   const [data, setData] = useState<IOrder[]>([]);
   const [status, setStatus] = useState<string>(orderStatus[0].type);
   const [loading, setLoading] = useState<boolean>(false);
@@ -201,7 +201,7 @@ export function OrdersTable() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const { data, columns, status, setStatus, loading } = getDataAndColumns();
+  const { data, columns, status, setStatus, loading } = GetDataAndColumns();
 
   const table = useReactTable({
     data,
