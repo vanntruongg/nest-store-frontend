@@ -82,16 +82,20 @@ export type TVerifyEmail = z.infer<typeof VerifyEmail>;
 export const ChangePasswordShema = z
   .object({
     oldPassword: z.string().min(1, { message: "Mật khẩu cũ là bắt buộc" }),
-    newPassword: z.string().min(1, { message: "Mật khẩu mới là bắt buộc" }),
+    newPassword: z
+      .string()
+      .min(6, { message: "Mật khẩu phải có ít nhất 6 ký tự" }),
     confirmPassword: z
       .string()
-      .min(4, { message: "Xác nhận mật khẩu là bắt buộc" }),
+      .min(1, { message: "Xác nhận mật khẩu là bắt buộc" }),
   })
+  .strict()
   .superRefine(({ confirmPassword, newPassword }, ctx) => {
     if (confirmPassword !== newPassword) {
       ctx.addIssue({
         code: "custom",
-        message: "Xác nhận mật khẩu không khớp",
+        message: "Mật khẩu không khớp",
+        path: ["confirmPassword"],
       });
     }
   });
@@ -106,5 +110,9 @@ export const UpdateUserShema = z.object({
   imageUrl: z.string(),
   roles: z.array(z.string()).min(1, "Chọn ít nhất 1 vai trò"),
 });
-
 export type UpdateUserShemaType = z.TypeOf<typeof UpdateUserShema>;
+
+export const UpdateUserWithoutRoleShema = UpdateUserShema.omit({ roles: true });
+export type UpdateUserWithoutShemaType = z.TypeOf<
+  typeof UpdateUserWithoutRoleShema
+>;
