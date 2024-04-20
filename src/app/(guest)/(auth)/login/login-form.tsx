@@ -36,6 +36,7 @@ const LoginForm = () => {
   const router = useRouter();
   const { setUser } = useUser();
   const { toast } = useToast();
+  const { isAdmin } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<LoginShemaType>({
@@ -60,9 +61,7 @@ const LoginForm = () => {
         // call api to next server to set token to cookie
         await authApi.auth(data);
 
-        const { isAdmin } = useAuth();
-
-        if (isAdmin()) {
+        if (isAdmin(tokenStorage.value.rawToken.accessToken)) {
           router.push("/dashboard/statistic");
         } else {
           router.back();
