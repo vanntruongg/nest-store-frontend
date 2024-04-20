@@ -16,7 +16,7 @@ const initialUser: IUser = {
   address: "",
   imageUrl: "",
   isVerify: false,
-  role: [],
+  roles: [],
   status: "",
 };
 
