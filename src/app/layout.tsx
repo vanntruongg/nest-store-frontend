@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const refreshToken = cookieStore.get("refreshToken")?.value || "";
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning={true}>
       <body
         className={cn("relative h-full font-nunito bg-gray-100 antialiased")}
       >
