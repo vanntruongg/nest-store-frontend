@@ -12,7 +12,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { slides } from "~/static/data-slide";
 import ImgSlide1 from "../../assets/slide/slide-1.webp";
 import ImgSlide2 from "../../assets/slide/slide-2.webp";
 import ImgSlide3 from "../../assets/slide/slide-3.webp";
