@@ -40,9 +40,12 @@ const ListCategory = ({ categories, fontSize }: ListCategoryProps) => {
             <AccordionItem value="item-1" className="border-none">
               <AccordionTrigger
                 style={{ fontSize: fontSize }}
-                className="p-2 font-semibold text-gray-700"
+                className="p-2 font-semibold text-gray-700 hover:no-underline hover:bg-gray-100"
               >
-                <div onClick={() => handleFetchData(category.id)}>
+                <div
+                  onClick={() => handleFetchData(category.id)}
+                  className="hover:underline"
+                >
                   {category.name}
                 </div>
               </AccordionTrigger>
@@ -63,7 +66,8 @@ const ListCategory = ({ categories, fontSize }: ListCategoryProps) => {
             className={cn(
               buttonVariants({
                 variant: "link",
-                className: "px-2 py-0 text-gray-700 cursor-pointer",
+                className:
+                  "px-2 py-0 w-full flex justify-start text-gray-700 cursor-pointer",
               })
             )}
           >
