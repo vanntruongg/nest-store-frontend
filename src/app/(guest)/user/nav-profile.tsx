@@ -3,18 +3,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogOut, ShieldCheck, ShoppingBag, User } from "lucide-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
 import { Button } from "../../../components/ui/button";
 import Image from "next/image";
 import { useUser } from "~/hooks/useUser";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { useEffect, useState } from "react";
+import ButtonLogout from "~/components/button/btn-logout";
 const links = [
   {
     href: "/user/profile",
@@ -84,20 +88,7 @@ const NavLinkUser = () => {
           )
         )}
 
-        <Dialog>
-          <DialogTrigger className="px-4 py-2 flex items-center gap-2 rounded-sm text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200">
-            <LogOut size={20} />
-            <p className="text-xs font-semibold uppercase">Đăng xuất</p>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Bạn có chắc chắn muốn đăng xuất?</DialogTitle>
-            </DialogHeader>
-            <DialogFooter>
-              <Button>Đăng xuất</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <ButtonLogout className="px-4 py-2 text-gray-500 border rounded-sm hover:text-gray-900 hover:bg-gray-100 transition-all duration-200" />
       </div>
     </div>
   );
