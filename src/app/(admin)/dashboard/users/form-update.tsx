@@ -220,7 +220,11 @@ export function FormUpdateUser({ user, fetchData }: IFormUpdateUserProps) {
                     <FormItem>
                       <FormLabel>Số điện thoại</FormLabel>
                       <FormControl>
-                        <Input placeholder="Vd: 0357 888 999" {...field} />
+                        <Input
+                          type="number"
+                          placeholder="Vd: 0357 888 999"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>
