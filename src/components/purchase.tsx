@@ -60,8 +60,8 @@ export function Purchase({ orders }: IPurchaseProps) {
                         <DialogTitle>Chi tiết đơn hàng</DialogTitle>
                         <DialogDescription className="flex gap-4 uppercase">
                           <span className="">Mã đơn hàng: {orderId}</span>
-                          <p className="w-0.5 h-full bg-gray-200"></p>
-                          <p className="text-primary ">{orderStatus}</p>
+                          <span className="w-0.5 h-full bg-gray-200"></span>
+                          <span className="text-primary ">{orderStatus}</span>
                         </DialogDescription>
                       </DialogHeader>
                       <div className="flex gap-4 divide-x">
