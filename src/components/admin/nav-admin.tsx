@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "../../../public/assets/nest-logo-tranparent.png";
-import { AreaChart, BaggageClaim, Shirt, Users } from "lucide-react";
+import { AreaChart, BaggageClaim, Home, Shirt, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
 import ButtonLogout from "../button/btn-logout";
 
@@ -31,6 +31,12 @@ const navLinks = [
     icon: <Shirt strokeWidth={1.5} />,
     label: "Quản lý sản phẩm",
     link: "/dashboard/products",
+  },
+  {
+    id: uuid(),
+    icon: <Home strokeWidth={1.5} />,
+    label: "Cửa hàng",
+    link: "/",
   },
 ];
 
@@ -70,8 +76,8 @@ export function NavAdmin() {
           )
         )}
       </ul>
-      <div className="p-3">
-        <ButtonLogout className="p-3 font-medium rounded-sm hover:bg-white hover:text-primary transition-colors duration-300" />
+      <div className="px-3">
+        <ButtonLogout className="px-3 font-medium rounded-sm hover:bg-white hover:text-primary transition-colors duration-300" />
       </div>
     </nav>
   );
