@@ -13,14 +13,14 @@ export const ProductShema = z.object({
     .refine((price) => !isNaN(price), {
       message: "Giá sản phẩm phải lớn hơn 10.000đ",
     })
-    .default(null),
+    .default(0),
   material: z.string().max(50),
   style: z.string().max(50),
   imageUrl: z.string().min(1, { message: "Thêm ảnh sản phẩm" }),
   stock: z.coerce
     .number()
     .min(1, { message: "Số lượng sản phẩm phải lớn hơn 0." })
-    .default(null),
+    .default(0),
   category: CategorySchema,
 });
 
