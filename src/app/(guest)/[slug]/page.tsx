@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import productApi from "~/apis/produc-api";
 import { Category, Product } from "~/common/model/product.model";
