@@ -35,7 +35,8 @@ const orderApi = {
     ),
   getCountOrderByMonth: () =>
     httpClient.get<any>(EndpointUtil.NEST.ORDER.ORDER_COUNT_BY_MONTH),
-  getAllRevenue: () => httpClient.get<any>(EndpointUtil.NEST.ORDER.GET_REVENUE),
+  getTotalRevenue: () =>
+    httpClient.get<any>(EndpointUtil.NEST.ORDER.GET_REVENUE),
   getRevenueByMonth: () =>
     httpClient.get<any>(EndpointUtil.NEST.ORDER.GET_REVENUE_BY_MONTH),
 };

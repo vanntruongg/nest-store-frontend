@@ -66,7 +66,7 @@ const ProductListing = ({ categoryId }: ProductListingProps) => {
           : Number(searchParams.get("category"));
 
       const result = await productApi.getList(category, order, page);
-      console.log(result);
+      // console.log(result);
 
       setData({
         products: result.payload.data.content || [],
@@ -78,7 +78,7 @@ const ProductListing = ({ categoryId }: ProductListingProps) => {
 
       if (categoryId) {
         const categoryResult = await productApi.getAllSubCategory(categoryId);
-        console.log("categoryResult", categoryResult);
+        // console.log("categoryResult", categoryResult);
 
         setCategories(categoryResult.payload.data);
       }
@@ -86,18 +86,6 @@ const ProductListing = ({ categoryId }: ProductListingProps) => {
       BaseUtil.handleErrorApi({ error });
     }
   };
-  // const fetchProduct = async (
-  //   categoryId: number = 0,
-  //   order: string = "",
-  //   page: number = 0
-  // ) => {
-  //   try {
-  //     setProduct(result.payload.data.content);
-  //     setTotalPages(result.payload.data.totalPages);
-  //   } catch (error) {
-  //     BaseUtil.handleErrorApi({ error });
-  //   }
-  // };
 
   const handleChangePage = (page: number) => {
     setData((prevData) => ({ ...prevData, pageNumber: page }));
