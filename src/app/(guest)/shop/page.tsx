@@ -16,24 +16,24 @@ const BREADRUMBS = [
   },
 ];
 
-const getDataAndSort = async () => {
-  const result = await productApi.getCategory();
+// const getDataAndSort = async () => {
+//   const result = await productApi.getCategory();
 
-  const data: ICategory[] = result.payload.data;
-  // console.log(data);
+//   const data: ICategory[] = result.payload.data;
+//   // console.log(data);
 
-  const categories: ICategory[] = [];
-  data.map(({ category, subCategories }) =>
-    categories.unshift({ category, subCategories })
-  );
+//   const categories: ICategory[] = [];
+//   data.map(({ category, subCategories }) =>
+//     categories.unshift({ category, subCategories })
+//   );
 
-  return categories.sort(
-    (category1, category2) => category1.category.id - category2.category.id
-  );
-};
+//   return categories.sort(
+//     (category1, category2) => category1.category.id - category2.category.id
+//   );
+// };
 
 const ShopPage = async () => {
-  const categories = await getDataAndSort();
+  // const categories = await getDataAndSort();
 
   return (
     <div className="flex flex-col gap-6 mb-6">
@@ -50,7 +50,7 @@ const ShopPage = async () => {
               </div>
               <p className="uppercase text-muted-foreground">Danh mục</p>
             </div>
-            <ListCategory categories={categories} fontSize={17} />
+            {/* <ListCategory categories={categories} fontSize={17} /> */}
           </div>
           <div className="bg-white col-span-4">
             <ProductListing />
