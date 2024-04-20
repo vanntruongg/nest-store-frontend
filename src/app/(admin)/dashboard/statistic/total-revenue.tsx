@@ -19,8 +19,7 @@ export function TotalRevenue() {
 
   return (
     <div className="p-4 bg-white rounded-md shadow-lg">
-      <span className="font-medium text-xl">Tổng đơn hàng theo tháng</span>
-      <BarChart dataAxis={dataAxis} data={data} />
+      <BarChart title="Tổng doanh thu" dataAxis={dataAxis} data={data} />
     </div>
   );
 }
