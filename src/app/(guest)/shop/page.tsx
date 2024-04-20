@@ -32,9 +32,9 @@ const BREADRUMBS = [
 //   );
 // };
 
-const ShopPage = async () => {
+export default async function ShopPage() {
   // const categories = await getDataAndSort();
-  // const result = await productApi.getCategory();
+  const result = await productApi.getCategory();
 
   // const data: ICategory[] = result.payload.data;
   // // console.log(data);
@@ -72,6 +72,4 @@ const ShopPage = async () => {
       </MaxWidthWrapper>
     </div>
   );
-};
-
-export default ShopPage;
+}
