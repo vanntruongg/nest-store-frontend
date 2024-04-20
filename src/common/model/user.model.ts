@@ -35,7 +35,7 @@ interface IUpdateUser {
   phone: string;
   address: string;
   imageUrl: string;
-  roles: string[];
+  roles?: string[];
 }
 
 interface IChangePasswordRequest {
