@@ -1,3 +1,4 @@
+"use client";
 import MaxWidthWrapper from "~/components/max-width-wrapper";
 import Breadrumbs from "~/components/breadrumbs";
 import ProductListing from "~/app/(guest)/shop/product-listing";
@@ -7,6 +8,7 @@ import ListCategory from "~/app/(guest)/shop/list-category";
 import productApi from "~/apis/produc-api";
 import { ChevronRight } from "lucide-react";
 import { ICategory } from "~/common/model/product.model";
+import { useEffect, useState } from "react";
 
 const BREADRUMBS = [
   {
@@ -16,37 +18,21 @@ const BREADRUMBS = [
   },
 ];
 
-async function getDataAndSort() {
-  const result = await productApi.getCategory();
-
-  const data: ICategory[] = result.payload.data;
-  // console.log(data);
-
-  const categories: ICategory[] = [];
-  data.map(({ category, subCategories }) =>
-    categories.unshift({ category, subCategories })
-  );
-
-  return categories.sort(
-    (category1, category2) => category1.category.id - category2.category.id
-  );
-}
-
 export default async function ShopPage() {
-  const categories = await getDataAndSort();
-  // const result = await productApi.getCategory();
+  const [categories, setCategories] = useState<ICategory[]>([]);
 
-  // const data: ICategory[] = result.payload.data;
-  // // console.log(data);
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await productApi.getCategory();
+      const data: ICategory[] = result.payload.data;
 
-  // const categories: ICategory[] = [];
-  // data.map(({ category, subCategories }) =>
-  //   categories.unshift({ category, subCategories })
-  // );
-
-  // categories.sort(
-  //   (category1, category2) => category1.category.id - category2.category.id
-  // );
+      const sortedCategories = data.sort(
+        (category1, category2) => category1.category.id - category2.category.id
+      );
+      setCategories(sortedCategories);
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="flex flex-col gap-6 mb-6">
