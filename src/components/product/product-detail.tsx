@@ -15,7 +15,7 @@ import { BaseUtil } from "~/common/utility/base.util";
 import useDebounce from "~/hooks/useDebounce";
 
 interface ProductDetailProps {
-  product: Product;
+  product?: Product;
 }
 
 const ProductDetail = ({ product }: ProductDetailProps) => {
@@ -44,7 +44,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
           <div className="col-span-8 aspect-square bg-gray-100 relative">
             <Image
               fill
-              src={product.imageUrl}
+              src={product ? product.imageUrl : "/assets/product-default.jpg"}
               alt="image product"
               className="object-center size-full"
               sizes="100"
@@ -54,12 +54,12 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
         </div>
         <div className="w-full flex flex-col">
           <div className="flex justify-between gap-6">
-            <h1 className="text-3xl">{product.name}</h1>
+            <h1 className="text-3xl">{product?.name}</h1>
             <AddtoWishlistIcon product={product} />
           </div>
           <section className="mt-6 space-y-6">
             <p className="text-lg font-bold bg-gray-50 p-2">
-              {ProductUtil.formatPrice(product.price)}
+              {ProductUtil.formatPrice(product ? product.price : 0)}
             </p>
             <div className="flex items-center">
               <Check
@@ -97,7 +97,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
                 </div>
               </div>
             </div>
-            <div className="text-sm">Còn lại: {product.stock} sản phẩm</div>
+            <div className="text-sm">Còn lại: {product?.stock} sản phẩm</div>
             <div className="flex gap-4">
               <div className="flex-1">
                 <AddtoCartButton product={product} quantity={quantity} />

@@ -16,7 +16,7 @@ import Link from "next/link";
 import { isBuffer } from "lodash";
 
 interface AddtoCartButtonProps {
-  product: Product;
+  product?: Product;
   quantity: number;
 }
 
@@ -34,40 +34,42 @@ const AddtoCartButton = ({ product, quantity }: AddtoCartButtonProps) => {
 
     setLoading(true);
     try {
-      if (quantity > product.stock) {
+      if (product) {
+        if (quantity > product.stock) {
+          toast({
+            description: "Số lượng trong kho không đủ",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        const item: IItem = {
+          id: product.id,
+          quantity,
+          price: product.price,
+          name: product.name,
+          category: product.category.name,
+          imageUrl: product.imageUrl,
+        };
+        const data: IAddRequest = {
+          email: user.email,
+          itemDto: item,
+        };
+
+        await cartApi.add(data);
+
+        add(item);
+
         toast({
-          description: "Số lượng trong kho không đủ",
-          variant: "destructive",
+          title: "Thành công",
+          description: "Thêm vào giỏ hàng thành công",
+          action: (
+            <ToastAction altText="Xem giỏ hàng">
+              <Link href={"/cart"}>Xem giỏ hàng</Link>
+            </ToastAction>
+          ),
         });
-        return;
       }
-
-      const item: IItem = {
-        id: product.id,
-        quantity,
-        price: product.price,
-        name: product.name,
-        category: product.category.name,
-        imageUrl: product.imageUrl,
-      };
-      const data: IAddRequest = {
-        email: user.email,
-        itemDto: item,
-      };
-
-      await cartApi.add(data);
-
-      add(item);
-
-      toast({
-        title: "Thành công",
-        description: "Thêm vào giỏ hàng thành công",
-        action: (
-          <ToastAction altText="Xem giỏ hàng">
-            <Link href={"/cart"}>Xem giỏ hàng</Link>
-          </ToastAction>
-        ),
-      });
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {

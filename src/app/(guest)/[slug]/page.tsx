@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import productApi from "~/apis/produc-api";
 import { Category, Product } from "~/common/model/product.model";
+import { BaseUtil } from "~/common/utility/base.util";
 import { ProductUtil } from "~/common/utility/product.util";
 import Breadrumbs from "~/components/breadrumbs";
 import DevelopingTooltip from "~/components/developing-tooltip";
@@ -13,12 +15,24 @@ interface PageProps {
   };
 }
 
-const ProductDetailPage = async ({ params }: PageProps) => {
-  const result = await productApi.getProductById(
-    ProductUtil.extractProductIdFromSlug(params.slug)
-  );
-  const product: Product = result.payload.data.product;
-  const categories: Category[] = result.payload.data.categories;
+const ProductDetailPage = ({ params }: PageProps) => {
+  const [product, setProduct] = useState<Product>();
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await productApi.getProductById(
+          ProductUtil.extractProductIdFromSlug(params.slug)
+        );
+        setProduct(result.payload.data.product || {});
+        setCategories(result.payload.data.categories);
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      }
+    };
+    fetchData();
+  }, []);
 
   const breadcrumbs: Breadrumb[] = [];
   categories.map((category) => {
@@ -33,7 +47,7 @@ const ProductDetailPage = async ({ params }: PageProps) => {
     <div className="bg-gray-100 flex flex-col gap-4">
       <Breadrumbs
         breadrumbs={breadcrumbs}
-        options={product.name}
+        options={product?.name}
         optionPage={true}
       />
       <ProductDetail product={product} />
@@ -50,11 +64,11 @@ const ProductDetailPage = async ({ params }: PageProps) => {
             </div>
             <div className="flex gap-2">
               <span className="text-muted-foreground">Chất liệu:</span>
-              <p>{product.material}</p>
+              <p>{product?.material}</p>
             </div>
             <div className="flex gap-2">
               <span className="text-muted-foreground">Phong cách:</span>
-              <p>{product.style}</p>
+              <p>{product?.style}</p>
             </div>
           </div>
           <div className="bg-gray-100">
@@ -69,7 +83,7 @@ const ProductDetailPage = async ({ params }: PageProps) => {
         <ProductReel
           href="/products"
           title={`Sản phẩm tương tự`}
-          subtitle={`Các sản phẩm thuộc ${product.category.name} tương tự như '${product.name}'`}
+          subtitle={`Các sản phẩm thuộc ${product?.category.name} tương tự như '${product?.name}'`}
         />
       </MaxWidthWrapper>
     </div>

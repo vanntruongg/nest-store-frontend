@@ -12,7 +12,7 @@ import { Product } from "~/common/model/product.model";
 import { cn } from "~/lib/utils";
 
 interface AddtoWishlistIconProps {
-  product: Product;
+  product?: Product;
 }
 
 const AddtoWishlistIcon = ({ product }: AddtoWishlistIconProps) => {
@@ -27,13 +27,15 @@ const AddtoWishlistIcon = ({ product }: AddtoWishlistIconProps) => {
     return () => clearTimeout(timeout);
   }, [loading]);
 
-  const existedProduct = items.find((item) => item.product.id === product.id);
+  const existedProduct = items.find((item) => item.product.id === product?.id);
   const handleAddOrRemoveItem = () => {
-    setLoading(true);
-    if (existedProduct) {
-      removeItem(product.id);
-    } else {
-      addItem(product);
+    if (product) {
+      setLoading(true);
+      if (existedProduct) {
+        removeItem(product.id);
+      } else {
+        addItem(product);
+      }
     }
   };
 
