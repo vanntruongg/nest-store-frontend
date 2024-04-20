@@ -18,17 +18,11 @@ import {
   PaginationPrevious,
 } from "~/components/ui/pagination";
 import { cn } from "~/lib/utils";
-import { ChevronRight, LayoutGrid, LayoutList } from "lucide-react";
+import { LayoutGrid, LayoutList } from "lucide-react";
 
 import MaxWidthWrapper from "../../../components/max-width-wrapper";
 import CardProduct from "../../../components/product/card-product";
-import ListCategory from "./list-category";
-import {
-  Category,
-  ICategory,
-  Product,
-  ProductResponse,
-} from "~/common/model/product.model";
+import { Category, ProductResponse } from "~/common/model/product.model";
 import productApi from "~/apis/produc-api";
 import { BaseUtil } from "~/common/utility/base.util";
 import ProductsPlaceHolder from "../../../components/skeleton/ProductListSkeleton";
@@ -39,7 +33,7 @@ import { GridLayout } from "../../../components/layout/grid-layout";
 import { ListLayout } from "../../../components/layout/list-layout";
 
 interface ProductListingProps {
-  categoryId?: string;
+  categoryId?: number;
 }
 
 const ProductListing = ({ categoryId }: ProductListingProps) => {
@@ -206,121 +200,6 @@ const ProductListing = ({ categoryId }: ProductListingProps) => {
         </div>
       </div>
     </MaxWidthWrapper>
-    // <MaxWidthWrapper className="">
-    //   <div className="flex flex-col mb-6 bg-white">
-    //     <div className="grid grid-rows-subgrid row-span-3">
-    //       <div className="p-4 flex border-b">
-    //         {/* Layout toggle */}
-    //         <div className="w-full flex gap-2">
-    //           <TooltipCustom
-    //             trigger={<LayoutGrid strokeWidth={1.5} className="size-5" />}
-    //             content={ELayoutProduct.GRID}
-    //             customClick={setLayout}
-    //             options={{ layout }}
-    //             className={cn("text-gray-400 hover:text-primary", {
-    //               "text-primary": layout === ELayoutProduct.GRID,
-    //             })}
-    //           />
-    //           <TooltipCustom
-    //             trigger={<LayoutList strokeWidth={1.5} className="size-5" />}
-    //             content={ELayoutProduct.LIST}
-    //             customClick={setLayout}
-    //             options={{ layout }}
-    //             className={cn("text-gray-400 hover:text-primary", {
-    //               "text-primary": layout === ELayoutProduct.LIST,
-    //             })}
-    //           />
-    //         </div>
-    //         {/* Sort select */}
-    //         <Select onValueChange={handleSortChange}>
-    //           <SelectTrigger className="max-w-xs">
-    //             <SelectValue placeholder="Giá" />
-    //           </SelectTrigger>
-    //           <SelectContent>
-    //             <SelectGroup>
-    //               <SelectItem value="asc">Giá: Thấp đến Cao</SelectItem>
-    //               <SelectItem value="desc">Giá: Cao đến Thấp</SelectItem>
-    //             </SelectGroup>
-    //           </SelectContent>
-    //         </Select>
-    //       </div>
-    //       {/* categories & products */}
-
-    //       <div className={cn("grid grid-cols-5 gap-8")}>
-    //         {categoryId && (
-    //           <div
-    //             className={cn("w-full px-2 col-span-1", {
-    //               "flex flex-col": ELayoutProduct.LIST,
-    //               "w-full flex flex-col gap-8": layout === ELayoutProduct.GRID,
-    //             })}
-    //           >
-    //             <div className="flex flex-col gap-4 mt-6">
-    //               <ListCategory
-    //                 categories={categories}
-    //                 fontSize={17}
-    //                 fetchData={fetchData}
-    //               />
-    //             </div>
-    //           </div>
-    //         )}
-    //         <div
-    //           className={cn("mt-6 col-span-5", {
-    //             "col-span-4": categoryId,
-    //           })}
-    //         >
-    //           {data.products.length > 0 ? (
-    //             layout === ELayoutProduct.GRID ? (
-    //               <GridLayout>
-    //                 {data.products.map((product) => (
-    //                   <CardProduct
-    //                     key={product.id}
-    //                     product={product}
-    //                     layout={layout}
-    //                   />
-    //                 ))}
-    //               </GridLayout>
-    //             ) : (
-    //               <ListLayout>
-    //                 {data.products.map((product) => (
-    //                   <CardProduct
-    //                     key={product.id}
-    //                     product={product}
-    //                     layout={layout}
-    //                   />
-    //                 ))}
-    //               </ListLayout>
-    //             )
-    //           ) : (
-    //             // <div
-    //             //   className={cn("", {
-    //             //     "grid grid-cols-1 lg:grid-cols-5 gap-4 gap-y-8":
-    //             //       layout === "grid",
-    //             //     "grid lg:grid-cols-4": layout === "grid" && categoryId,
-    //             //     "grid grid-cols-2 gap-16": layout === "list",
-    //             //     "grid-cols-1": categoryId,
-    //             //   })}
-    //             // >
-    //             //   {products.map((product) => (
-    //             //     <CardProduct
-    //             //       key={product.id}
-    //             //       product={product}
-    //             //       layout={layout}
-    //             //     />
-    //             //   ))}
-    //             // </div>
-    //             <ProductsPlaceHolder layout={layout} category={categoryId} />
-    //           )}
-    //           {data.products.length > 0 && (
-    //             <PaginationSection
-    //               data={data}
-    //               onChangePage={handleChangePage}
-    //             />
-    //           )}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </MaxWidthWrapper>
   );
 };
 

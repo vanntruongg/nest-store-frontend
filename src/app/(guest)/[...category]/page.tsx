@@ -23,7 +23,7 @@ const ProductByCateogoryPage = async ({
   return (
     <div className="flex flex-col gap-6">
       <Breadrumbs breadrumbs={BREADRUMBS} />
-      <ProductListing categoryId={id} />
+      <ProductListing categoryId={parseInt(id)} />
     </div>
   );
 };

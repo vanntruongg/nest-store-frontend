@@ -6,10 +6,7 @@ import { cn } from "~/lib/utils";
 import ListCategory from "~/app/(guest)/shop/list-category";
 import productApi from "~/apis/produc-api";
 import { ChevronRight } from "lucide-react";
-import {
-  Category as CategoryModel,
-  ICategory,
-} from "~/common/model/product.model";
+import { ICategory } from "~/common/model/product.model";
 
 const BREADRUMBS = [
   {
@@ -23,7 +20,7 @@ const getDataAndSort = async () => {
   const result = await productApi.getCategory();
 
   const data: ICategory[] = result.payload.data;
-  console.log(data);
+  // console.log(data);
 
   const categories: ICategory[] = [];
   data.map(({ category, subCategories }) =>
