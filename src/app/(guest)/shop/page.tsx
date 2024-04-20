@@ -2,7 +2,7 @@
 import MaxWidthWrapper from "~/components/max-width-wrapper";
 import Breadrumbs from "~/components/breadrumbs";
 import ProductListing from "~/app/(guest)/shop/product-listing";
-import Category from "~/components/category";
+import Category from "~/app/(guest)/shop/category";
 import { cn } from "~/lib/utils";
 import ListCategory from "~/app/(guest)/shop/list-category";
 import productApi from "~/apis/produc-api";
@@ -18,7 +18,7 @@ const BREADRUMBS = [
   },
 ];
 
-export default async function ShopPage() {
+export default function ShopPage() {
   const [categories, setCategories] = useState<ICategory[]>([]);
 
   useEffect(() => {
