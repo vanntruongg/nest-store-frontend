@@ -13,14 +13,10 @@ interface PageProps {
   };
 }
 
-const getData = async (slug: string) => {
-  return await productApi.getProductById(
-    ProductUtil.extractProductIdFromSlug(slug)
-  );
-};
-
 const ProductDetailPage = async ({ params }: PageProps) => {
-  const result: any = await getData(params.slug);
+  const result = await productApi.getProductById(
+    ProductUtil.extractProductIdFromSlug(params.slug)
+  );
   const product: Product = result.payload.data.product;
   const categories: Category[] = result.payload.data.categories;
 
