@@ -36,17 +36,17 @@ const ShopPage = async () => {
   // const categories = await getDataAndSort();
   const result = await productApi.getCategory();
 
-  const data: ICategory[] = result.payload.data;
-  // console.log(data);
+  // const data: ICategory[] = result.payload.data;
+  // // console.log(data);
 
-  const categories: ICategory[] = [];
-  data.map(({ category, subCategories }) =>
-    categories.unshift({ category, subCategories })
-  );
+  // const categories: ICategory[] = [];
+  // data.map(({ category, subCategories }) =>
+  //   categories.unshift({ category, subCategories })
+  // );
 
-  categories.sort(
-    (category1, category2) => category1.category.id - category2.category.id
-  );
+  // categories.sort(
+  //   (category1, category2) => category1.category.id - category2.category.id
+  // );
 
   return (
     <div className="flex flex-col gap-6 mb-6">
@@ -63,7 +63,7 @@ const ShopPage = async () => {
               </div>
               <p className="uppercase text-muted-foreground">Danh mục</p>
             </div>
-            <ListCategory categories={categories} fontSize={17} />
+            {/* <ListCategory categories={categories} fontSize={17} /> */}
           </div>
           <div className="bg-white col-span-4">
             <ProductListing />
