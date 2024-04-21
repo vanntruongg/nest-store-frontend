@@ -28,6 +28,8 @@ export class EndpointUtil {
       GET_BY_ID: "/product/get",
       GET_STOCK_BY_ID: "/product/get/stock",
       GET_BY_NAME: "/product/get/name",
+      GET_BY_CATEGORY: "/product/get/category",
+      GET_TOP_LEVEL_CATEGORY: "/product/category/top-level",
       GET_ALL_CATEGORY: "/product/category",
       GET_ALL_SUBCATEGORY: "/product/category/subcategory/all-level",
       CREATE_PRODUCT: "/product/create",
