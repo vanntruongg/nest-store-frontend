@@ -60,7 +60,7 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
         setLoading(false);
       }
     },
-    [item.id, item.quantity, user.email, fetchData]
+    [item.id, item.quantity]
   );
   // handle quantity change on blur ỏ debounced value update
   useEffect(() => {

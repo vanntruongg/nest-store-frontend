@@ -8,7 +8,7 @@ import { buttonVariants } from "~/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "~/components/ui/checkbox";
 import { ProductUtil } from "~/common/utility/product.util";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useCheckout } from "~/hooks/useCheckout";
 import { useUser } from "~/hooks/useUser";
 import cartApi from "~/apis/cart-api";
@@ -27,7 +27,7 @@ const Cart = () => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     setLoading(true);
     try {
       const result = await cartApi.getAll(user.email);
@@ -40,12 +40,12 @@ const Cart = () => {
     } finally {
       setLoading(false);
     }
-  }, [user.email, setItemCart]);
+  };
 
   useEffect(() => {
     fetchData();
     setIsMounted(true);
-  }, [fetchData]);
+  }, []);
 
   const toggleSelectAll = (checked: CheckedState) => {
     if (checked) {
