@@ -14,14 +14,14 @@ interface Props {
   };
 }
 export async function generateMetadata({ params }: Props) {
-  // const productId = ProductUtil.extractProductIdFromSlug(params.slug);
+  const productId = ProductUtil.extractProductIdFromSlug(params.slug);
 
-  // const result = await productApi.getProductById(productId);
-  // const product: Product = result.payload.data.product;
+  const result = await productApi.getProductById(productId);
+  const product: Product = result.payload.data.product;
 
   return {
-    title: "Chi tiết sản phẩm",
-    description: `Khám phá chi tiết sản phẩm từ NEST Store. Hãy tìm hiểu thêm về đặc điểm, mô tả, và giá của sản phẩm để có quyết định mua hàng chính xác!`,
+    title: product.name,
+    description: `Khám phá chi tiết ${product.name} từ NEST Store. Hãy tìm hiểu thêm về đặc điểm, mô tả, và giá của sản phẩm để có quyết định mua hàng chính xác!`,
   };
 }
 
