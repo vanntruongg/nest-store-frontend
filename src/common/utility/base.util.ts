@@ -52,4 +52,25 @@ export class BaseUtil {
     }
     return true;
   }
+
+  static validateOrder(
+    shippingDetail: IOrderShippingDetail,
+    paymentMethod: number
+  ) {
+    if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
+      toast({
+        description: "Thiếu thông tin giao hàng",
+        variant: "destructive",
+      });
+      return false;
+    }
+    if (paymentMethod === 0) {
+      toast({
+        description: "Vui lòng chọn phương thức thanh toán",
+        variant: "destructive",
+      });
+      return false;
+    }
+    return true;
+  }
 }
