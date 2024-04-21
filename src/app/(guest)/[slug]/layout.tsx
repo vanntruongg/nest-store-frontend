@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { ReactNode } from "react";
 import productApi from "~/apis/produc-api";
 import { Product } from "~/common/model/product.model";
@@ -15,14 +14,14 @@ interface Props {
   };
 }
 export async function generateMetadata({ params }: Props) {
-  const productId = ProductUtil.extractProductIdFromSlug(params.slug);
+  // const productId = ProductUtil.extractProductIdFromSlug(params.slug);
 
-  const result = await productApi.getProductById(productId);
-  const product: Product = result.payload.data.product;
+  // const result = await productApi.getProductById(productId);
+  // const product: Product = result.payload.data.product;
 
   return {
-    title: product.name,
-    description: `Khám phá chi tiết sản phẩm ${product.name} từ NEST Store. Hãy tìm hiểu thêm về đặc điểm, mô tả, và giá của sản phẩm để có quyết định mua hàng chính xác!`,
+    title: "Chi tiết sản phẩm",
+    description: `Khám phá chi tiết sản phẩm từ NEST Store. Hãy tìm hiểu thêm về đặc điểm, mô tả, và giá của sản phẩm để có quyết định mua hàng chính xác!`,
   };
 }
 
