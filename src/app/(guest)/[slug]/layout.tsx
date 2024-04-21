@@ -14,9 +14,11 @@ interface Props {
   };
 }
 export async function generateMetadata({ params }: Props) {
-  // const productId = ProductUtil.extractProductIdFromSlug(params.slug);
+  const productId = ProductUtil.extractProductIdFromSlug(params.slug);
 
-  // const result = await productApi.getProductById(productId);
+  const result = await fetch(`/product/get + /${productId}`, { method: "GET" });
+  console.log(result);
+
   // const product: Product = result.payload.data.product;
 
   return {
