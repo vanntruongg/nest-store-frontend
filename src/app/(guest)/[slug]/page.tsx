@@ -8,7 +8,7 @@ import Breadrumbs from "~/components/breadrumbs";
 import DevelopingTooltip from "~/components/developing-tooltip";
 import MaxWidthWrapper from "~/components/max-width-wrapper";
 import ProductDetail from "~/components/product/product-detail";
-import ProductReel from "~/components/product/product-reel";
+import { SimilarProduct } from "~/components/product/similar-product";
 
 interface PageProps {
   params: {
@@ -45,7 +45,7 @@ const ProductDetailPage = ({ params }: PageProps) => {
   });
 
   return (
-    <div className="bg-gray-100 flex flex-col gap-4">
+    <div className="bg-gray-100 flex flex-col space-y-4 mb-4">
       <Breadrumbs
         breadrumbs={breadcrumbs}
         options={product?.name}
@@ -81,11 +81,7 @@ const ProductDetailPage = ({ params }: PageProps) => {
         </div>
       </MaxWidthWrapper>
       <MaxWidthWrapper>
-        <ProductReel
-          href="/products"
-          title={`Sản phẩm tương tự`}
-          subtitle={`Các sản phẩm thuộc ${product?.category.name} tương tự như '${product?.name}'`}
-        />
+        {product ? <SimilarProduct product={product} /> : <></>}
       </MaxWidthWrapper>
     </div>
   );
