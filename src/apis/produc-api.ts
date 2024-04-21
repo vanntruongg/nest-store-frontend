@@ -23,6 +23,14 @@ const productApi = {
     httpClient.get<any>(
       EndpointUtil.NEST.PRODUCT.GET_BY_NAME + `?name=${name}&limit=${limit}`
     ),
+  getProductByCategory: (categoryId: number, limit: number) =>
+    httpClient.get<any>(
+      EndpointUtil.NEST.PRODUCT.GET_BY_CATEGORY +
+        `/${categoryId}/limit/${limit}`
+    ),
+  getTopLevelCategory: () =>
+    httpClient.get<any>(EndpointUtil.NEST.PRODUCT.GET_TOP_LEVEL_CATEGORY),
+
   getCategory: () =>
     httpClient.get<any>(EndpointUtil.NEST.PRODUCT.GET_ALL_CATEGORY),
   getAllSubCategory: (categoryId: number) =>
