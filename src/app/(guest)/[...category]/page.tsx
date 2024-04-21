@@ -1,3 +1,4 @@
+"use client";
 import Breadrumbs from "~/components/breadrumbs";
 import ProductListing from "~/app/(guest)/shop/product-listing";
 
@@ -7,6 +8,7 @@ const ProductByCateogoryPage = async ({
   params: { category: string[] };
 }) => {
   const [category, id] = params.category;
+  const categoryName = localStorage.getItem("category") || "";
   const BREADRUMBS = [
     {
       id: 1,
@@ -15,7 +17,7 @@ const ProductByCateogoryPage = async ({
     },
     {
       id: 2,
-      name: "Thời trang nam",
+      name: categoryName,
       href: `/${category}/${id}`,
     },
   ];
