@@ -1,5 +1,4 @@
 "use client";
-import { log } from "console";
 import { useEffect, useState } from "react";
 import productApi from "~/apis/produc-api";
 import { Category, Product } from "~/common/model/product.model";
@@ -20,7 +19,6 @@ interface PageProps {
 const ProductDetailPage = ({ params }: PageProps) => {
   const [product, setProduct] = useState<Product>();
   const [categories, setCategories] = useState<Category[]>([]);
-  const data = getProduct(params.slug);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,11 +88,3 @@ const ProductDetailPage = ({ params }: PageProps) => {
 };
 
 export default ProductDetailPage;
-
-async function getProduct(slug: string) {
-  try {
-    const productId = ProductUtil.extractProductIdFromSlug(slug);
-    const result = await productApi.getProductById(productId);
-    console.log(result);
-  } catch (error) {}
-}
