@@ -11,7 +11,7 @@ const NavBar = () => {
     <nav className="hidden lg:flex gap-8 items-center lg:justify-start">
       {navLinks.map((link, idx) =>
         link?.href ? (
-          <div key={idx} className="text-sm font-bold px-1 relative group">
+          <div key={idx} className="text-sm font-bold relative group">
             {pathname === link.href ? (
               <div className="text-primary uppercase leading-none">
                 {link.label}
