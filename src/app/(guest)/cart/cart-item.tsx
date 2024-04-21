@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import Image from "next/image";
@@ -32,27 +32,49 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchStock = async () => {
       const result = await productApi.getStockById(item.id);
       setStock(result.payload.data);
     };
-    fetchData();
-  }, []);
+    fetchStock();
+  }, [item.id]);
 
   // delay call api when increase or decrease quantity continuously
-  const debounce = useDebounce(quantity, 500);
+  const debounceQuantity = useDebounce(quantity, 500);
+
+  const updateItem = useCallback(
+    async (quantity: number) => {
+      setLoading(true);
+      try {
+        const data: IUpdateCartRequest = {
+          email: user.email,
+          itemId: item.id,
+          quantity,
+        };
+        await cartApi.udpate(data);
+        fetchData();
+      } catch (error) {
+        setQuantity(item.quantity);
+        BaseUtil.handleErrorApi({ error });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [item.id, item.quantity, user.email, fetchData]
+  );
+  // handle quantity change on blur ỏ debounced value update
   useEffect(() => {
     // check when user clear input
-    if (isNaN(debounce)) return;
+    if (isNaN(debounceQuantity)) return;
 
     // call api update quantity
-    updateItem(debounce);
+    updateItem(debounceQuantity);
 
     // update quantity item in storage to update total price items checkout
-    updateQuantityItemCheckOut(item.id, debounce);
-  }, [debounce]);
+    updateQuantityItemCheckOut(item.id, debounceQuantity);
+  }, [debounceQuantity, item.id, updateItem, updateQuantityItemCheckOut]);
 
-  const handleBlurInputQuantity = async (quantity: number) => {
+  const handleBlurInputQuantity = (quantity: number) => {
     // if user clear input or input === 0
     if (isNaN(quantity) || quantity === 0) {
       quantity = item.quantity;
@@ -63,15 +85,13 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
 
   const setIncreaseQuantity = () => {
     if (quantity < stock) {
-      const newQuantity = quantity + 1;
-      setQuantity(newQuantity);
+      setQuantity(quantity + 1);
     }
   };
 
   const setDecreaseQuantity = () => {
     if (quantity > 1) {
-      const newQuantity = quantity - 1;
-      setQuantity(newQuantity);
+      setQuantity(quantity - 1);
     }
   };
 
@@ -81,24 +101,6 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
       addItem(item, quantity);
     } else {
       removeItem(item.id);
-    }
-  };
-
-  const updateItem = async (quantity: number) => {
-    setLoading(true);
-    try {
-      const data: IUpdateCartRequest = {
-        email: user.email,
-        itemId: item.id,
-        quantity,
-      };
-      await cartApi.udpate(data);
-      fetchData();
-    } catch (error) {
-      setQuantity(item.quantity);
-      BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
     }
   };
 

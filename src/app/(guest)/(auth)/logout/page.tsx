@@ -10,27 +10,24 @@ import { useUser } from "~/hooks/useUser";
 const Logout = () => {
   const router = useRouter();
   const { clearUser } = useUser();
-  const { clearCheckout } = useCheckout();
   const searchParams = useSearchParams();
   const accessToken = searchParams.get("accessToken");
 
   useEffect(() => {
-    handleLogout();
-  }, [accessToken, router]);
-
-  const handleLogout = async () => {
-    if (accessToken === tokenStorage.value.rawToken.accessToken) {
-      try {
-        await authApi.logoutFromNextClientToNextServer(true);
-        clearUser();
-        tokenStorage.clearToken();
-        router.push("/login");
-      } catch (error) {
-        BaseUtil.handleErrorApi({ error });
+    const handleLogout = async () => {
+      if (accessToken === tokenStorage.value.rawToken.accessToken) {
+        try {
+          await authApi.logoutFromNextClientToNextServer(true);
+          clearUser();
+          tokenStorage.clearToken();
+          router.push("/login");
+        } catch (error) {
+          BaseUtil.handleErrorApi({ error });
+        }
       }
-    }
-  };
-  return <div></div>;
+    };
+    handleLogout();
+  }, [accessToken, router, clearUser]);
 };
 
 export default Logout;

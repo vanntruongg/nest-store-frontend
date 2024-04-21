@@ -51,7 +51,6 @@ export function RevenueByMonth() {
     <div className="py-4 w-full bg-white rounded-md shadow-lg">
       <LineChart
         title={"Doanh thu"}
-        subTitle="Tổng doanh thu"
         dataAxis={dataAxis}
         data={data}
         optionCustom={optionsCustom}

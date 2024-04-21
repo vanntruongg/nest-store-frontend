@@ -15,7 +15,7 @@ export default function CheckoutProvider({
     if (pathname !== "/checkout" && pathname !== "/cart") {
       clearCheckout();
     }
-  }, [pathname]);
+  }, [pathname, clearCheckout]);
 
   return <>{children}</>;
 }

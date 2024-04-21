@@ -40,7 +40,7 @@ const PurchasePage = () => {
       }
     };
     fetchData();
-  }, [typePurchase]);
+  }, [typePurchase, user.email]);
 
   return (
     <div className="h-full flex flex-col gap-4 rounded-sm">

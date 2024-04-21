@@ -31,7 +31,7 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import orderApi from "~/apis/order-api";
 import { IOrder } from "~/common/model/order.model";
 import { ProductUtil } from "~/common/utility/product.util";
@@ -47,7 +47,7 @@ export const GetDataAndColumns = () => {
   const [status, setStatus] = useState<string>(orderStatus[0].type);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const result =
@@ -62,10 +62,10 @@ export const GetDataAndColumns = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [status]);
   useEffect(() => {
     fetchData();
-  }, [status]);
+  }, [status, fetchData]);
 
   const customFilterFn = (
     row: Row<IOrder>,

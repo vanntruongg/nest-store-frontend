@@ -1,4 +1,3 @@
-"use client";
 import { ReactNode } from "react";
 import productApi from "~/apis/produc-api";
 import { Product } from "~/common/model/product.model";

@@ -23,7 +23,7 @@ export function SimilarProduct({ product }: ISimilarProductProps) {
       setProducts(result.payload.data);
     };
     fetchData();
-  }, []);
+  }, [product.category.id]);
 
   const handleRedirect = () => {
     localStorage.setItem("category", product.category.name);

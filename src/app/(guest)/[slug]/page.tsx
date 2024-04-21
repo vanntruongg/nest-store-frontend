@@ -33,7 +33,7 @@ const ProductDetailPage = ({ params }: PageProps) => {
       }
     };
     fetchData();
-  }, []);
+  }, [params.slug]);
 
   const breadcrumbs: Breadrumb[] = [];
   categories.map((category) => {

@@ -41,24 +41,23 @@ const SearchComp = () => {
       setRecommedProduct([]);
       return;
     }
+    const fetchProduct = async () => {
+      setLoading(true);
+      try {
+        const result = await productApi.getProductByName(debounce, 5);
+        // console.log(result);
+        setRecommedProduct(result.payload.data);
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchProduct();
   }, [debounce]);
 
   const handleChangeSearchValue = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-  };
-
-  const fetchProduct = async () => {
-    setLoading(true);
-    try {
-      const result = await productApi.getProductByName(debounce, 5);
-      // console.log(result);
-      setRecommedProduct(result.payload.data);
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleSearch = (e: any, searchValue: string) => {

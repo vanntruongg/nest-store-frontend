@@ -2,7 +2,7 @@
 import Breadrumbs from "~/components/breadrumbs";
 import ProductListing from "~/app/(guest)/shop/product-listing";
 
-const ProductByCateogoryPage = async ({
+const ProductByCateogoryPage = ({
   params,
 }: {
   params: { category: string[] };

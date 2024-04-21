@@ -37,7 +37,7 @@ export function ShippingDetail() {
         user.address || ""
       );
     }
-  }, [isMounted]);
+  }, [isMounted, shippingDetail, setShippingDetail, user]);
 
   const handleSaveChanges = () => {
     if (phone && !BaseUtil.validateVietnamesePhoneNumber(phone)) {

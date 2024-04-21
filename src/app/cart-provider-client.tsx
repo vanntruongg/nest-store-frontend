@@ -16,23 +16,23 @@ export default function CartProviderClient({
 }: CartProviderClientProps) {
   const { setItemCart } = useCart();
   const { user } = useUser();
-  const fetchData = async () => {
-    try {
-      const result = await cartApi.getAll(user.email);
-
-      const data = result.payload.data.items || [];
-      setItemCart(data);
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    }
-  };
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await cartApi.getAll(user.email);
+
+        const data = result.payload.data.items || [];
+        setItemCart(data);
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      }
+    };
     if (!accessToken) {
       setItemCart([]);
     } else {
       fetchData();
     }
-  }, [accessToken]);
+  }, [accessToken, setItemCart, user.email]);
   return <>{children}</>;
 }

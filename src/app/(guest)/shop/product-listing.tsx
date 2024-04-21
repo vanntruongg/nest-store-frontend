@@ -53,39 +53,39 @@ const ProductListing = ({ categoryId }: ProductListingProps) => {
   const [sort, setSort] = useState<string>("");
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const order = searchParams.get("order") || "";
+        const page = Number(searchParams.get("pageNumber"));
+        const category =
+          categoryId && Number(searchParams.get("category")) === 0
+            ? Number(categoryId)
+            : Number(searchParams.get("category"));
+
+        const result = await productApi.getList(category, order, page);
+        // console.log(result);
+
+        setData({
+          products: result.payload.data.content || [],
+          first: result.payload.data.first,
+          last: result.payload.data.last,
+          pageNumber: result.payload.data.pageable.pageNumber + 1 || 0,
+          totalPages: result.payload.data.totalPages,
+        });
+
+        if (categoryId) {
+          const categoryResult = await productApi.getAllSubCategory(categoryId);
+          // console.log("categoryResult", categoryResult);
+
+          setCategories(categoryResult.payload.data);
+        }
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      }
+    };
+
     fetchData();
   }, [searchParams, sort, data.pageNumber, categoryId]);
-
-  const fetchData = async () => {
-    try {
-      const order = searchParams.get("order") || "";
-      const page = Number(searchParams.get("pageNumber"));
-      const category =
-        categoryId && Number(searchParams.get("category")) === 0
-          ? Number(categoryId)
-          : Number(searchParams.get("category"));
-
-      const result = await productApi.getList(category, order, page);
-      // console.log(result);
-
-      setData({
-        products: result.payload.data.content || [],
-        first: result.payload.data.first,
-        last: result.payload.data.last,
-        pageNumber: result.payload.data.pageable.pageNumber + 1 || 0,
-        totalPages: result.payload.data.totalPages,
-      });
-
-      if (categoryId) {
-        const categoryResult = await productApi.getAllSubCategory(categoryId);
-        // console.log("categoryResult", categoryResult);
-
-        setCategories(categoryResult.payload.data);
-      }
-    } catch (error) {
-      BaseUtil.handleErrorApi({ error });
-    }
-  };
 
   const handleChangePage = (page: number) => {
     setData((prevData) => ({ ...prevData, pageNumber: page }));

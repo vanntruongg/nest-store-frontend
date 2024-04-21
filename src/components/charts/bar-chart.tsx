@@ -85,7 +85,7 @@ const BarChart = ({ title, dataAxis, data, optionCustom }: BarChartProps) => {
     };
 
     setOption(barChartOptions);
-  }, [dataAxis, data]);
+  }, [dataAxis, data, title, optionCustom]);
 
   return <ReactECcharts option={option} className=""></ReactECcharts>;
 };

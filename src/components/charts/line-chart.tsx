@@ -12,20 +12,13 @@ interface LineChartProps {
   data: number[];
   optionCustom?: any;
 }
-const LineChart = ({
-  title,
-  subTitle,
-  dataAxis,
-  data,
-  optionCustom,
-}: LineChartProps) => {
+const LineChart = ({ title, dataAxis, data, optionCustom }: LineChartProps) => {
   const [option, setOption] = useState({});
 
   useEffect(() => {
     const lineChartOptions = {
       title: {
         text: title,
-        subtext: subTitle,
         textStyle: {
           fontStyle: "normal",
         },
@@ -83,7 +76,7 @@ const LineChart = ({
     };
 
     setOption(lineChartOptions);
-  }, [dataAxis, data]);
+  }, [dataAxis, data, title, optionCustom]);
 
   return <ReactECcharts option={option}></ReactECcharts>;
 };

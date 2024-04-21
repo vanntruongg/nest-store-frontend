@@ -8,7 +8,7 @@ import { buttonVariants } from "~/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "~/components/ui/checkbox";
 import { ProductUtil } from "~/common/utility/product.util";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCheckout } from "~/hooks/useCheckout";
 import { useUser } from "~/hooks/useUser";
 import cartApi from "~/apis/cart-api";
@@ -27,12 +27,7 @@ const Cart = () => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    fetchData();
-    setIsMounted(true);
-  }, []);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const result = await cartApi.getAll(user.email);
@@ -45,7 +40,12 @@ const Cart = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user.email, setItemCart]);
+
+  useEffect(() => {
+    fetchData();
+    setIsMounted(true);
+  }, [fetchData]);
 
   const toggleSelectAll = (checked: CheckedState) => {
     if (checked) {
@@ -57,7 +57,7 @@ const Cart = () => {
 
   const totalPrice = useMemo(() => {
     return items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
-  }, [fetchData]);
+  }, [items]);
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:max-w-7xl lg:px-8">

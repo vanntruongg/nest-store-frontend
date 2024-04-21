@@ -7,6 +7,7 @@ import productApi from "~/apis/produc-api";
 import { useEffect, useState } from "react";
 import CardProduct from "~/components/product/card-product";
 import Image from "next/image";
+import { BaseUtil } from "~/common/utility/base.util";
 
 const Search = () => {
   const searchParam = useSearchParams();
@@ -15,13 +16,16 @@ const Search = () => {
   const productName = decodeURIComponent(searchParam.get("keyword") as string);
 
   useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const result = await productApi.getProductByName(productName);
+        setProducts(result.payload.data);
+      } catch (error) {
+        BaseUtil.handleErrorApi({ error });
+      }
+    };
     fetchProducts();
   }, [productName]);
-
-  const fetchProducts = async () => {
-    const result = await productApi.getProductByName(productName);
-    setProducts(result.payload.data);
-  };
   return (
     <div className="flex flex-col gap-6">
       <Breadrumbs options={`Kết quả tìm kiếm cho "${productName}"`} />
