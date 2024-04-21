@@ -48,7 +48,7 @@ export function SimilarProduct({ product }: ISimilarProductProps) {
             onClick={handleRedirect}
             className="hidden text-sm font-medium text-primary hover:text-purple-700 md:block cursor-pointer"
           >
-            Xem danh mục '{product.category.name}'
+            Xem danh mục {product.category.name}
             <span aria-hidden="true">&rarr;</span>
           </div>
         </div>
@@ -56,7 +56,7 @@ export function SimilarProduct({ product }: ISimilarProductProps) {
         <div className="relative">
           <div className="mt-6 flex items-center w-full">
             <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-5 md:gap-y-10 lg:gap-x-8">
-              {products.map((product) => (
+              {products.map((product, idx) => (
                 <CardProduct key={product.id} product={product} />
               ))}
             </div>
