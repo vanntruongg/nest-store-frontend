@@ -1,3 +1,4 @@
+"use client";
 import { ReactNode } from "react";
 import productApi from "~/apis/produc-api";
 import { Product } from "~/common/model/product.model";
@@ -14,11 +15,9 @@ interface Props {
   };
 }
 export async function generateMetadata({ params }: Props) {
-  const productId = ProductUtil.extractProductIdFromSlug(params.slug);
+  // const productId = ProductUtil.extractProductIdFromSlug(params.slug);
 
-  const result = await fetch(`/product/get + /${productId}`, { method: "GET" });
-  console.log(result);
-
+  // const result = await productApi.getProductById(productId);
   // const product: Product = result.payload.data.product;
 
   return {
