@@ -20,24 +20,19 @@ import IconTextLoading from "~/components/icon-text-loading";
 import { toast } from "~/components/ui/use-toast";
 
 export function ShippingDetail() {
-  const { user } = useUser();
   const { shippingDetail, setShippingDetail } = useCheckout();
-  const [name, setName] = useState<string>(shippingDetail.name);
-  const [phone, setPhone] = useState<string>(shippingDetail.phone);
-  const [address, setAddress] = useState<string>(shippingDetail.address);
+  const [name, setName] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMounted(true);
-    if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
-      setShippingDetail(
-        user.firstName || "",
-        user.phone || "",
-        user.address || ""
-      );
-    }
-  }, [isMounted, shippingDetail, setShippingDetail, user]);
+    setName(shippingDetail.name);
+    setPhone(shippingDetail.phone);
+    setAddress(shippingDetail.address);
+  }, [isMounted]);
 
   const handleSaveChanges = () => {
     if (phone && !BaseUtil.validateVietnamesePhoneNumber(phone)) {
@@ -109,7 +104,6 @@ export function ShippingDetail() {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className=""
                 />
               </div>
               <div className="flex gap-2 items-center">
@@ -121,7 +115,6 @@ export function ShippingDetail() {
                   id="phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className=""
                 />
               </div>
               <div className="flex gap-2 items-center">
@@ -132,7 +125,6 @@ export function ShippingDetail() {
                   id="address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className=""
                 />
               </div>
             </div>

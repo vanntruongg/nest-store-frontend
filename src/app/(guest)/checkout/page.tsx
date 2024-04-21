@@ -19,42 +19,39 @@ import { Textarea } from "~/components/ui/textarea";
 import { useRouter } from "next/navigation";
 
 const CheckOutPage = () => {
-  const { items, notes, shippingDetail, setNotes, paymentMethod } =
-    useCheckout();
+  const {
+    items,
+    notes,
+    shippingDetail,
+    setShippingDetail,
+    setNotes,
+    paymentMethod,
+  } = useCheckout();
   const { user } = useUser();
   const router = useRouter();
   const [isMounted, setIsMounted] = useState<boolean>(false);
+
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMounted(true);
-  }, [isMounted]);
+    // when reload window if shippingDetail is not empty, set shippingDetail with user's info
+    if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
+      setShippingDetail(
+        user.firstName || "",
+        user.phone || "",
+        user.address || ""
+      );
+    }
+  }, [isMounted, shippingDetail, setShippingDetail, user]);
 
   const totalPrice = useMemo(
     () => items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
     [items]
   );
 
-  const validateOrder = () => {
-    if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
-      toast({
-        description: "Thiếu thông tin giao hàng",
-        variant: "destructive",
-      });
-      return false;
-    }
-    if (paymentMethod === 0) {
-      toast({
-        description: "Vui lòng chọn phương thức thanh toán",
-        variant: "destructive",
-      });
-      return false;
-    }
-    return true;
-  };
-
   const handleCheckOut = () => {
-    if (!validateOrder()) return;
+    if (!BaseUtil.validateOrder(shippingDetail, paymentMethod)) return;
 
     if (paymentMethod === 1) {
       processPaymentWithCOD();
