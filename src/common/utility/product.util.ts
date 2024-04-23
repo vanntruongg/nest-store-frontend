@@ -45,7 +45,7 @@ export class ProductUtil {
   }
 
   static validateStock(stock: number, quantity: number) {
-    if (quantity < stock) {
+    if (stock < quantity) {
       toast({
         description: "Số lượng trong kho không đủ",
         variant: "destructive",
