@@ -14,7 +14,7 @@ export default function CartProviderClient({
   accessToken,
   children,
 }: CartProviderClientProps) {
-  const { setItemCart } = useCart();
+  const { setItemToCart } = useCart();
   const { user } = useUser();
 
   useEffect(() => {
@@ -23,16 +23,16 @@ export default function CartProviderClient({
         const result = await cartApi.getAll(user.email);
 
         const data = result.payload.data.items || [];
-        setItemCart(data);
+        setItemToCart(data);
       } catch (error) {
         BaseUtil.handleErrorApi({ error });
       }
     };
     if (!accessToken) {
-      setItemCart([]);
+      setItemToCart([]);
     } else {
       fetchData();
     }
-  }, [accessToken, setItemCart, user.email]);
+  }, [accessToken, setItemToCart, user.email]);
   return <>{children}</>;
 }
