@@ -17,12 +17,12 @@ export function OrderStatus({ status, setStatus }: IOrderTypeProps) {
   }) => {
     const isSelected = type === status;
     const className = isSelected
-      ? "bg-gray-50 text-nowrap text-primary rounded-sm transition-all duration-200"
+      ? "text-nowrap text-primary rounded-sm transition-all duration-200"
       : "cursor-pointer hover:text-primary";
     return (
       <div
         key={type}
-        className={cn("w-full p-2 text-center", className)}
+        className={cn("w-full p-3 text-center text-sm font-bold", className)}
         onClick={() => setStatus(type)}
       >
         {typeName}
@@ -30,7 +30,7 @@ export function OrderStatus({ status, setStatus }: IOrderTypeProps) {
     );
   };
   return (
-    <div className="p-1 bg-white flex justify-between font-medium">
+    <div className="bg-white flex justify-between font-medium">
       {orderStatus.map(renderStatus)}
     </div>
   );
