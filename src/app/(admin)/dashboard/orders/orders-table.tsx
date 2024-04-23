@@ -37,10 +37,11 @@ import { IOrder } from "~/common/model/order.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import OrderDetail from "./order-detail";
 import { OrderStatus } from "~/components/order-status";
-import { orderStatus } from "~/static";
+import { orderStatus, statusClasses } from "~/static";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
 import { UpdateStatus } from "./update-status";
+import { cn } from "~/lib/utils";
 
 export const GetDataAndColumns = () => {
   const [data, setData] = useState<IOrder[]>([]);
@@ -118,8 +119,11 @@ export const GetDataAndColumns = () => {
         );
       },
       cell: ({ row }) => {
+        const status: string = row.getValue("orderStatus");
         return (
-          <div className="capitalize text-center">
+          <div
+            className={`w-3/4 mx-auto py-1 capitalize font-semibold text-xs text-center rounded-full ${statusClasses[status]} `}
+          >
             {row.getValue("orderStatus")}
           </div>
         );
@@ -252,7 +256,7 @@ export function OrdersTable() {
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
+                    onCheckedChange={(value: any) =>
                       column.toggleVisibility(!!value)
                     }
                   >

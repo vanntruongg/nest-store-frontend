@@ -70,3 +70,11 @@ export const orderStatus = [
     typeName: "Đã hủy",
   },
 ];
+
+export const statusClasses: Record<string, string> = {
+  "Chờ xác nhận": "text-warning bg-warning",
+  "Đang xử lý": "text-processing bg-processing",
+  "Đang giao": "text-shipping bg-shipping",
+  "Hoàn thành": "text-success bg-success",
+  "Đã hủy": "text-danger bg-danger",
+};

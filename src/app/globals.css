@@ -202,3 +202,35 @@ input {
   /* filter: alpha(opacity=20) !important; */
   /* opacity: 0.5; */
 }
+
+/* status css */
+.text-success {
+  color: #09ad95;
+}
+.text-danger {
+  color: #e82646;
+}
+.text-warning {
+  color: #f7b731;
+}
+.text-processing {
+  color: #4b7bec;
+}
+.text-shipping {
+  color: #9b59b6;
+}
+.bg-success {
+  background-color: rgba(0, 230, 130, 0.1);
+}
+.bg-danger {
+  background-color: rgba(255, 56, 43, 0.1);
+}
+.bg-warning {
+  background-color: rgba(255, 162, 43, 0.1);
+}
+.bg-processing {
+  background-color: rgba(75, 123, 236, 0.1);
+}
+.bg-shipping {
+  background-color: rgba(155, 89, 182, 0.1);
+}
