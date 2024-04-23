@@ -33,9 +33,9 @@ export function OrderStatisticByMonth() {
   };
 
   return (
-    <div className="p-4 bg-white rounded-md shadow-lg">
+    <div className="p-2 bg-white rounded-md shadow-lg">
       <BarChart
-        title="Tổng đơn hàng mỗi tháng"
+        title="Đơn hàng"
         dataAxis={dataAxis}
         data={data}
         optionCustom={optionsCustom}

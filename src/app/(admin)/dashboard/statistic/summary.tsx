@@ -1,22 +1,17 @@
 "use client";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import orderApi from "~/apis/order-api";
 import productApi from "~/apis/produc-api";
 import userApi from "~/apis/user-api";
+import IconTextLoading from "~/components/icon-text-loading";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
@@ -27,6 +22,7 @@ interface SummaryStatistic {
 }
 
 export function SummaryStatistic() {
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const [summary, setSummary] = useState<SummaryStatistic>({
     users: 0,
     products: 0,
@@ -47,26 +43,42 @@ export function SummaryStatistic() {
       });
     };
     fetchData();
+    setIsMounted(true);
   }, []);
   const totalOrders = Object.values(summary.orders).reduce(
     (acc, curr) => acc + curr,
     0
   );
   return (
-    <div className="flex justify-between gap-4">
-      <div className="w-full p-4 flex items-center justify-between bg-white shadow-sm rounded-sm">
+    <div className="flex justify-between gap-4 font-semibold">
+      <div className="w-full p-4 flex items-center justify-between bg-white border border-gray-300 shadow-sm rounded-md">
         <p className="text-sm">Tổng số người dùng</p>
         <span className="text-3xl font-semibold">
-          <CountUp end={summary.users} separator="," />
+          {isMounted ? (
+            <CountUp end={summary.users} />
+          ) : (
+            <Loader2
+              strokeWidth={1.5}
+              className="text-muted-foreground size-5 animate-spin"
+            />
+          )}
         </span>
       </div>
-      <div className="w-full p-4 flex items-center justify-between bg-white shadow-sm rounded-sm">
+
+      <div className="w-full p-4 flex items-center justify-between bg-white border border-gray-300 shadow-sm rounded-md">
         <p className="text-sm">Tổng số sản phẩm</p>
         <span className="text-3xl font-semibold">
-          <CountUp end={summary.products} separator="," />
+          {isMounted ? (
+            <CountUp end={summary.products} />
+          ) : (
+            <Loader2
+              strokeWidth={1.5}
+              className="text-muted-foreground size-5 animate-spin"
+            />
+          )}
         </span>
       </div>
-      <div className="w-full p-4 flex items-center justify-between bg-white shadow-sm rounded-sm">
+      <div className="w-full p-4 flex items-center justify-between bg-white border border-gray-300 shadow-sm rounded-md">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">Tổng số đơn hàng</Button>
@@ -81,7 +93,14 @@ export function SummaryStatistic() {
           </DropdownMenuContent>
         </DropdownMenu>
         <span className="text-3xl font-semibold">
-          <CountUp end={totalOrders} separator="," />
+          {isMounted ? (
+            <CountUp end={totalOrders} />
+          ) : (
+            <Loader2
+              strokeWidth={1.5}
+              className="text-muted-foreground size-5 animate-spin"
+            />
+          )}
         </span>
       </div>
     </div>
