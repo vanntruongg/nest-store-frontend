@@ -1,4 +1,5 @@
 import slugify from "slugify";
+import { toast } from "~/components/ui/use-toast";
 
 export class ProductUtil {
   static createSlug(name: string, id: number): string {
@@ -41,5 +42,16 @@ export class ProductUtil {
       currency,
       maximumFractionDigits: 2,
     }).format(numericPrice);
+  }
+
+  static validateStock(stock: number, quantity: number) {
+    if (quantity < stock) {
+      toast({
+        description: "Số lượng trong kho không đủ",
+        variant: "destructive",
+      });
+      return false;
+    }
+    return true;
   }
 }
