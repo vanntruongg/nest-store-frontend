@@ -24,7 +24,7 @@ interface CartItemProps {
 
 const CartItem = ({ item, fetchData }: CartItemProps) => {
   const { user } = useUser();
-  const { remove } = useCart();
+  const { removeFromCart } = useCart();
   const { items, addItem, removeItem, updateQuantityItemCheckOut } =
     useCheckout();
   const [quantity, setQuantity] = useState<number>(item.quantity);
@@ -109,7 +109,7 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
     try {
       const result = await cartApi.remove(user.email, item.id);
       // set to cart localsotorage
-      remove(item.id);
+      removeFromCart(item.id);
       toast({
         description: result.payload.message,
       });
