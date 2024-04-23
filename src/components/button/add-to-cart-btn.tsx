@@ -6,70 +6,64 @@ import { BaseUtil } from "~/common/utility/base.util";
 import { useUser } from "~/hooks/useUser";
 import { Product } from "~/common/model/product.model";
 import cartApi from "~/apis/cart-api";
-import { IAddRequest, IItem } from "~/common/model/cart.model";
+import { IAddToCartRequest, IItem } from "~/common/model/cart.model";
 import { toast } from "../ui/use-toast";
 import { tokenStorage } from "~/common/utility/auth.util";
 import { useRouter } from "next/navigation";
 import { useCart } from "~/hooks/useCart";
 import { ToastAction } from "../ui/toast";
 import Link from "next/link";
-import { isBuffer } from "lodash";
+import { ProductUtil } from "~/common/utility/product.util";
 
 interface AddtoCartButtonProps {
-  product?: Product;
+  product: Product;
   quantity: number;
 }
 
 const AddtoCartButton = ({ product, quantity }: AddtoCartButtonProps) => {
   const { user } = useUser();
   const router = useRouter();
-  const { add } = useCart();
+  const { addToCart } = useCart();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handlAddtoCart = async () => {
+  const handleAddtoCart = async () => {
+    setLoading(true);
     if (tokenStorage.value.rawToken.accessToken === "") {
       router.push("/login");
       return;
     }
 
-    setLoading(true);
     try {
-      if (product) {
-        if (quantity > product.stock) {
-          toast({
-            description: "Số lượng trong kho không đủ",
-            variant: "destructive",
-          });
-          return;
-        }
-
-        const item: IItem = {
-          id: product.id,
-          quantity,
-          price: product.price,
-          name: product.name,
-          category: product.category.name,
-          imageUrl: product.imageUrl,
-        };
-        const data: IAddRequest = {
-          email: user.email,
-          itemDto: item,
-        };
-
-        await cartApi.add(data);
-
-        add(item);
-
-        toast({
-          title: "Thành công",
-          description: "Thêm vào giỏ hàng thành công",
-          action: (
-            <ToastAction altText="Xem giỏ hàng">
-              <Link href={"/cart"}>Xem giỏ hàng</Link>
-            </ToastAction>
-          ),
-        });
+      if (!ProductUtil.validateStock(product.stock, quantity)) {
+        return;
       }
+
+      const item: IItem = {
+        id: product.id,
+        price: product.price,
+        name: product.name,
+        category: product.category.name,
+        imageUrl: product.imageUrl,
+        quantity,
+      };
+      const data: IAddToCartRequest = {
+        email: user.email,
+        itemDto: item,
+      };
+
+      await cartApi.add(data);
+
+      addToCart(item);
+
+      toast({
+        title: "Thành công",
+        description: "Thêm vào giỏ hàng thành công",
+        action: (
+          <ToastAction altText="Xem giỏ hàng">
+            <Link href={"/cart"}>Xem giỏ hàng</Link>
+          </ToastAction>
+        ),
+      });
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {
@@ -79,7 +73,7 @@ const AddtoCartButton = ({ product, quantity }: AddtoCartButtonProps) => {
 
   return (
     <Button
-      onClick={handlAddtoCart}
+      onClick={handleAddtoCart}
       size={"sm"}
       className="w-full border border-primary bg-purple-200 text-primary text-xs uppercase hover:bg-purple-100 hover:shadow-sm rounded-none transition-all duration-300"
     >

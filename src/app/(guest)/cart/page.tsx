@@ -21,7 +21,7 @@ import Loading from "~/components/loading";
 
 const Cart = () => {
   const { user } = useUser();
-  const { setItemCart } = useCart();
+  const { setItemToCart } = useCart();
   const { items, addItems, clearCheckout } = useCheckout();
   const [products, setProducts] = useState<IItem[]>([]);
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -34,7 +34,7 @@ const Cart = () => {
 
       const data = result.payload.data.items || [];
       setProducts(data);
-      setItemCart(data);
+      setItemToCart(data);
     } catch (error) {
       BaseUtil.handleErrorApi({ error });
     } finally {

@@ -4,17 +4,17 @@ import { IItem } from "~/common/model/cart.model";
 
 type CartState = {
   itemsCart: IItem[];
-  setItemCart: (items: IItem[]) => void;
-  add: (item: IItem) => void;
-  remove: (id: number) => void;
+  setItemToCart: (items: IItem[]) => void;
+  addToCart: (item: IItem) => void;
+  removeFromCart: (id: number) => void;
 };
 
 export const useCart = create<CartState>()(
   persist(
     (set) => ({
       itemsCart: [],
-      setItemCart: (itemsCart: IItem[]) => set({ itemsCart: itemsCart }),
-      add: (newItem) =>
+      setItemToCart: (itemsCart: IItem[]) => set({ itemsCart: itemsCart }),
+      addToCart: (newItem) =>
         set((state) => {
           const existedProduct = state.itemsCart.find(
             (item) => item.id === newItem.id
@@ -24,7 +24,7 @@ export const useCart = create<CartState>()(
           }
           return { itemsCart: state.itemsCart };
         }),
-      remove: (productId: number) =>
+      removeFromCart: (productId: number) =>
         set((state) => ({
           itemsCart: state.itemsCart.filter((item) => item.id !== productId),
         })),
