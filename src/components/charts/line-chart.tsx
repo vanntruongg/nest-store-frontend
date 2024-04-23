@@ -20,7 +20,11 @@ const LineChart = ({ title, dataAxis, data, optionCustom }: LineChartProps) => {
       title: {
         text: title,
         textStyle: {
-          fontStyle: "normal",
+          color: "#000",
+          fontStyle: "Normal",
+          fontSize: 20,
+          fontWeight: "bold",
+          fontFamily: "Nunito, sans-serif",
         },
       },
       xAxis: {
