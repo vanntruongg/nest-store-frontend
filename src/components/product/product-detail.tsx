@@ -92,7 +92,7 @@ const ProductDetail = ({ product }: ProductDetailProps) => {
                   <AddtoCartButton product={product} quantity={quantity} />
                 </div>
                 <div className="flex-1">
-                  <BuyNowButton />
+                  <BuyNowButton product={product} quantity={quantity} />
                 </div>
               </div>
             </section>
