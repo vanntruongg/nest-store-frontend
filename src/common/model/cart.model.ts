@@ -12,7 +12,7 @@ interface ICartItem {
   items: IItem[];
   totalPrice: number;
 }
-interface IAddRequest {
+interface IAddToCartRequest {
   email: string;
   itemDto: {
     id: number;
@@ -29,4 +29,4 @@ interface IUpdateCartRequest {
   quantity: number;
 }
 
-export type { ICartItem, IItem, IUpdateCartRequest, IAddRequest };
+export type { ICartItem, IItem, IUpdateCartRequest, IAddToCartRequest };
