@@ -43,17 +43,20 @@ const navLinks = [
 export function NavAdmin() {
   const pathname = usePathname();
   return (
-    <nav className="bg-primary text-white col-span-2 h-full min-h-screen p-4 shadow">
-      <div className="flex justify-center">
+    <nav className="bg-primary text-white h-full min-h-screen p-4 shadow">
+      <Link
+        href={"/dashboard/statistic"}
+        className="overflow-hidden flex justify-center scale-150"
+      >
         <Image
           src={Logo}
           alt="Logo"
           width={50}
           height={50}
-          className="scale-150"
+          className="scale-150 overflow-hidden"
         />
-      </div>
-      <ul className="p-3 flex flex-col">
+      </Link>
+      <ul className="px-3 flex flex-col mt-4">
         {navLinks.map(({ id, icon, label, link }) =>
           pathname === link ? (
             <li
@@ -75,10 +78,8 @@ export function NavAdmin() {
             </li>
           )
         )}
+        <ButtonLogout className="px-2 py-4 font-medium rounded-sm hover:bg-white hover:text-primary transition-colors duration-300" />
       </ul>
-      <div className="px-3">
-        <ButtonLogout className="px-3 font-medium rounded-sm hover:bg-white hover:text-primary transition-colors duration-300" />
-      </div>
     </nav>
   );
 }
