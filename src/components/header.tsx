@@ -24,10 +24,10 @@ const Header = () => {
               <p>Phone: 035778899</p>
             </a>
             <a
-              href="mailto:vt.ctu@gmail.com"
+              href="mailto:vantruong.ct263ctu@gmail.com"
               className="px-4 hover:text-primary"
             >
-              <p> Email: vt.ctu@gmail.com</p>
+              <p> Email: vantruong.ct263ctu@gmail.com</p>
             </a>
           </div>
         </MaxWidthWrapper>

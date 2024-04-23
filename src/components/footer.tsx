@@ -51,8 +51,11 @@ const Footer = () => {
                         <div className="">
                           <Mail className="size-4" />
                         </div>
-                        <a href="mailto:vt.ctu@gmail.com" className="">
-                          vt.ctu@gmail.com
+                        <a
+                          href="mailto:vantruong.ct263ctu@gmail.com"
+                          className=""
+                        >
+                          vantruong.ct263ctu@gmail.com
                         </a>
                       </div>
                       <div className="flex items-center gap-4 text-gray-500 hover:text-gray-900 cursor-pointer ">
@@ -152,7 +155,6 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <p className="flex items-center justify-center text-sm text-muted-foreground">
               Bản quyền &copy; {new Date().getFullYear()}
-              {"  "}
               <span className="pl-2 text-black font-bold uppercase">nest</span>.
             </p>
             <p className="flex items-center justify-center text-sm text-muted-foreground">
