@@ -39,14 +39,23 @@ import { Product } from "~/common/model/product.model";
 import { ProductUtil } from "~/common/utility/product.util";
 import { FormUpdate } from "./form-update";
 import { FormCreate } from "./form-create";
+import { BaseUtil } from "~/common/utility/base.util";
+import IconTextLoading from "~/components/icon-text-loading";
 
 export const GetDataAndColumns = () => {
   const [data, setData] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchData = async () => {
-    const result = await productApi.getAll();
-    setData(result.payload.data);
-    console.log(result.payload.data);
+    setLoading(true);
+    try {
+      const result = await productApi.getAll();
+      setData(result.payload.data);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     fetchData();
@@ -156,7 +165,7 @@ export const GetDataAndColumns = () => {
     },
   ];
 
-  return { data, columns, fetchData };
+  return { data, columns, fetchData, loading };
 };
 
 export function ProductsTable() {
@@ -165,7 +174,7 @@ export function ProductsTable() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const { data, columns, fetchData } = GetDataAndColumns();
+  const { data, columns, fetchData, loading } = GetDataAndColumns();
 
   const table = useReactTable({
     data,
@@ -215,7 +224,7 @@ export function ProductsTable() {
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
+                    onCheckedChange={(value: any) =>
                       column.toggleVisibility(!!value)
                     }
                   >
@@ -247,7 +256,18 @@ export function ProductsTable() {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {loading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  <div className="flex justify-center">
+                    <IconTextLoading />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
