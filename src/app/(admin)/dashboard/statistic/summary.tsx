@@ -1,11 +1,10 @@
 "use client";
-import { Loader2 } from "lucide-react";
+import { BaggageClaim, Gem, Loader2, Shirt, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import orderApi from "~/apis/order-api";
 import productApi from "~/apis/produc-api";
 import userApi from "~/apis/user-api";
-import IconTextLoading from "~/components/icon-text-loading";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -14,8 +13,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-
+import { v4 as uuid } from "uuid";
 interface SummaryStatistic {
+  totalRevenue: number;
   users: number;
   products: number;
   orders: { [key: string]: number };
@@ -24,19 +24,22 @@ interface SummaryStatistic {
 export function SummaryStatistic() {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [summary, setSummary] = useState<SummaryStatistic>({
+    totalRevenue: 0,
     users: 0,
     products: 0,
     orders: {},
   });
   useEffect(() => {
     const fetchData = async () => {
-      const [users, products, orders] = await Promise.all([
+      const [totalRevenue, users, products, orders] = await Promise.all([
+        orderApi.getTotalRevenue(),
         userApi.getUserCount(),
         productApi.getProductCount(),
         orderApi.getOrderCount(),
       ]);
 
       setSummary({
+        totalRevenue: totalRevenue.payload.data,
         users: users.payload.data,
         products: products.payload.data,
         orders: orders.payload.data,
@@ -49,9 +52,97 @@ export function SummaryStatistic() {
     (acc, curr) => acc + curr,
     0
   );
+
+  const sumaryStatistic = [
+    {
+      id: uuid(),
+      label: "Tổng doanh thu (VND)",
+      value: summary.totalRevenue,
+      details: false,
+      icon: <Gem strokeWidth={1.5} className="-mt-1" />,
+    },
+    {
+      id: uuid(),
+      label: "Tổng số người dùng",
+      value: summary.users,
+      details: false,
+      icon: <User strokeWidth={1.5} className="-mt-1" />,
+    },
+    {
+      id: uuid(),
+      label: "Tổng số sản phẩm",
+      value: summary.products,
+      details: false,
+      icon: <Shirt strokeWidth={1.5} className="-mt-1" />,
+    },
+    {
+      id: uuid(),
+      label: "Tổng số đơn hàng",
+      value: summary.orders,
+      details: true,
+      icon: <BaggageClaim strokeWidth={1.5} className="-mt-1" />,
+    },
+  ];
   return (
     <div className="flex justify-between gap-4 font-semibold">
-      <div className="w-full p-4 flex items-center justify-between bg-white border border-gray-300 shadow-sm rounded-md">
+      {sumaryStatistic.map(({ id, label, value, details, icon }) =>
+        details ? (
+          <div
+            key={id}
+            className="w-full p-2 flex flex-col space-y-2 justify-between bg-white border border-gray-300 shadow-sm rounded-md"
+          >
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">{label}</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel className="text-lg">
+                  Chi tiết
+                </DropdownMenuLabel>
+                {Object.entries(value).map(([status, value]) => (
+                  <DropdownMenuItem key={status}>
+                    {status}: {value}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <div className="-translate-y-1 flex items-center justify-between">
+              {icon}
+              <span className="text-2xl font-semibold leading-none">
+                {isMounted ? (
+                  <CountUp end={totalOrders as number} />
+                ) : (
+                  <Loader2
+                    strokeWidth={1.5}
+                    className="text-muted-foreground size-5 animate-spin"
+                  />
+                )}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div
+            key={id}
+            className="w-full p-3 flex flex-col space-y-2 justify-between bg-white border border-gray-300 shadow-sm rounded-md"
+          >
+            <p className="text-base">{label}</p>
+            <div className="flex items-center justify-between">
+              {icon}
+              <span className="text-2xl font-semibold leading-none">
+                {isMounted ? (
+                  <CountUp end={value as number} />
+                ) : (
+                  <Loader2
+                    strokeWidth={1.5}
+                    className="text-muted-foreground size-5 animate-spin"
+                  />
+                )}
+              </span>
+            </div>
+          </div>
+        )
+      )}
+      {/* <div className="w-full p-4 flex items-center justify-between bg-white border border-gray-300 shadow-sm rounded-md">
         <p className="text-sm">Tổng số người dùng</p>
         <span className="text-3xl font-semibold">
           {isMounted ? (
@@ -63,9 +154,9 @@ export function SummaryStatistic() {
             />
           )}
         </span>
-      </div>
+      </div> */}
 
-      <div className="w-full p-4 flex items-center justify-between bg-white border border-gray-300 shadow-sm rounded-md">
+      {/* <div className="w-full p-4 flex items-center justify-between bg-white border border-gray-300 shadow-sm rounded-md">
         <p className="text-sm">Tổng số sản phẩm</p>
         <span className="text-3xl font-semibold">
           {isMounted ? (
@@ -77,8 +168,8 @@ export function SummaryStatistic() {
             />
           )}
         </span>
-      </div>
-      <div className="w-full p-4 flex items-center justify-between bg-white border border-gray-300 shadow-sm rounded-md">
+      </div> */}
+      {/* <div className="w-full p-4 flex items-center justify-between bg-white border border-gray-300 shadow-sm rounded-md">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">Tổng số đơn hàng</Button>
@@ -102,7 +193,7 @@ export function SummaryStatistic() {
             />
           )}
         </span>
-      </div>
+      </div> */}
     </div>
   );
 }

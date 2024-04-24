@@ -19,7 +19,7 @@ export function TotalRevenue() {
 
   return (
     <div className="p-4 bg-white rounded-md shadow-lg">
-      <BarChart title="Tổng doanh thu" dataAxis={dataAxis} data={data} />
+      {/* <h3 className="text-xl font-bold">Tổng doanh thu</h3> */}
     </div>
   );
 }
