@@ -108,7 +108,6 @@ const request = async <Response>(
       throw new HttpError(data);
     }
   }
-  // console.log("Payload", payload);
 
   if (typeof window !== "undefined") {
     if (

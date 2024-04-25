@@ -51,6 +51,7 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
           itemId: item.id,
           quantity,
         };
+
         await cartApi.udpate(data);
         fetchData();
       } catch (error) {
@@ -60,7 +61,7 @@ const CartItem = ({ item, fetchData }: CartItemProps) => {
         setLoading(false);
       }
     },
-    [item.id, item.quantity]
+    [item.id]
   );
   // handle quantity change on blur ỏ debounced value update
   useEffect(() => {
