@@ -1,5 +1,5 @@
 "use client";
-import { BaggageClaim, Gem, Loader2, Shirt, User } from "lucide-react";
+import { BaggageClaim, Loader2, Shirt, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import orderApi from "~/apis/order-api";
@@ -15,7 +15,6 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { v4 as uuid } from "uuid";
 interface SummaryStatistic {
-  totalRevenue: number;
   users: number;
   products: number;
   orders: { [key: string]: number };
@@ -24,22 +23,19 @@ interface SummaryStatistic {
 export function SummaryStatistic() {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [summary, setSummary] = useState<SummaryStatistic>({
-    totalRevenue: 0,
     users: 0,
     products: 0,
     orders: {},
   });
   useEffect(() => {
     const fetchData = async () => {
-      const [totalRevenue, users, products, orders] = await Promise.all([
-        orderApi.getTotalRevenue(),
+      const [users, products, orders] = await Promise.all([
         userApi.getUserCount(),
         productApi.getProductCount(),
         orderApi.getOrderCount(),
       ]);
 
       setSummary({
-        totalRevenue: totalRevenue.payload.data,
         users: users.payload.data,
         products: products.payload.data,
         orders: orders.payload.data,
@@ -54,13 +50,6 @@ export function SummaryStatistic() {
   );
 
   const sumaryStatistic = [
-    {
-      id: uuid(),
-      label: "Tổng doanh thu (VND)",
-      value: summary.totalRevenue,
-      details: false,
-      icon: <Gem strokeWidth={1.5} className="-mt-1" />,
-    },
     {
       id: uuid(),
       label: "Tổng số người dùng",

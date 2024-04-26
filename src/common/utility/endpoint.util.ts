@@ -54,7 +54,7 @@ export class EndpointUtil {
       GET_TOTAL_ORDER_COUNT_BY_STATUS: "/order/total-order",
       ORDER_COUNT_BY_MONTH: "/order/count/month",
       GET_REVENUE: "/order/get/revenue",
-      GET_REVENUE_BY_MONTH: "/order/get/revenue/month",
+      GET_REVENUE_BY_YEAR: "/order/get/revenue/year",
     },
   };
 }

@@ -1,6 +1,6 @@
 import { SummaryStatistic } from "./summary";
 import { OrderStatisticByMonth } from "./order-by-month";
-import { RevenueByMonth } from "./revenue-by-month";
+import { Revenue } from "./revenue";
 import { TotalRevenue } from "./total-revenue";
 
 const StatisticPage = () => {
@@ -8,7 +8,7 @@ const StatisticPage = () => {
     <div className="space-y-4">
       <SummaryStatistic />
 
-      <RevenueByMonth />
+      <Revenue />
       <div className="grid grid-cols-3 gap-4">
         <TotalRevenue />
         <div className="col-span-2">

@@ -18,14 +18,14 @@ const LineChart = ({ title, dataAxis, data, optionCustom }: LineChartProps) => {
   useEffect(() => {
     const lineChartOptions = {
       title: {
-        text: title,
-        textStyle: {
-          color: "#000",
-          fontStyle: "Normal",
-          fontSize: 20,
-          fontWeight: "bold",
-          fontFamily: "Nunito, sans-serif",
-        },
+        // text: title,
+        // textStyle: {
+        //   color: "#000",
+        //   fontStyle: "Normal",
+        //   fontSize: 20,
+        //   fontWeight: "bold",
+        //   fontFamily: "Nunito, sans-serif",
+        // },
       },
       xAxis: {
         data: dataAxis,
@@ -82,7 +82,12 @@ const LineChart = ({ title, dataAxis, data, optionCustom }: LineChartProps) => {
     setOption(lineChartOptions);
   }, [dataAxis, data, title, optionCustom]);
 
-  return <ReactECcharts option={option}></ReactECcharts>;
+  return (
+    <ReactECcharts
+      // className="bg-red-100"
+      option={option}
+    ></ReactECcharts>
+  );
 };
 
 export default LineChart;
