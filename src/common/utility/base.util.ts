@@ -2,6 +2,7 @@ import { UseFormSetError } from "react-hook-form";
 import { toast } from "~/components/ui/use-toast";
 import { EntityError } from "../http-client";
 import { IOrderShippingDetail } from "../model/order.model";
+import { orderStatus } from "~/static";
 
 export class BaseUtil {
   static handleErrorApi({
@@ -72,5 +73,10 @@ export class BaseUtil {
       return false;
     }
     return true;
+  }
+
+  static mapOrderStatus(status: string): string {
+    const foundStatus = orderStatus.find((stt) => stt.type === status);
+    return foundStatus ? foundStatus.typeName : "";
   }
 }

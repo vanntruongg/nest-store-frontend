@@ -2,7 +2,7 @@
 
 import * as echarts from "echarts";
 import ReactECcharts from "echarts-for-react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
 interface LineChartProps {
   title: string;
@@ -90,4 +90,4 @@ const LineChart = ({ title, dataAxis, data, optionCustom }: LineChartProps) => {
   );
 };
 
-export default LineChart;
+export default memo(LineChart);

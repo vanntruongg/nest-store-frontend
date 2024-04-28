@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import orderApi from "~/apis/order-api";
 import BarChart from "~/components/charts/bar-chart";
 
-export function TotalRevenue() {
+const TotalRevenue = () => {
   const [dataAxis, setDataAxis] = useState<string[]>([]);
   const [data, setData] = useState<number[]>([]);
+  console.log("TotalRevenue re-render");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,4 +23,6 @@ export function TotalRevenue() {
       {/* <h3 className="text-xl font-bold">Tổng doanh thu</h3> */}
     </div>
   );
-}
+};
+
+export default memo(TotalRevenue);

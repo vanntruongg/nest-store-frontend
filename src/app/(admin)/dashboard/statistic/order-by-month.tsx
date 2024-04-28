@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import orderApi from "~/apis/order-api";
 import BarChart from "~/components/charts/bar-chart";
 
-export function OrderStatisticByMonth() {
+const OrderStatisticByMonth = () => {
   const [dataAxis, setDataAxis] = useState<string[]>([]);
   const [data, setData] = useState<number[]>([]);
-
+  console.log("OrderStatisticByMonth re-render");
   useEffect(() => {
     const fetchData = async () => {
       const result = await orderApi.getCountOrderByMonth();
@@ -42,4 +42,6 @@ export function OrderStatisticByMonth() {
       />
     </div>
   );
-}
+};
+
+export default OrderStatisticByMonth;

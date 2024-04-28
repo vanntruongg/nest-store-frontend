@@ -30,7 +30,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import orderApi from "~/apis/order-api";
 import { IOrder } from "~/common/model/order.model";
@@ -41,18 +41,19 @@ import { orderStatus, statusClasses } from "~/static";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
 import { UpdateStatus } from "./update-status";
-import { cn } from "~/lib/utils";
+import { useSearchParams } from "next/navigation";
 
 export const GetDataAndColumns = () => {
   const [data, setData] = useState<IOrder[]>([]);
-  const [status, setStatus] = useState<string>(orderStatus[0].type);
   const [loading, setLoading] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const status = searchParams.get("orderStatus") || orderStatus[0].type;
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const result =
-        status === "ALL"
+        status === orderStatus[0].type
           ? await orderApi.getAll()
           : await orderApi.getByStatus(status);
 
@@ -120,11 +121,14 @@ export const GetDataAndColumns = () => {
       },
       cell: ({ row }) => {
         const status: string = row.getValue("orderStatus");
+        const statusMapped = BaseUtil.mapOrderStatus(status);
+        console.log(statusMapped);
+
         return (
           <div
-            className={`w-3/4 mx-auto py-1 capitalize font-semibold text-xs text-center rounded-full ${statusClasses[status]} `}
+            className={`w-3/4 mx-auto py-1 capitalize font-semibold text-xs text-center rounded-full ${statusClasses[statusMapped]} `}
           >
-            {row.getValue("orderStatus")}
+            {statusMapped}
           </div>
         );
       },
@@ -196,7 +200,7 @@ export const GetDataAndColumns = () => {
       },
     },
   ];
-  return { data, columns, status, setStatus, loading };
+  return { data, columns, loading };
 };
 
 export function OrdersTable() {
@@ -205,7 +209,7 @@ export function OrdersTable() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const { data, columns, status, setStatus, loading } = GetDataAndColumns();
+  const { data, columns, loading } = GetDataAndColumns();
 
   const table = useReactTable({
     data,
@@ -229,7 +233,7 @@ export function OrdersTable() {
 
   return (
     <div className="w-full">
-      <OrderStatus status={status} setStatus={setStatus} />
+      <OrderStatus />
       <div className="flex items-center py-4">
         <Input
           placeholder="Tìm đơn hàng"

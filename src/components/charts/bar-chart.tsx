@@ -2,7 +2,7 @@
 
 import * as echarts from "echarts";
 import ReactECcharts from "echarts-for-react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
 interface BarChartProps {
   title: string;
@@ -94,4 +94,4 @@ const BarChart = ({ title, dataAxis, data, optionCustom }: BarChartProps) => {
   return <ReactECcharts option={option} className=""></ReactECcharts>;
 };
 
-export default BarChart;
+export default memo(BarChart);

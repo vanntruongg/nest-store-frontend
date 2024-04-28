@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import orderApi from "~/apis/order-api";
 import { ProductUtil } from "~/common/utility/product.util";
 import LineChart from "~/components/charts/line-chart";
@@ -15,7 +15,9 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 
-export function Revenue() {
+const Revenue = () => {
+  console.log("Revenue re-render");
+
   const [dataAxis, setDataAxis] = useState<string[]>([]);
   const [data, setData] = useState<number[]>([]);
   const searchParams = useSearchParams();
@@ -155,4 +157,6 @@ export function Revenue() {
       />
     </div>
   );
-}
+};
+
+export default memo(Revenue);
