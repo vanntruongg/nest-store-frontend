@@ -24,6 +24,7 @@ const ListCategory = ({ categories, fontSize }: ListCategoryProps) => {
 
   const handleFetchData = (categoryId: number) => {
     const params = new URLSearchParams(searchParams.toString());
+    params.set("pageNumber", "1");
     params.set("category", categoryId.toString());
     router.push(pathname + "?" + params.toString());
   };
