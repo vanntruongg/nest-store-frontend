@@ -41,13 +41,22 @@ import { ViewUserDetail } from "./user-detail";
 import { FormUpdateUser } from "./form-update";
 import { ConfirmDelete } from "./dialog-confirm-delete";
 import Image from "next/image";
+import IconTextLoading from "~/components/icon-text-loading";
+import { BaseUtil } from "~/common/utility/base.util";
 
 export const GetDataAndColumns = () => {
   const [data, setData] = useState<IUser[]>([]);
-
+  const [loading, setLoading] = useState<boolean>(false);
   const fetchData = async () => {
-    const result = await userApi.getAllUser();
-    setData(result.payload.data);
+    setLoading(true);
+    try {
+      const result = await userApi.getAllUser();
+      setData(result.payload.data);
+    } catch (error) {
+      BaseUtil.handleErrorApi({ error });
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     fetchData();
@@ -123,14 +132,20 @@ export const GetDataAndColumns = () => {
         const status: string = row.getValue("status");
         return (
           <div
-            className={cn("text-center capitalize p-1 rounded-sm", {
-              "bg-green-300":
-                (EUserStatus as { [key: string]: string })[status] ===
-                EUserStatus.ACTIVE,
-              "bg-red-300":
-                (EUserStatus as { [key: string]: string })[status] ===
-                EUserStatus.DELETED,
-            })}
+            className={cn(
+              "text-center text-xs font-bold capitalize p-1 rounded-full",
+              {
+                "bg-green-100 text-green-500":
+                  (EUserStatus as { [key: string]: string })[status] ===
+                  EUserStatus.ACTIVE,
+                "bg-red-100 text-red-500":
+                  (EUserStatus as { [key: string]: string })[status] ===
+                  EUserStatus.DELETED,
+                "bg-yellow-50 text-yellow-500":
+                  (EUserStatus as { [key: string]: string })[status] ===
+                  EUserStatus.PENDING_VERIFICATION,
+              }
+            )}
           >
             {(EUserStatus as { [key: string]: string })[status]}
           </div>
@@ -190,7 +205,7 @@ export const GetDataAndColumns = () => {
     },
   ];
 
-  return { data, columns };
+  return { data, columns, loading };
 };
 
 export function UsersTable() {
@@ -198,8 +213,7 @@ export function UsersTable() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-
-  const { data, columns } = GetDataAndColumns();
+  const { data, columns, loading } = GetDataAndColumns();
 
   const table = useReactTable({
     data,
@@ -280,7 +294,18 @@ export function UsersTable() {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {loading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  <div className="flex justify-center">
+                    <IconTextLoading />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
