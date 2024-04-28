@@ -15,6 +15,8 @@ import {
 } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { BaseUtil } from "~/common/utility/base.util";
+import { statusClasses } from "~/static";
 export interface IPurchaseProps {
   orders: IOrder[];
 }
@@ -43,7 +45,13 @@ export function Purchase({ orders }: IPurchaseProps) {
               <div key={orderId} className="bg-white">
                 <div className="flex justify-between gap-2 py-4 px-6 border-b">
                   <div className="">Mã đơn: {orderId}</div>
-                  <div className="">{orderStatus}</div>
+                  <div
+                    className={`text-sm font-bold px-2 py-1 ${
+                      statusClasses[BaseUtil.mapOrderStatus(orderStatus)]
+                    }`}
+                  >
+                    {BaseUtil.mapOrderStatus(orderStatus)}
+                  </div>
                 </div>
                 <div className="px-6 divide-y">
                   {orderDetail.map((itemOrder) => (

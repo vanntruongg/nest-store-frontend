@@ -1,13 +1,20 @@
-import { Dispatch, SetStateAction } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "~/lib/utils";
 import { orderStatus } from "~/static";
 
-export interface IOrderTypeProps {
-  status: string;
-  setStatus: Dispatch<SetStateAction<string>>;
-}
+export function OrderStatus() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-export function OrderStatus({ status, setStatus }: IOrderTypeProps) {
+  const status = searchParams.get("orderStatus") || orderStatus[0].type;
+
+  const handleSelectStatus = (status: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("orderStatus", status);
+    router.push(pathname + "?" + params.toString());
+  };
+
   const renderStatus = ({
     type,
     typeName,
@@ -23,7 +30,7 @@ export function OrderStatus({ status, setStatus }: IOrderTypeProps) {
       <div
         key={type}
         className={cn("w-full p-3 text-center text-sm font-bold", className)}
-        onClick={() => setStatus(type)}
+        onClick={() => handleSelectStatus(type)}
       >
         {typeName}
       </div>

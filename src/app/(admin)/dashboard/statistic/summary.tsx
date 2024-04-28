@@ -1,6 +1,8 @@
 "use client";
 import { BaggageClaim, Loader2, Shirt, User } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import CountUp from "react-countup";
 import orderApi from "~/apis/order-api";
 import productApi from "~/apis/produc-api";
@@ -14,13 +16,16 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { v4 as uuid } from "uuid";
+import { BaseUtil } from "~/common/utility/base.util";
 interface SummaryStatistic {
   users: number;
   products: number;
   orders: { [key: string]: number };
 }
 
-export function SummaryStatistic() {
+const SummaryStatistic = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [summary, setSummary] = useState<SummaryStatistic>({
     users: 0,
@@ -44,9 +49,9 @@ export function SummaryStatistic() {
     fetchData();
     setIsMounted(true);
   }, []);
-  const totalOrders = Object.values(summary.orders).reduce(
-    (acc, curr) => acc + curr,
-    0
+  const totalOrders = useMemo(
+    () => Object.values(summary.orders).reduce((acc, curr) => acc + curr, 0),
+    [summary.orders]
   );
 
   const sumaryStatistic = [
@@ -72,6 +77,12 @@ export function SummaryStatistic() {
       icon: <BaggageClaim strokeWidth={1.5} className="-mt-1" />,
     },
   ];
+
+  const handleSelectStatus = (status: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("orderStatus", status);
+    router.push("/dashboard/orders" + "?" + params.toString());
+  };
   return (
     <div className="flex justify-between gap-4 font-semibold">
       {sumaryStatistic.map(({ id, label, value, details, icon }) =>
@@ -89,8 +100,12 @@ export function SummaryStatistic() {
                   Chi tiết
                 </DropdownMenuLabel>
                 {Object.entries(value).map(([status, value]) => (
-                  <DropdownMenuItem key={status}>
-                    {status}: {value}
+                  <DropdownMenuItem
+                    key={status}
+                    onClick={() => handleSelectStatus(status)}
+                    className="cursor-pointer"
+                  >
+                    {BaseUtil.mapOrderStatus(status)}: {value}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -185,4 +200,5 @@ export function SummaryStatistic() {
       </div> */}
     </div>
   );
-}
+};
+export default SummaryStatistic;

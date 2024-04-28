@@ -1,36 +1,31 @@
 "use client";
-import { Type } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import orderApi from "~/apis/order-api";
 import { IOrder } from "~/common/model/order.model";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
-import Loading from "~/components/loading";
 import { Purchase } from "~/components/purchase";
 import { OrderStatus } from "~/components/order-status";
 import { useUser } from "~/hooks/useUser";
-import { cn } from "~/lib/utils";
 import { orderStatus } from "~/static";
+import { useSearchParams } from "next/navigation";
 
 const PurchasePage = () => {
   const { user } = useUser();
-  const [typePurchase, setTypePurchase] = useState<string>(orderStatus[0].type);
+  const searchParams = useSearchParams();
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const status = searchParams.get("orderStatus") || orderStatus[0].type;
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        if (typePurchase === "ALL") {
+        if (status === orderStatus[0].type) {
           const result = await orderApi.getAllByEmail(user.email);
           setOrders(result.payload.data);
-          console.log(result.payload.data);
+          // console.log(result.payload.data);
         } else {
-          const result = await orderApi.getByEmailAndStatus(
-            user.email,
-            typePurchase
-          );
+          const result = await orderApi.getByEmailAndStatus(user.email, status);
           setOrders(result.payload.data);
         }
       } catch (error) {
@@ -40,11 +35,11 @@ const PurchasePage = () => {
       }
     };
     fetchData();
-  }, [typePurchase, user.email]);
+  }, [status, user.email]);
 
   return (
     <div className="h-full flex flex-col gap-4 rounded-sm">
-      <OrderStatus status={typePurchase} setStatus={setTypePurchase} />
+      <OrderStatus />
       {/* orders */}
 
       {loading ? (
