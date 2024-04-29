@@ -7,7 +7,7 @@ import { useCheckout } from "~/hooks/useCheckout";
 import { ProductUtil } from "~/common/utility/product.util";
 import { BaseUtil } from "~/common/utility/base.util";
 import orderApi from "~/apis/order-api";
-import { IOrderDetailRequest, IOrderRequest } from "~/common/model/order.model";
+import { IOrderRequest } from "~/common/model/order.model";
 import { ShippingDetail } from "./shipping-detail";
 import { toast } from "~/components/ui/use-toast";
 import { PaymentMethod } from "./payment-method";
@@ -35,14 +35,7 @@ const CheckOutPage = () => {
   useEffect(() => {
     setIsMounted(true);
     // when reload window if shippingDetail is not empty, set shippingDetail with user's info
-    if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
-      setShippingDetail(
-        user.firstName || "",
-        user.phone || "",
-        user.address || ""
-      );
-    }
-  }, [user]);
+  }, []);
 
   const totalPrice = useMemo(
     () => items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),

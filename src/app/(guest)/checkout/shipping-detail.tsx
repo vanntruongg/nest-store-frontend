@@ -17,19 +17,26 @@ import { useEffect, useState } from "react";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
 import { toast } from "~/components/ui/use-toast";
+import { useUser } from "~/hooks/useUser";
 
 export function ShippingDetail({ isMounted }: { isMounted: boolean }) {
+  const { user } = useUser();
   const { shippingDetail, setShippingDetail } = useCheckout();
-  const [name, setName] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
+  const [name, setName] = useState<string>(user.firstName);
+  const [phone, setPhone] = useState<string>(user.phone || "");
+  const [address, setAddress] = useState<string>(user.address || "");
   const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    setName(shippingDetail.name);
-    setPhone(shippingDetail.phone);
-    setAddress(shippingDetail.address);
-  }, []);
+    // when reload window if shippingDetail is not empty, set shippingDetail with user's info
+    if (BaseUtil.isShippingDetailEmpty(shippingDetail)) {
+      setShippingDetail(
+        user.firstName || "",
+        user.phone || "",
+        user.address || ""
+      );
+    }
+  }, [user]);
 
   const handleSaveChanges = () => {
     if (phone && !BaseUtil.validateVietnamesePhoneNumber(phone)) {
