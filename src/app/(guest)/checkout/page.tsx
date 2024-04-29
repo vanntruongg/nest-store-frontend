@@ -30,7 +30,6 @@ const CheckOutPage = () => {
   const { user } = useUser();
   const router = useRouter();
   const [isMounted, setIsMounted] = useState<boolean>(false);
-
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -43,7 +42,7 @@ const CheckOutPage = () => {
         user.address || ""
       );
     }
-  }, [isMounted, shippingDetail, setShippingDetail, user]);
+  }, [user]);
 
   const totalPrice = useMemo(
     () => items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
@@ -109,7 +108,7 @@ const CheckOutPage = () => {
       </h1>
 
       {/* Address */}
-      <ShippingDetail />
+      <ShippingDetail isMounted={isMounted} />
 
       {/* List items */}
       <div className="h-full w-full bg-white py-6 divide-y relative">

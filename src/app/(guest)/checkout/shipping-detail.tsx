@@ -18,25 +18,18 @@ import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
 import { toast } from "~/components/ui/use-toast";
 
-export function ShippingDetail() {
+export function ShippingDetail({ isMounted }: { isMounted: boolean }) {
   const { shippingDetail, setShippingDetail } = useCheckout();
   const [name, setName] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [address, setAddress] = useState<string>("");
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsMounted(true);
     setName(shippingDetail.name);
     setPhone(shippingDetail.phone);
     setAddress(shippingDetail.address);
-  }, [
-    isMounted,
-    shippingDetail.address,
-    shippingDetail.phone,
-    shippingDetail.name,
-  ]);
+  }, []);
 
   const handleSaveChanges = () => {
     if (phone && !BaseUtil.validateVietnamesePhoneNumber(phone)) {
