@@ -14,7 +14,6 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useEffect, useState } from "react";
-import { useUser } from "~/hooks/useUser";
 import { BaseUtil } from "~/common/utility/base.util";
 import IconTextLoading from "~/components/icon-text-loading";
 import { toast } from "~/components/ui/use-toast";
@@ -32,7 +31,12 @@ export function ShippingDetail() {
     setName(shippingDetail.name);
     setPhone(shippingDetail.phone);
     setAddress(shippingDetail.address);
-  }, [isMounted]);
+  }, [
+    isMounted,
+    shippingDetail.address,
+    shippingDetail.phone,
+    shippingDetail.name,
+  ]);
 
   const handleSaveChanges = () => {
     if (phone && !BaseUtil.validateVietnamesePhoneNumber(phone)) {
