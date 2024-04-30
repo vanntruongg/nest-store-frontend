@@ -33,17 +33,16 @@ const orderApi = {
     httpClient.get<any>(
       EndpointUtil.NEST.ORDER.GET_TOTAL_ORDER_COUNT_BY_STATUS
     ),
-  getCountOrderByMonth: () =>
-    httpClient.get<any>(EndpointUtil.NEST.ORDER.ORDER_COUNT_BY_MONTH),
   getTotalRevenue: () =>
     httpClient.get<any>(EndpointUtil.NEST.ORDER.GET_REVENUE),
-  getYearlyRevenueTotal: (year: number) =>
+
+  revenueStatistic: (year: number, month: string) =>
     httpClient.get<any>(
-      EndpointUtil.NEST.ORDER.GET_REVENUE_BY_YEAR + `/${year}`
+      EndpointUtil.NEST.ORDER.REVENUE_STATISTIC + `?year=${year}&month=${month}`
     ),
-  getMonthlyRevenueByYear: (year: number, month: string) =>
+  orderStatistic: (year: number, month: string) =>
     httpClient.get<any>(
-      EndpointUtil.NEST.ORDER.GET_REVENUE_BY_YEAR + `/${year}/month/${month}`
+      EndpointUtil.NEST.ORDER.ORDER_STATISTIC + `?year=${year}&month=${month}`
     ),
 };
 
