@@ -32,18 +32,12 @@ const navLinks = [
     label: "Quản lý sản phẩm",
     link: "/dashboard/products",
   },
-  {
-    id: uuid(),
-    icon: <Home strokeWidth={1.5} />,
-    label: "Cửa hàng",
-    link: "/",
-  },
 ];
 
 export function NavAdmin() {
   const pathname = usePathname();
   return (
-    <nav className="bg-primary text-white h-full min-h-screen p-4 shadow">
+    <nav className="bg-primary h-full min-h-screen p-4 shadow">
       <Link
         href={"/dashboard/statistic"}
         className="overflow-hidden flex justify-center scale-150"
@@ -56,12 +50,12 @@ export function NavAdmin() {
           className="scale-150 overflow-hidden"
         />
       </Link>
-      <ul className="px-3 flex flex-col mt-4">
+      <ul className="px-3 flex flex-col mt-4 text-white text-sm font-semibold">
         {navLinks.map(({ id, icon, label, link }) =>
           pathname === link ? (
             <li
               key={id}
-              className="flex items-center gap-2 px-2 py-4 font-medium rounded-sm text-primary bg-white"
+              className="flex items-center gap-2 px-2 py-4 rounded-sm text-primary bg-white"
             >
               {icon}
               {label}
@@ -69,7 +63,7 @@ export function NavAdmin() {
           ) : (
             <li
               key={id}
-              className="font-medium rounded-sm hover:bg-white hover:text-primary transition-colors duration-300"
+              className="rounded-sm hover:bg-white hover:text-primary transition-colors duration-200"
             >
               <Link href={link} className="flex items-center gap-2 px-2 py-4">
                 {icon}
@@ -78,7 +72,6 @@ export function NavAdmin() {
             </li>
           )
         )}
-        <ButtonLogout className="px-2 py-4 font-medium rounded-sm hover:bg-white hover:text-primary transition-colors duration-300" />
       </ul>
     </nav>
   );
