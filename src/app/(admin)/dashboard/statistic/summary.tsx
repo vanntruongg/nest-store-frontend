@@ -79,9 +79,9 @@ const SummaryStatistic = () => {
   ];
 
   const handleSelectStatus = (status: string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams();
     params.set("orderStatus", status);
-    router.push("/dashboard/orders" + "?" + params.toString());
+    router.replace("/dashboard/orders" + "?" + params.toString());
   };
   return (
     <div className="flex justify-between gap-4 font-semibold">
@@ -89,7 +89,7 @@ const SummaryStatistic = () => {
         details ? (
           <div
             key={id}
-            className="w-full p-2 flex flex-col space-y-2 justify-between bg-white border border-gray-300 shadow-sm rounded-md"
+            className="w-full p-2 flex items-center space-x-2 justify-between bg-white border border-gray-300 shadow-sm rounded-md"
           >
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -110,19 +110,16 @@ const SummaryStatistic = () => {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <div className="-translate-y-1 flex items-center justify-between">
-              {icon}
-              <span className="text-2xl font-semibold leading-none">
-                {isMounted ? (
-                  <CountUp end={totalOrders as number} />
-                ) : (
-                  <Loader2
-                    strokeWidth={1.5}
-                    className="text-muted-foreground size-5 animate-spin"
-                  />
-                )}
-              </span>
-            </div>
+            <span className="text-2xl font-semibold leading-none">
+              {isMounted ? (
+                <CountUp end={totalOrders as number} />
+              ) : (
+                <Loader2
+                  strokeWidth={1.5}
+                  className="text-muted-foreground size-5 animate-spin"
+                />
+              )}
+            </span>
           </div>
         ) : (
           <div

@@ -10,9 +10,9 @@ export function OrderStatus() {
   const status = searchParams.get("orderStatus") || orderStatus[0].type;
 
   const handleSelectStatus = (status: string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams();
     params.set("orderStatus", status);
-    router.push(pathname + "?" + params.toString());
+    router.replace(pathname + "?" + params.toString());
   };
 
   const renderStatus = ({
