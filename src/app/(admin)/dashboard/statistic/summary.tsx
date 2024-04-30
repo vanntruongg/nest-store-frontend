@@ -49,10 +49,9 @@ const SummaryStatistic = () => {
     fetchData();
     setIsMounted(true);
   }, []);
-  const totalOrders = useMemo(
-    () => Object.values(summary.orders).reduce((acc, curr) => acc + curr, 0),
-    [summary.orders]
-  );
+  const totalOrders = useMemo(() => {
+    return Object.values(summary.orders).reduce((acc, curr) => acc + curr, 0);
+  }, [summary.orders]);
 
   const sumaryStatistic = [
     {
@@ -112,7 +111,7 @@ const SummaryStatistic = () => {
             </DropdownMenu>
             <span className="text-2xl font-semibold leading-none">
               {isMounted ? (
-                <CountUp end={totalOrders as number} />
+                <CountUp end={totalOrders} />
               ) : (
                 <Loader2
                   strokeWidth={1.5}
