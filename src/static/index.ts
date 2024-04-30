@@ -5,9 +5,16 @@ export const routes = {
   LOGOUT: "/logout",
   SIGNUP: "/sign-up",
   PROFILE: "/user/profile",
+  PURCHASE: "/user/purchase",
   CART: "/cart",
   ABOUTUS: "",
   GUIDE: "",
+  ADMIN: {
+    STATISTIC: "/dashboard/statistic",
+    USER: "/dashboard/users",
+    ORDER: "/dashboard/orders",
+    PRODUCT: "/dashboard/product",
+  },
 };
 
 export type ItemNav = {
