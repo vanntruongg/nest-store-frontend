@@ -52,9 +52,9 @@ export class EndpointUtil {
       GET_BY_EMAIL_AND_STATUS: "/order/get/email/status",
       UPDATE_STATUS: "/order/update/status",
       GET_TOTAL_ORDER_COUNT_BY_STATUS: "/order/total-order",
-      ORDER_COUNT_BY_MONTH: "/order/count/month",
       GET_REVENUE: "/order/get/revenue",
-      GET_REVENUE_BY_YEAR: "/order/get/revenue/year",
+      REVENUE_STATISTIC: "/order/revenue/statistic",
+      ORDER_STATISTIC: "/order/order/statistic",
     },
   };
 }
