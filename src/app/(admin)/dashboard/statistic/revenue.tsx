@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { memo, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import orderApi from "~/apis/order-api";
 import { ProductUtil } from "~/common/utility/product.util";
 import LineChart from "~/components/charts/line-chart";
@@ -16,22 +16,18 @@ import {
 } from "~/components/ui/select";
 
 const Revenue = () => {
-  console.log("Revenue re-render");
-
   const [dataAxis, setDataAxis] = useState<string[]>([]);
   const [data, setData] = useState<number[]>([]);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  const year = searchParams.get("year") ?? new Date().getFullYear().toString();
-  const month = searchParams.get("month") ?? "";
+  const year =
+    searchParams.get("revenueByYear") ?? new Date().getFullYear().toString();
+  const month = searchParams.get("revenueByMonth") ?? "";
   useEffect(() => {
     const fetchData = async () => {
-      const result =
-        month === ""
-          ? await orderApi.getYearlyRevenueTotal(parseInt(year))
-          : await orderApi.getMonthlyRevenueByYear(parseInt(year), month);
+      const result = await orderApi.revenueStatistic(parseInt(year), month);
 
       setDataAxis(Object.keys(result.payload.data));
       setData(Object.values(result.payload.data));
@@ -40,22 +36,25 @@ const Revenue = () => {
   }, [year, month]);
 
   const handleChangeYear = (year: string) => {
-    const month = searchParams.get("month") || "";
-    handleSetQueryStringRevenue(year, month);
+    const month = searchParams.get("revenueByMonth") || "";
+    handleSetQueryString(year, month);
   };
   const handleChangeMonth = (month: string) => {
     const year =
-      searchParams.get("year") || new Date().getFullYear().toString();
-    handleSetQueryStringRevenue(year, month);
+      searchParams.get("revenueByYear") || new Date().getFullYear().toString();
+    handleSetQueryString(year, month);
   };
 
-  const handleSetQueryStringRevenue = (year: string, month: string) => {
+  const handleSetQueryString = (year: string, month: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("statisticBy", "revenue");
-    params.set("year", year);
-    params.set("month", month !== " " ? month : "");
+    params.set("revenueByYear", year);
+    params.set("revenueByMonth", month !== " " ? month : "");
     router.push(pathname + "?" + params.toString());
   };
+
+  const totalRevenue = useMemo(() => {
+    return data.reduce((acc, curr) => acc + curr, 0);
+  }, [data]);
 
   const optionsCustom = {
     yAxis: {
@@ -150,7 +149,7 @@ const Revenue = () => {
         </Select>
       </div>
       <LineChart
-        title={"Doanh thu"}
+        title={`Tổng doanh thu ${ProductUtil.formatPrice(totalRevenue)}`}
         dataAxis={dataAxis}
         data={data}
         optionCustom={optionsCustom}
@@ -159,4 +158,4 @@ const Revenue = () => {
   );
 };
 
-export default memo(Revenue);
+export default Revenue;
