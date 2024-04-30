@@ -5,7 +5,7 @@ import ReactECcharts from "echarts-for-react";
 import { memo, useEffect, useState } from "react";
 
 interface BarChartProps {
-  title: string;
+  title?: string;
   dataAxis: number[] | string[];
   data: number[];
   optionCustom?: any;
@@ -16,16 +16,16 @@ const BarChart = ({ title, dataAxis, data, optionCustom }: BarChartProps) => {
 
   useEffect(() => {
     const barChartOptions = {
-      title: {
-        text: title,
-        textStyle: {
-          color: "#000",
-          fontStyle: "Normal",
-          fontSize: 20,
-          fontWeight: "bold",
-          fontFamily: "Nunito, sans-serif",
-        },
-      },
+      // title: {
+      //   text: title,
+      //   textStyle: {
+      //     color: "#000",
+      //     fontStyle: "Normal",
+      //     fontSize: 20,
+      //     fontWeight: "bold",
+      //     fontFamily: "Nunito, sans-serif",
+      //   },
+      // },
       xAxis: {
         data: dataAxis,
         axisLabel: {

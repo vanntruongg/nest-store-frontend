@@ -14,18 +14,18 @@ interface LineChartProps {
 }
 const LineChart = ({ title, dataAxis, data, optionCustom }: LineChartProps) => {
   const [option, setOption] = useState({});
-
+  const data1 = data.map((data) => data * 2);
   useEffect(() => {
     const lineChartOptions = {
       title: {
-        // text: title,
-        // textStyle: {
-        //   color: "#000",
-        //   fontStyle: "Normal",
-        //   fontSize: 20,
-        //   fontWeight: "bold",
-        //   fontFamily: "Nunito, sans-serif",
-        // },
+        text: title,
+        textStyle: {
+          color: "#000",
+          fontStyle: "Normal",
+          fontSize: 16,
+          fontWeight: "bolder",
+          fontFamily: "Nunito, sans-serif",
+        },
       },
       xAxis: {
         data: dataAxis,
@@ -56,7 +56,18 @@ const LineChart = ({ title, dataAxis, data, optionCustom }: LineChartProps) => {
       series: [
         {
           type: "line",
+          smooth: 0.6, // boolean | number
+          name: "revenue",
           showBackground: true,
+
+          areaStyle: {
+            opacity: 0.1,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: "#b394fc" },
+              { offset: 0.5, color: "#8104fd" },
+              { offset: 1, color: "#8104fd" },
+            ]),
+          },
           itemStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               { offset: 0, color: "#b394fc" },
@@ -73,6 +84,8 @@ const LineChart = ({ title, dataAxis, data, optionCustom }: LineChartProps) => {
               ]),
             },
           },
+          animationEasing: "bounceInOut",
+          animationDuration: 3000,
           data: data,
         },
       ],
