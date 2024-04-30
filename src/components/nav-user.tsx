@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { UserRound, LogOut, ShoppingCart, Sun } from "lucide-react";
+import { UserRound, ShoppingCart, Sun, AreaChart } from "lucide-react";
 import Link from "next/link";
 import { useOutsideClick } from "~/hooks/useOutsideClick";
 import { routes } from "~/static";
@@ -11,6 +11,7 @@ import DevelopingTooltip from "./developing-tooltip";
 import { tokenStorage } from "~/common/utility/auth.util";
 import { useUser } from "~/hooks/useUser";
 import ButtonLogout from "./button/btn-logout";
+import { UserRole } from "~/common/utility/enum.util";
 
 const menu = [
   {
@@ -21,8 +22,8 @@ const menu = [
   },
   {
     icon: <ShoppingCart className="size-5" />,
-    label: "Giỏ hàng",
-    href: routes.CART,
+    label: "Đơn hàng",
+    href: routes.PURCHASE,
     status: "available",
   },
   {
@@ -91,6 +92,16 @@ const NavUser = () => {
               )}
             </Link>
             <div className="p-2">
+              {user.roles.includes(UserRole.ADMIN) && (
+                <Link
+                  key={routes.ADMIN.STATISTIC}
+                  href={routes.ADMIN.STATISTIC}
+                  className="p-2 flex gap-4 items-center text-sm text-gray-500 hover:bg-gray-100 rounded-md"
+                >
+                  <AreaChart />
+                  <p>Trang quản trị</p>
+                </Link>
+              )}
               {menu.map((item) =>
                 item.status === "available" ? (
                   <Link
