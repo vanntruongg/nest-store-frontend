@@ -7,15 +7,14 @@ import BarChart from "~/components/charts/bar-chart";
 const TotalRevenue = () => {
   const [dataAxis, setDataAxis] = useState<string[]>([]);
   const [data, setData] = useState<number[]>([]);
-  console.log("TotalRevenue re-render");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await orderApi.getCountOrderByMonth();
-      setDataAxis(Object.keys(result.payload.data));
-      setData(Object.values(result.payload.data));
-    };
-    fetchData();
+    // const fetchData = async () => {
+    //   const result = await orderApi.getTotalRevenue();
+    //   setDataAxis(Object.keys(result.payload.data));
+    //   setData(Object.values(result.payload.data));
+    // };
+    // fetchData();
   }, []);
 
   return (
