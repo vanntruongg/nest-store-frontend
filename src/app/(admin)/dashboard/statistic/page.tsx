@@ -4,7 +4,7 @@ import Revenue from "./revenue";
 import TotalRevenue from "./total-revenue";
 
 const StatisticPage = () => {
-  console.log("page re-render");
+  // console.log("page re-render");
 
   return (
     <div className="space-y-4">
